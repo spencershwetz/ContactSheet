@@ -7,27 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		092D01A52C1535A300D968BF /* Contact_SheetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092D01A42C1535A300D968BF /* Contact_SheetApp.swift */; };
-		092D01A72C1535A300D968BF /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092D01A62C1535A300D968BF /* Persistence.swift */; };
-		092D01AA2C1535A300D968BF /* Contact_Sheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 092D01A82C1535A300D968BF /* Contact_Sheet.xcdatamodeld */; };
-		092D01AC2C1535A300D968BF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092D01AB2C1535A300D968BF /* ContentView.swift */; };
-		092D01AE2C1535A400D968BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 092D01AD2C1535A400D968BF /* Assets.xcassets */; };
-		092D01B22C1535A400D968BF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 092D01B12C1535A400D968BF /* Preview Assets.xcassets */; };
+		230725492C1897CF0053774F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230725482C1897CF0053774F /* AppDelegate.swift */; };
+		2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2307254A2C1897CF0053774F /* SceneDelegate.swift */; };
+		2307254D2C1897CF0053774F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2307254C2C1897CF0053774F /* ViewController.swift */; };
+		230725532C1897CF0053774F /* Contact_Sheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 230725512C1897CF0053774F /* Contact_Sheet.xcdatamodeld */; };
+		230725552C1897D10053774F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 230725542C1897D10053774F /* Assets.xcassets */; };
+		230725582C1897D10053774F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230725562C1897D10053774F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		092D01A12C1535A300D968BF /* Contact Sheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Sheet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		092D01A42C1535A300D968BF /* Contact_SheetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact_SheetApp.swift; sourceTree = "<group>"; };
-		092D01A62C1535A300D968BF /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		092D01A92C1535A300D968BF /* Contact_Sheet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Contact_Sheet.xcdatamodel; sourceTree = "<group>"; };
-		092D01AB2C1535A300D968BF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		092D01AD2C1535A400D968BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		092D01AF2C1535A400D968BF /* Contact_Sheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Contact_Sheet.entitlements; sourceTree = "<group>"; };
-		092D01B12C1535A400D968BF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		230725452C1897CF0053774F /* Contact Sheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contact Sheet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		230725482C1897CF0053774F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2307254A2C1897CF0053774F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		2307254C2C1897CF0053774F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		230725522C1897CF0053774F /* Contact_Sheet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Contact_Sheet.xcdatamodel; sourceTree = "<group>"; };
+		230725542C1897D10053774F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		230725572C1897D10053774F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		230725592C1897D10053774F /* Contact_Sheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Contact_Sheet.entitlements; sourceTree = "<group>"; };
+		2307255A2C1897D10053774F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		092D019E2C1535A300D968BF /* Frameworks */ = {
+		230725422C1897CF0053774F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,54 +38,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		092D01982C1535A300D968BF = {
+		2307253C2C1897CF0053774F = {
 			isa = PBXGroup;
 			children = (
-				092D01A32C1535A300D968BF /* Contact Sheet */,
-				092D01A22C1535A300D968BF /* Products */,
+				230725472C1897CF0053774F /* Contact Sheet */,
+				230725462C1897CF0053774F /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		092D01A22C1535A300D968BF /* Products */ = {
+		230725462C1897CF0053774F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				092D01A12C1535A300D968BF /* Contact Sheet.app */,
+				230725452C1897CF0053774F /* Contact Sheet.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		092D01A32C1535A300D968BF /* Contact Sheet */ = {
+		230725472C1897CF0053774F /* Contact Sheet */ = {
 			isa = PBXGroup;
 			children = (
-				092D01A42C1535A300D968BF /* Contact_SheetApp.swift */,
-				092D01A62C1535A300D968BF /* Persistence.swift */,
-				092D01AB2C1535A300D968BF /* ContentView.swift */,
-				092D01AD2C1535A400D968BF /* Assets.xcassets */,
-				092D01AF2C1535A400D968BF /* Contact_Sheet.entitlements */,
-				092D01A82C1535A300D968BF /* Contact_Sheet.xcdatamodeld */,
-				092D01B02C1535A400D968BF /* Preview Content */,
+				2380F9FC2C189AFE00548FDA /* App */,
+				2307254C2C1897CF0053774F /* ViewController.swift */,
+				230725542C1897D10053774F /* Assets.xcassets */,
+				230725562C1897D10053774F /* LaunchScreen.storyboard */,
+				230725592C1897D10053774F /* Contact_Sheet.entitlements */,
+				2307255A2C1897D10053774F /* Info.plist */,
+				230725512C1897CF0053774F /* Contact_Sheet.xcdatamodeld */,
 			);
 			path = "Contact Sheet";
 			sourceTree = "<group>";
 		};
-		092D01B02C1535A400D968BF /* Preview Content */ = {
+		2380F9FC2C189AFE00548FDA /* App */ = {
 			isa = PBXGroup;
 			children = (
-				092D01B12C1535A400D968BF /* Preview Assets.xcassets */,
+				230725482C1897CF0053774F /* AppDelegate.swift */,
+				2307254A2C1897CF0053774F /* SceneDelegate.swift */,
 			);
-			path = "Preview Content";
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		092D01A02C1535A300D968BF /* Contact Sheet */ = {
+		230725442C1897CF0053774F /* Contact Sheet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 092D01B52C1535A400D968BF /* Build configuration list for PBXNativeTarget "Contact Sheet" */;
+			buildConfigurationList = 2307255D2C1897D10053774F /* Build configuration list for PBXNativeTarget "Contact Sheet" */;
 			buildPhases = (
-				092D019D2C1535A300D968BF /* Sources */,
-				092D019E2C1535A300D968BF /* Frameworks */,
-				092D019F2C1535A300D968BF /* Resources */,
+				230725412C1897CF0053774F /* Sources */,
+				230725422C1897CF0053774F /* Frameworks */,
+				230725432C1897CF0053774F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -92,25 +94,25 @@
 			);
 			name = "Contact Sheet";
 			productName = "Contact Sheet";
-			productReference = 092D01A12C1535A300D968BF /* Contact Sheet.app */;
+			productReference = 230725452C1897CF0053774F /* Contact Sheet.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		092D01992C1535A300D968BF /* Project object */ = {
+		2307253D2C1897CF0053774F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
-					092D01A02C1535A300D968BF = {
-						CreatedOnToolsVersion = 15.4;
+					230725442C1897CF0053774F = {
+						CreatedOnToolsVersion = 15.2;
 					};
 				};
 			};
-			buildConfigurationList = 092D019C2C1535A300D968BF /* Build configuration list for PBXProject "Contact Sheet" */;
+			buildConfigurationList = 230725402C1897CF0053774F /* Build configuration list for PBXProject "Contact Sheet" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -118,44 +120,55 @@
 				en,
 				Base,
 			);
-			mainGroup = 092D01982C1535A300D968BF;
-			productRefGroup = 092D01A22C1535A300D968BF /* Products */;
+			mainGroup = 2307253C2C1897CF0053774F;
+			productRefGroup = 230725462C1897CF0053774F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				092D01A02C1535A300D968BF /* Contact Sheet */,
+				230725442C1897CF0053774F /* Contact Sheet */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		092D019F2C1535A300D968BF /* Resources */ = {
+		230725432C1897CF0053774F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				092D01B22C1535A400D968BF /* Preview Assets.xcassets in Resources */,
-				092D01AE2C1535A400D968BF /* Assets.xcassets in Resources */,
+				230725582C1897D10053774F /* LaunchScreen.storyboard in Resources */,
+				230725552C1897D10053774F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		092D019D2C1535A300D968BF /* Sources */ = {
+		230725412C1897CF0053774F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				092D01A52C1535A300D968BF /* Contact_SheetApp.swift in Sources */,
-				092D01A72C1535A300D968BF /* Persistence.swift in Sources */,
-				092D01AC2C1535A300D968BF /* ContentView.swift in Sources */,
-				092D01AA2C1535A300D968BF /* Contact_Sheet.xcdatamodeld in Sources */,
+				2307254D2C1897CF0053774F /* ViewController.swift in Sources */,
+				230725492C1897CF0053774F /* AppDelegate.swift in Sources */,
+				230725532C1897CF0053774F /* Contact_Sheet.xcdatamodeld in Sources */,
+				2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		230725562C1897D10053774F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				230725572C1897D10053774F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		092D01B32C1535A400D968BF /* Debug */ = {
+		2307255B2C1897D10053774F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -212,12 +225,13 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		092D01B42C1535A400D968BF /* Release */ = {
+		2307255C2C1897D10053774F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -267,88 +281,74 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		092D01B62C1535A400D968BF /* Debug */ = {
+		2307255E2C1897D10053774F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_ASSET_PATHS = "\"Contact Sheet/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Contact Sheet/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Contact Sheet";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spencershwetz.Contact-Sheet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		092D01B72C1535A400D968BF /* Release */ = {
+		2307255F2C1897D10053774F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_ASSET_PATHS = "\"Contact Sheet/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Contact Sheet/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Contact Sheet";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spencershwetz.Contact-Sheet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -358,20 +358,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		092D019C2C1535A300D968BF /* Build configuration list for PBXProject "Contact Sheet" */ = {
+		230725402C1897CF0053774F /* Build configuration list for PBXProject "Contact Sheet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				092D01B32C1535A400D968BF /* Debug */,
-				092D01B42C1535A400D968BF /* Release */,
+				2307255B2C1897D10053774F /* Debug */,
+				2307255C2C1897D10053774F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		092D01B52C1535A400D968BF /* Build configuration list for PBXNativeTarget "Contact Sheet" */ = {
+		2307255D2C1897D10053774F /* Build configuration list for PBXNativeTarget "Contact Sheet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				092D01B62C1535A400D968BF /* Debug */,
-				092D01B72C1535A400D968BF /* Release */,
+				2307255E2C1897D10053774F /* Debug */,
+				2307255F2C1897D10053774F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -379,17 +379,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		092D01A82C1535A300D968BF /* Contact_Sheet.xcdatamodeld */ = {
+		230725512C1897CF0053774F /* Contact_Sheet.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				092D01A92C1535A300D968BF /* Contact_Sheet.xcdatamodel */,
+				230725522C1897CF0053774F /* Contact_Sheet.xcdatamodel */,
 			);
-			currentVersion = 092D01A92C1535A300D968BF /* Contact_Sheet.xcdatamodel */;
+			currentVersion = 230725522C1897CF0053774F /* Contact_Sheet.xcdatamodel */;
 			path = Contact_Sheet.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */
 	};
-	rootObject = 092D01992C1535A300D968BF /* Project object */;
+	rootObject = 2307253D2C1897CF0053774F /* Project object */;
 }
