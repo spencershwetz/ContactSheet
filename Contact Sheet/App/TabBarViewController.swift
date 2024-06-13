@@ -35,7 +35,6 @@ final class TabBarController: UITabBarController {
     private func makeCreateViewController() -> UIViewController {
         let vc = CreateViewController()
         let navigationController = UINavigationController(rootViewController: vc)
-        navigationController.navigationBar.prefersLargeTitles = true
         vc.tabBarItem = UITabBarItem(
             title: "Create",
             image: UIImage(systemName: "folder.fill.badge.plus"),

@@ -13,9 +13,18 @@
 		230725532C1897CF0053774F /* Contact_Sheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 230725512C1897CF0053774F /* Contact_Sheet.xcdatamodeld */; };
 		230725552C1897D10053774F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 230725542C1897D10053774F /* Assets.xcassets */; };
 		230725582C1897D10053774F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230725562C1897D10053774F /* LaunchScreen.storyboard */; };
+		232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232C98C12C1B34D00064B2C6 /* ImagePicker.swift */; };
 		23F50D992C19D4EA001A5966 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D982C19D4EA001A5966 /* TabBarViewController.swift */; };
 		23F50D9C2C19D511001A5966 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9B2C19D511001A5966 /* CreateViewController.swift */; };
 		23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9E2C19D538001A5966 /* ExportViewController.swift */; };
+		23F50E272C19DE87001A5966 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E262C19DE87001A5966 /* State.swift */; };
+		23F50E292C19DEAA001A5966 /* RatioPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E282C19DEAA001A5966 /* RatioPickerView.swift */; };
+		23F50E582C19E952001A5966 /* CreateGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E572C19E952001A5966 /* CreateGridView.swift */; };
+		23F50E5A2C19EA0D001A5966 /* VStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E592C19EA0D001A5966 /* VStackView.swift */; };
+		23F50E5C2C19EA1A001A5966 /* HStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5B2C19EA1A001A5966 /* HStackView.swift */; };
+		23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */; };
+		23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */; };
+		23F50E622C19EC65001A5966 /* CreateGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E612C19EC65001A5966 /* CreateGridCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +37,18 @@
 		230725572C1897D10053774F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		230725592C1897D10053774F /* Contact_Sheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Contact_Sheet.entitlements; sourceTree = "<group>"; };
 		2307255A2C1897D10053774F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		232C98C12C1B34D00064B2C6 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		23F50D982C19D4EA001A5966 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		23F50D9B2C19D511001A5966 /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		23F50D9E2C19D538001A5966 /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
+		23F50E262C19DE87001A5966 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		23F50E282C19DEAA001A5966 /* RatioPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatioPickerView.swift; sourceTree = "<group>"; };
+		23F50E572C19E952001A5966 /* CreateGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGridView.swift; sourceTree = "<group>"; };
+		23F50E592C19EA0D001A5966 /* VStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VStackView.swift; sourceTree = "<group>"; };
+		23F50E5B2C19EA1A001A5966 /* HStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HStackView.swift; sourceTree = "<group>"; };
+		23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
+		23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
+		23F50E612C19EC65001A5966 /* CreateGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGridCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +85,7 @@
 				23F50D9A2C19D500001A5966 /* Library */,
 				23F50D9D2C19D52E001A5966 /* Create */,
 				23F50DA02C19D541001A5966 /* Export */,
+				23F50E252C19DE80001A5966 /* Helper */,
 				230725542C1897D10053774F /* Assets.xcassets */,
 				230725562C1897D10053774F /* LaunchScreen.storyboard */,
 				230725592C1897D10053774F /* Contact_Sheet.entitlements */,
@@ -97,6 +116,7 @@
 		23F50D9D2C19D52E001A5966 /* Create */ = {
 			isa = PBXGroup;
 			children = (
+				23F50E2A2C19DED8001A5966 /* Component */,
 				23F50D9B2C19D511001A5966 /* CreateViewController.swift */,
 			);
 			path = Create;
@@ -108,6 +128,29 @@
 				23F50D9E2C19D538001A5966 /* ExportViewController.swift */,
 			);
 			path = Export;
+			sourceTree = "<group>";
+		};
+		23F50E252C19DE80001A5966 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				23F50E262C19DE87001A5966 /* State.swift */,
+				23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */,
+				23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */,
+				23F50E592C19EA0D001A5966 /* VStackView.swift */,
+				23F50E5B2C19EA1A001A5966 /* HStackView.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		23F50E2A2C19DED8001A5966 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				23F50E282C19DEAA001A5966 /* RatioPickerView.swift */,
+				23F50E572C19E952001A5966 /* CreateGridView.swift */,
+				232C98C12C1B34D00064B2C6 /* ImagePicker.swift */,
+				23F50E612C19EC65001A5966 /* CreateGridCell.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,11 +225,20 @@
 			files = (
 				2307254D2C1897CF0053774F /* LibraryViewController.swift in Sources */,
 				230725492C1897CF0053774F /* AppDelegate.swift in Sources */,
+				23F50E582C19E952001A5966 /* CreateGridView.swift in Sources */,
+				23F50E5A2C19EA0D001A5966 /* VStackView.swift in Sources */,
+				23F50E5C2C19EA1A001A5966 /* HStackView.swift in Sources */,
+				23F50E292C19DEAA001A5966 /* RatioPickerView.swift in Sources */,
 				23F50D9C2C19D511001A5966 /* CreateViewController.swift in Sources */,
 				230725532C1897CF0053774F /* Contact_Sheet.xcdatamodeld in Sources */,
+				23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */,
+				23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */,
+				23F50E622C19EC65001A5966 /* CreateGridCell.swift in Sources */,
 				23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */,
 				23F50D992C19D4EA001A5966 /* TabBarViewController.swift in Sources */,
+				232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */,
 				2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */,
+				23F50E272C19DE87001A5966 /* State.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
