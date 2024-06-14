@@ -50,7 +50,7 @@ final class ProjectGridView: UICollectionView {
     private let layout = UICollectionViewFlowLayout()
 
     init() {
-        layout.sectionInset = .zero
+        layout.sectionInset = .init(top: 0, left: 0, bottom: 16, right: 0)
         layout.minimumLineSpacing = spacingEachCell
         layout.minimumInteritemSpacing = spacingEachCell
         super.init(frame: .zero, collectionViewLayout: layout)
