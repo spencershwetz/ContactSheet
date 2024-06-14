@@ -8,10 +8,26 @@
 import UIKit
 import Combine
 
-final class CreateViewController: UIViewController {
+final class ProjectViewController: UIViewController {
 
-    @State private var pageSizeRatio: Ratio = .init(width: 16, height: 9)
-    @State private var photoAspectRatio: Ratio = .init(width: 1, height: 1)
+    struct Config {
+        let pageSizeRatio: Ratio
+        let photoAspectRatio: Ratio
+        let photos: [ProjectPhoto]
+        let totalRows: Int
+        let totalColumns: Int
+        
+        static let `default` = Config(
+            pageSizeRatio: .init(width: 16, height: 9),
+            photoAspectRatio: .init(width: 1, height: 1),
+            photos: [],
+            totalRows: 4,
+            totalColumns: 3
+        )
+    }
+    
+    @State private var pageSizeRatio: Ratio
+    @State private var photoAspectRatio: Ratio
 
     private var subscriptions = Set<AnyCancellable>()
     
@@ -22,6 +38,7 @@ final class CreateViewController: UIViewController {
     private lazy var photoAspectRatioPicker = RatioPickerView
         .photoAspectRatioPicker(onSelect: { [weak self] in
             if $0 == .random {
+                self?.view.endEditing(true)
                 self?.showAspectRatioAlert()
             } else {
                 self?.photoAspectRatio = $0
@@ -33,12 +50,12 @@ final class CreateViewController: UIViewController {
 
     private let rowLabel = UILabel()
     private lazy var rowStepper = makeStepper(onValueChanged: { [weak self] in
-        self?.gridView.totalRow = $0
+        self?.gridView.totalRows = $0
     })
 
     private let columnLabel = UILabel()
     private lazy var columnStepper = makeStepper(onValueChanged: { [weak self] in
-        self?.gridView.totalColumn = $0
+        self?.gridView.totalColumns = $0
     })
 
     private lazy var rowStackView = VStackView(
@@ -49,15 +66,44 @@ final class CreateViewController: UIViewController {
         arrangedSubviews: [columnLabel, columnStepper]
     )
 
-    private lazy var gridView = CreateGridView()
+    private lazy var gridView = ProjectGridView()
+    
+    private let config: Config
+    
+    init(config: Config = .default) {
+        self.config = config
+        pageSizeRatio = config.pageSizeRatio
+        photoAspectRatio = config.photoAspectRatio
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        gridView.photos = config.photos
+        gridView.totalColumns = config.totalColumns
+        gridView.totalRows = config.totalRows
+        gridView.aspectRatio = config.photoAspectRatio
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Create Project"
         view.backgroundColor = .systemBackground
+        navigationItem.largeTitleDisplayMode = .never
         bind()
         setupHeader()
         setupRowAndColumnStepperLabel()
         setupGrid()
+    }
+
+    override func viewWillTransition(
+        to size: CGSize,
+        with coordinator: UIViewControllerTransitionCoordinator
+    ) {
+        super.viewWillTransition(to: size, with: coordinator)
+        gridView.invalidateLayout()
     }
     
     private func setupRowAndColumnStepperLabel() {
@@ -97,11 +143,11 @@ final class CreateViewController: UIViewController {
             }
             .store(in: &subscriptions)
         
-        gridView.$totalRow
+        gridView.$totalRows
             .sink { [weak self] in self?.rowLabel.text = "Rows \($0)" }
             .store(in: &subscriptions)
         
-        gridView.$totalColumn
+        gridView.$totalColumns
             .sink { [weak self] in self?.columnLabel.text = "Columns \($0)" }
             .store(in: &subscriptions)
     }
@@ -119,7 +165,7 @@ final class CreateViewController: UIViewController {
     private func makeStepper(onValueChanged: @escaping (Int) -> Void) -> UIStepper {
         let stepper = UIStepper()
         stepper.minimumValue = 1
-        stepper.value = Double(gridView.totalColumn)
+        stepper.value = Double(gridView.totalColumns)
         stepper.addAction(
             UIAction(handler: { action in
                 let value = (action.sender as? UIStepper)?.value

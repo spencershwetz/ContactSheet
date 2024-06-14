@@ -7,15 +7,10 @@
 
 import UIKit
 
-struct ProjectImage: Hashable {
-    let index: Int
-    var image: UIImage?
-}
-
-final class CreateGridView: UICollectionView {
+final class ProjectGridView: UICollectionView {
     
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ProjectImage>
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, ProjectImage>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ProjectPhoto>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, ProjectPhoto>
 
     private enum Section: Hashable {
         case main
@@ -25,30 +20,36 @@ final class CreateGridView: UICollectionView {
     
     private lazy var diffDataSource = makeDiffDataSource()
     
-    @State var totalColumn: Int = 3 {
+    @State var totalColumns: Int = 0 {
         didSet {
-            applySnapshot()
+            updateItems()
         }
     }
     
-    @State var totalRow: Int = 4 {
+    @State var totalRows: Int = 0 {
         didSet {
-            applySnapshot()
+            updateItems()
         }
     }
     
-    var aspectRatio: Ratio = Ratio(width: 1, height: 1) {
+    var aspectRatio: Ratio = .random {
         didSet {
-            applySnapshot()
+            forceReloadItems()
         }
     }
 
+    var photos: [ProjectPhoto] = [] {
+        didSet {
+            applySnapshot(items: photos)
+        }
+    }
     
     private let spacingEachCell: CGFloat = 8
     private let imagePicker = ImagePicker()
     
+    private let layout = UICollectionViewFlowLayout()
+
     init() {
-        let layout = UICollectionViewFlowLayout()
         layout.sectionInset = .zero
         layout.minimumLineSpacing = spacingEachCell
         layout.minimumInteritemSpacing = spacingEachCell
@@ -57,7 +58,7 @@ final class CreateGridView: UICollectionView {
         dragDelegate = self
         dropDelegate = self
         dragInteractionEnabled = true
-        register(CreateGridCell.self, forCellWithReuseIdentifier: CreateGridCell.identifier)
+        register(ProjectGridCell.self, forCellWithReuseIdentifier: ProjectGridCell.identifier)
         showsVerticalScrollIndicator = false
     }
     
@@ -65,30 +66,58 @@ final class CreateGridView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func invalidateLayout() {
+        layout.invalidateLayout()
+    }
+    
     private func makeDiffDataSource() -> DataSource {
         .init(collectionView: self) { [unowned self] collectionView, indexPath, item in
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: CreateGridCell.identifier,
+                withReuseIdentifier: ProjectGridCell.identifier,
                 for: indexPath
-            ) as! CreateGridCell
-            cell.backgroundColor = .red.withAlphaComponent(0.3)
+            ) as! ProjectGridCell
             cell.aspectRatio = aspectRatio
             cell.image = item.image
-            cell.textLabel.font = .preferredFont(forTextStyle: .headline)
-            cell.textLabel.text = "\(item.index)"
+            cell.onDelete = { [weak self] in
+                self?.photos = self?.photos.removeImage(at: indexPath.item) ?? []
+            }
             return cell
         }
     }
     
-    private func applySnapshot() {
+    private func applySnapshot(items: [ProjectPhoto], animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems((0..<totalColumn * totalRow).map { ProjectImage(index: $0, image: nil) })
-        diffDataSource.apply(snapshot)
+        snapshot.appendItems(items)
+        diffDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+    
+    private func forceReloadItems() {
+        let currentItems = photos
+        applySnapshot(items: [], animatingDifferences: false)
+        applySnapshot(items: currentItems, animatingDifferences: false)
+    }
+    
+    private func updateItems() {
+        let maxItems = totalColumns * totalRows
+
+        guard maxItems > 0 else { return }
+        
+        if photos.count < maxItems {
+            let totalItemToAppend = maxItems - photos.count
+            let newItemsToAppend = (0..<totalItemToAppend)
+                .map { _ in ProjectPhoto(image: nil) }
+            photos = photos + newItemsToAppend
+        } else {
+            let totalItemsToRemove = photos.count - maxItems
+            (0..<totalItemsToRemove).forEach { _ in
+                photos.removeLast()
+            }
+        }
     }
 }
 
-extension CreateGridView: UICollectionViewDragDelegate {
+extension ProjectGridView: UICollectionViewDragDelegate {
 
     func collectionView(
         _ collectionView: UICollectionView,
@@ -103,26 +132,16 @@ extension CreateGridView: UICollectionViewDragDelegate {
     }
 }
 
-extension CreateGridView: UICollectionViewDropDelegate {
+extension ProjectGridView: UICollectionViewDropDelegate {
 
     func collectionView(
         _ collectionView: UICollectionView,
         performDropWith coordinator: UICollectionViewDropCoordinator
     ) {
         guard let destinationIndexPath = coordinator.destinationIndexPath else { return }
-
-        var items = diffDataSource.snapshot().itemIdentifiers
-
         coordinator.items.forEach { item in
-            guard let sourceIndexPath = item.sourceIndexPath else { return }
-            let movedItem = items.remove(at: sourceIndexPath.item)
-            items.insert(movedItem, at: destinationIndexPath.item)
-
-            var snapshot = Snapshot()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(items)
-            diffDataSource.apply(snapshot)
-
+            guard let sourceIndex = item.sourceIndexPath else { return }
+            photos = photos.movedItem(at: sourceIndex.item, to: destinationIndexPath.item)
             coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
         }
     }
@@ -144,38 +163,31 @@ extension CreateGridView: UICollectionViewDropDelegate {
 }
 
 
-extension CreateGridView: UICollectionViewDelegate {
+extension ProjectGridView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! CreateGridCell
+        let cell = collectionView.cellForItem(at: indexPath) as! ProjectGridCell
         if cell.image == nil {
             imagePicker.show(on: viewController, onPickImage: { [weak self] in
                 guard let self else { return }
-                
-                var newItems = diffDataSource.snapshot().itemIdentifiers
-                newItems[indexPath.item].image = $0
-                
-                var newSnapshot = Snapshot()
-                newSnapshot.appendSections([.main])
-                newSnapshot.appendItems(newItems, toSection: .main)
-                diffDataSource.apply(newSnapshot)
+                photos = photos.addImage($0, at: indexPath.item)
             })
         }
     }
 }
 
-extension CreateGridView: UICollectionViewDelegateFlowLayout {
+extension ProjectGridView: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let totalSpacing = CGFloat(totalColumn - 1) * spacingEachCell
+        let totalSpacing = CGFloat(totalColumns - 1) * spacingEachCell
         let totalWidth = collectionView.bounds.width - totalSpacing
         
         return CGSize(
-            width: totalWidth / CGFloat(totalColumn),
-            height: totalWidth / CGFloat(totalColumn)
+            width: totalWidth / CGFloat(totalColumns),
+            height: totalWidth / CGFloat(totalColumns)
         )
     }
 }

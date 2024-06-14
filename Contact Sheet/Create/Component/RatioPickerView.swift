@@ -123,8 +123,11 @@ extension RatioPickerView: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         textField.text = selections[row].formattedText
-        textField.resignFirstResponder()
         onSelect(selections[row])
+        
+        if selections[row] == .random {
+            textField.resignFirstResponder()
+        }
     }
 }
 
