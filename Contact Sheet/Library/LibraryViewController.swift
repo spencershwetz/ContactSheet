@@ -49,6 +49,11 @@ final class LibraryViewController: UIViewController {
     private func setupNavigationBar() {
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
+                barButtonSystemItem: .add,
+                target: self,
+                action: #selector(handleCreateProject)
+            ),
+            UIBarButtonItem(
                 title: "Select",
                 style: .plain,
                 target: self,
@@ -56,10 +61,16 @@ final class LibraryViewController: UIViewController {
             )
         ]
     }
-    
+
     @objc
     private func handleSelectAction() {
         
+    }
+    
+    @objc
+    private func handleCreateProject() {
+        let vc = ProjectViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
