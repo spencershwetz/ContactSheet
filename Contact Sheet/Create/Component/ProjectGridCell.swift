@@ -7,8 +7,9 @@
 
 import UIKit
 
-final class CreateGridCell: UICollectionViewCell {
+final class ProjectGridCell: UICollectionViewCell {
     
+    var onDelete: (() -> Void)?
     var aspectRatio = Ratio(width: 1, height: 1)
     var image: UIImage? {
         didSet {
@@ -16,8 +17,7 @@ final class CreateGridCell: UICollectionViewCell {
         }
     }
     
-    let textLabel = UILabel()
-    static let identifier = String(describing: CreateGridCell.self)
+    static let identifier = String(describing: ProjectGridCell.self)
     
     private let photoView = UIImageView()
     
@@ -26,11 +26,10 @@ final class CreateGridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.layer.borderWidth = 0.5
+        contentView.layer.borderColor = UIColor.label.cgColor
         contentView.clipsToBounds = true
-        
-        
-        
-        photoView.backgroundColor = .blue.withAlphaComponent(0.5)
+
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
         photoView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,12 +46,8 @@ final class CreateGridCell: UICollectionViewCell {
         photoViewWidthConstraint = photoView.widthAnchor.constraint(equalToConstant: 0)
         photoViewWidthConstraint?.isActive = true
         
-        contentView.addSubview(textLabel)
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            textLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            textLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-        ])
+        photoView.addInteraction(UIContextMenuInteraction(delegate: self))
+        photoView.isUserInteractionEnabled = true
     }
     
     required init?(coder: NSCoder) {
@@ -74,5 +69,24 @@ final class CreateGridCell: UICollectionViewCell {
 
         photoViewWidthConstraint?.constant = width
         photoViewHeigthConstraint?.constant = height
+    }
+}
+
+extension ProjectGridCell: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        guard image != nil else { return nil }
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let deleteAction = UIAction(
+                title: "Delete",
+                image: UIImage(systemName: "trash.fill"),
+                attributes: .destructive,
+                handler: { [weak self] _ in self?.onDelete?() }
+            )
+            return UIMenu(children: [deleteAction])
+        }
     }
 }

@@ -33,14 +33,13 @@ final class TabBarController: UITabBarController {
     }
     
     private func makeCreateViewController() -> UIViewController {
-        let vc = CreateViewController()
+        let vc = ProjectViewController()
         let navigationController = UINavigationController(rootViewController: vc)
         vc.tabBarItem = UITabBarItem(
             title: "Create",
             image: UIImage(systemName: "folder.fill.badge.plus"),
             tag: 1
         )
-        vc.title = "Create"
         return navigationController
     }
     
