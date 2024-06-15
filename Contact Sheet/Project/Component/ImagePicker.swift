@@ -10,9 +10,9 @@ import UIKit
 final class ImagePicker: NSObject {
     
     private weak var viewController: UIViewController?
-    private var onPickImage: ((UIImage) -> Void)?
+    private var onPickImage: ((URL) -> Void)?
 
-    func show(on viewController: UIViewController?, onPickImage: @escaping (UIImage) -> Void) {
+    func show(on viewController: UIViewController?, onPickImage: @escaping (URL) -> Void) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
@@ -29,7 +29,7 @@ extension ImagePicker: UIImagePickerControllerDelegate, UINavigationControllerDe
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        guard let image = info[.originalImage] as? UIImage else { return }
+        guard let image = info[.imageURL] as? URL else { return }
         onPickImage?(image)
         viewController?.dismiss(animated: true)
     }

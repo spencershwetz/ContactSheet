@@ -11,24 +11,18 @@ import Combine
 final class ProjectViewController: UIViewController {
 
     struct Config {
+        let id: UUID
         let pageSizeRatio: Ratio
         let photoAspectRatio: Ratio
-        let photos: [ProjectPhoto]
+        let photoURLs: [URL?]
         let totalRows: Int
         let totalColumns: Int
-        
-        static let `default` = Config(
-            pageSizeRatio: .init(width: 16, height: 9),
-            photoAspectRatio: .init(width: 1, height: 1),
-            photos: [],
-            totalRows: 4,
-            totalColumns: 3
-        )
     }
     
     @State private var pageSizeRatio: Ratio
     @State private var photoAspectRatio: Ratio
 
+    private let store = ProjectStore.shared
     private var subscriptions = Set<AnyCancellable>()
     
     private lazy var pageSizePicker = RatioPickerView
@@ -70,14 +64,14 @@ final class ProjectViewController: UIViewController {
     
     private let config: Config
     
-    init(config: Config = .default) {
+    init(config: Config) {
         self.config = config
         pageSizeRatio = config.pageSizeRatio
         photoAspectRatio = config.photoAspectRatio
         
         super.init(nibName: nil, bundle: nil)
         
-        gridView.photos = config.photos
+        gridView.photos = config.photoURLs.map { .init(photoURL: $0) }
         gridView.totalColumns = config.totalColumns
         gridView.totalRows = config.totalRows
         gridView.aspectRatio = config.photoAspectRatio
@@ -89,13 +83,25 @@ final class ProjectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Create Project"
+        title = "Project"
         view.backgroundColor = .systemBackground
         navigationItem.largeTitleDisplayMode = .never
         bind()
         setupHeader()
         setupRowAndColumnStepperLabel()
         setupGrid()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        store.update(project: Project(
+            id: config.id,
+            pageSizeRatio: .init(width: pageSizeRatio.width, height: pageSizeRatio.height),
+            photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
+            totalRows: gridView.totalRows,
+            totalColumns: gridView.totalColumns,
+            photos: gridView.photos.map(\.photoURL)
+        ))
     }
 
     override func viewWillTransition(

@@ -9,20 +9,20 @@ import UIKit
 
 struct ProjectPhoto: Hashable {
     let id = UUID()
-    let image: UIImage?
+    let photoURL: URL?
 }
 
 extension Array where Element == ProjectPhoto {
     
-    func addImage(_ image: UIImage?, at index: Int) -> [Element] {
+    func addImage(_ image: URL?, at index: Int) -> [Element] {
         var items = self
-        items[index] = ProjectPhoto(image: image)
+        items[index] = ProjectPhoto(photoURL: image)
         return items
     }
     
     func removeImage(at index: Int) -> [Element] {
         var items = self
-        items[index] = ProjectPhoto(image: nil)
+        items[index] = ProjectPhoto(photoURL: nil)
         return items
     }
     

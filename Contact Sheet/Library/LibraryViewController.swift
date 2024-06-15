@@ -8,7 +8,21 @@
 import UIKit
 
 final class LibraryViewController: UIViewController {
+    
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Project>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Project>
 
+    private enum Section: Hashable {
+        case main
+    }
+
+    private var projects: [Project] = [] {
+        didSet {
+            applySnapshot(items: projects)
+        }
+    }
+    
+    private let store = ProjectStore.shared
     private let gridItemCount: CGFloat = 3
     private let spacingEachCell: CGFloat = 16
     private let sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
@@ -22,6 +36,8 @@ final class LibraryViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var diffDataSource = makeDiffDataSource()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -29,10 +45,38 @@ final class LibraryViewController: UIViewController {
         setupCollectionView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        projects = store.get()
+    }
+    
+    private func makeDiffDataSource() -> DataSource {
+        .init(collectionView: collectionView) { [unowned self] collectionView, indexPath, item in
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: LibraryCell.identifier,
+                for: indexPath
+            ) as! LibraryCell
+            cell.onDelete = { [unowned self] in
+                store.delete(id: projects[indexPath.item].id)
+                projects.remove(at: indexPath.item)
+            }
+            cell.onExport = { [unowned self] in
+                navigationController?.pushViewController(ExportViewController(), animated: true)
+            }
+            return cell
+        }
+    }
+    
+    private func applySnapshot(items: [Project]) {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items)
+        diffDataSource.apply(snapshot)
+    }
+    
     private func setupCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.register(
             LibraryCell.self,
             forCellWithReuseIdentifier: LibraryCell.identifier
@@ -69,30 +113,23 @@ final class LibraryViewController: UIViewController {
     
     @objc
     private func handleCreateProject() {
-        let vc = ProjectViewController()
+        let newProjectID = UUID()
+        store.create(id: newProjectID)
+        
+        let vc = ProjectViewController(config: .initialConfig(id: newProjectID))
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension LibraryViewController: UICollectionViewDataSource {
-
+extension LibraryViewController: UICollectionViewDelegate {
+    
     func collectionView(
         _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: LibraryCell.identifier,
-            for: indexPath
-        ) as! LibraryCell
-        cell.backgroundColor = .red
-        return cell
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        20
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        let project = projects[indexPath.item]
+        let vc = ProjectViewController(config: .init(project: project))
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -114,9 +151,32 @@ extension LibraryViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension LibraryViewController: UICollectionViewDelegate {}
-
-final class LibraryCell: UICollectionViewCell {
+private extension ProjectViewController.Config {
+ 
+    init(project: Project) {
+        self.init(
+            id: project.id,
+            pageSizeRatio: .init(
+                width: project.pageSizeRatio.width,
+                height: project.pageSizeRatio.height
+            ),
+            photoAspectRatio: .init(
+                width: project.photoAspectRatio.width,
+                height: project.photoAspectRatio.height),
+            photoURLs: project.photos,
+            totalRows: project.totalRows,
+            totalColumns: project.totalColumns
+        )
+    }
     
-    static let identifier = String(describing: LibraryCell.self)
+    static func initialConfig(id: UUID) -> Self {
+        ProjectViewController.Config(
+            id: id,
+            pageSizeRatio: .init(width: 16, height: 9),
+            photoAspectRatio: .init(width: 1, height: 1),
+            photoURLs: [],
+            totalRows: 4,
+            totalColumns: 3
+        )
+    }
 }
