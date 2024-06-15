@@ -13,8 +13,13 @@
 		230725532C1897CF0053774F /* Contact_Sheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 230725512C1897CF0053774F /* Contact_Sheet.xcdatamodeld */; };
 		230725552C1897D10053774F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 230725542C1897D10053774F /* Assets.xcassets */; };
 		230725582C1897D10053774F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230725562C1897D10053774F /* LaunchScreen.storyboard */; };
+		230DF3042C1D7DD600927983 /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DF3032C1D7DD600927983 /* CoreDataContainer.swift */; };
+		230DF3072C1D7E0800927983 /* AppUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DF3062C1D7E0800927983 /* AppUserDefaults.swift */; };
+		230DF3092C1D7F2E00927983 /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DF3082C1D7F2E00927983 /* ProjectStore.swift */; };
+		230DF30B2C1D80BF00927983 /* NSManageObjectContext+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DF30A2C1D80BF00927983 /* NSManageObjectContext+Ext.swift */; };
 		232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232C98C12C1B34D00064B2C6 /* ImagePicker.swift */; };
 		23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */; };
+		23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */; };
 		23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9B2C19D511001A5966 /* ProjectViewController.swift */; };
 		23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9E2C19D538001A5966 /* ExportViewController.swift */; };
 		23F50E272C19DE87001A5966 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E262C19DE87001A5966 /* State.swift */; };
@@ -37,8 +42,13 @@
 		230725572C1897D10053774F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		230725592C1897D10053774F /* Contact_Sheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Contact_Sheet.entitlements; sourceTree = "<group>"; };
 		2307255A2C1897D10053774F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		230DF3032C1D7DD600927983 /* CoreDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
+		230DF3062C1D7E0800927983 /* AppUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUserDefaults.swift; sourceTree = "<group>"; };
+		230DF3082C1D7F2E00927983 /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
+		230DF30A2C1D80BF00927983 /* NSManageObjectContext+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManageObjectContext+Ext.swift"; sourceTree = "<group>"; };
 		232C98C12C1B34D00064B2C6 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPhoto.swift; sourceTree = "<group>"; };
+		23A756D22C1D7BE600F2FB10 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		23F50D9B2C19D511001A5966 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
 		23F50D9E2C19D538001A5966 /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		23F50E262C19DE87001A5966 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -81,6 +91,8 @@
 		230725472C1897CF0053774F /* Contact Sheet */ = {
 			isa = PBXGroup;
 			children = (
+				230DF3052C1D7DFE00927983 /* UserDefault */,
+				23A756D02C1D7BD500F2FB10 /* CoreData */,
 				2380F9FC2C189AFE00548FDA /* App */,
 				23F50D9A2C19D500001A5966 /* Library */,
 				23F50D9D2C19D52E001A5966 /* Project */,
@@ -95,6 +107,14 @@
 			path = "Contact Sheet";
 			sourceTree = "<group>";
 		};
+		230DF3052C1D7DFE00927983 /* UserDefault */ = {
+			isa = PBXGroup;
+			children = (
+				230DF3062C1D7E0800927983 /* AppUserDefaults.swift */,
+			);
+			path = UserDefault;
+			sourceTree = "<group>";
+		};
 		2380F9FC2C189AFE00548FDA /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +122,17 @@
 				2307254A2C1897CF0053774F /* SceneDelegate.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		23A756D02C1D7BD500F2FB10 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */,
+				230DF3032C1D7DD600927983 /* CoreDataContainer.swift */,
+				230DF30A2C1D80BF00927983 /* NSManageObjectContext+Ext.swift */,
+				230DF3082C1D7F2E00927983 /* ProjectStore.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		23F50D9A2C19D500001A5966 /* Library */ = {
@@ -224,11 +255,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2307254D2C1897CF0053774F /* LibraryViewController.swift in Sources */,
+				230DF3092C1D7F2E00927983 /* ProjectStore.swift in Sources */,
 				230725492C1897CF0053774F /* AppDelegate.swift in Sources */,
 				23F50E582C19E952001A5966 /* ProjectGridView.swift in Sources */,
 				23F50E5A2C19EA0D001A5966 /* VStackView.swift in Sources */,
 				23F50E5C2C19EA1A001A5966 /* HStackView.swift in Sources */,
 				23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */,
+				230DF30B2C1D80BF00927983 /* NSManageObjectContext+Ext.swift in Sources */,
 				23F50E292C19DEAA001A5966 /* RatioPickerView.swift in Sources */,
 				23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */,
 				230725532C1897CF0053774F /* Contact_Sheet.xcdatamodeld in Sources */,
@@ -236,7 +269,10 @@
 				23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */,
 				23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */,
 				23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */,
+				23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */,
+				230DF3042C1D7DD600927983 /* CoreDataContainer.swift in Sources */,
 				232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */,
+				230DF3072C1D7E0800927983 /* AppUserDefaults.swift in Sources */,
 				2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */,
 				23F50E272C19DE87001A5966 /* State.swift in Sources */,
 			);
@@ -474,6 +510,16 @@
 			);
 			currentVersion = 230725522C1897CF0053774F /* Contact_Sheet.xcdatamodel */;
 			path = Contact_Sheet.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				23A756D22C1D7BE600F2FB10 /* Project.xcdatamodel */,
+			);
+			currentVersion = 23A756D22C1D7BE600F2FB10 /* Project.xcdatamodel */;
+			path = ContactSheet.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
