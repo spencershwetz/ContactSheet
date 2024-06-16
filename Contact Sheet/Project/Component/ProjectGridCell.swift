@@ -12,6 +12,15 @@ final class ProjectGridCell: UICollectionViewCell {
     
     var onDelete: (() -> Void)?
     var aspectRatio = Ratio(width: 1, height: 1)
+    var imageAssetId: String? {
+        didSet {
+            if let imageAssetId {
+                PhotoAssetStore.shared.getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
+                    self?.image = image
+                }
+            }
+        }
+    }
     var image: UIImage? {
         didSet {
             photoView.image = image

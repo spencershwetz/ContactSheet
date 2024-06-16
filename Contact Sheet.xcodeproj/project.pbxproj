@@ -32,6 +32,7 @@
 		23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */; };
 		23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E612C19EC65001A5966 /* ProjectGridCell.swift */; };
 		64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC58E52C1EB08500694C24 /* Extensions+Preview.swift */; };
+		64FC58E92C1F663600694C24 /* PhotoAssetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC58E82C1F663600694C24 /* PhotoAssetStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		23F50E612C19EC65001A5966 /* ProjectGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectGridCell.swift; sourceTree = "<group>"; };
 		64FC58E52C1EB08500694C24 /* Extensions+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extensions+Preview.swift"; sourceTree = "<group>"; };
+		64FC58E82C1F663600694C24 /* PhotoAssetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAssetStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				230DF3052C1D7DFE00927983 /* UserDefault */,
 				23A756D02C1D7BD500F2FB10 /* CoreData */,
 				2380F9FC2C189AFE00548FDA /* App */,
+				64FC58E72C1F662700694C24 /* Store */,
 				23F50D9A2C19D500001A5966 /* Library */,
 				23F50D9D2C19D52E001A5966 /* Project */,
 				23F50DA02C19D541001A5966 /* Export */,
@@ -206,6 +209,14 @@
 			path = Previews;
 			sourceTree = "<group>";
 		};
+		64FC58E72C1F662700694C24 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				64FC58E82C1F663600694C24 /* PhotoAssetStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -291,6 +302,7 @@
 				23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */,
 				23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */,
 				23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */,
+				64FC58E92C1F663600694C24 /* PhotoAssetStore.swift in Sources */,
 				23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */,
 				230DF30E2C1D880F00927983 /* LibraryCell.swift in Sources */,
 				230DF3042C1D7DD600927983 /* CoreDataContainer.swift in Sources */,
@@ -448,6 +460,7 @@
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Contact Sheet";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Contactsheet to use the libary to create your contact sheet using photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -482,6 +495,7 @@
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Contact Sheet";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Contactsheet to use the libary to create your contact sheet using photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

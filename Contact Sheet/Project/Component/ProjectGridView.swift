@@ -45,8 +45,8 @@ final class ProjectGridView: UICollectionView {
     }
     
     private let spacingEachCell: CGFloat = 8
-    private let imagePicker = ImagePicker()
-    
+    private let imagePicker = MultiImagePicker()
+
     private let layout = UICollectionViewFlowLayout()
 
     init() {
@@ -77,7 +77,8 @@ final class ProjectGridView: UICollectionView {
                 for: indexPath
             ) as! ProjectGridCell
             cell.aspectRatio = aspectRatio
-            cell.image = .load(url: item.photoURL)
+            cell.imageAssetId = item.assetIdentifier
+            ///cell.image = .loadFromItem(item: item)
             cell.onDelete = { [weak self] in
                 self?.photos = self?.photos.removeImage(at: indexPath.item) ?? []
             }
@@ -168,9 +169,11 @@ extension ProjectGridView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ProjectGridCell
         if cell.image == nil {
-            imagePicker.show(on: viewController, onPickImage: { [weak self] in
+            imagePicker.show(on: viewController, maxLimit: photos.filter({$0.photoURL == nil && $0.assetIdentifier == nil}).count, onPickImages: { [weak self] in
                 guard let self else { return }
-                photos = photos.addImage($0, at: indexPath.item)
+                if !($0.isEmpty) {
+                    photos = photos.addImages($0, from: indexPath.item)
+                }
             })
         }
     }

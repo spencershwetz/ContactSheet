@@ -13,7 +13,7 @@ struct Project: Hashable {
     let photoAspectRatio: Ratio
     let totalRows: Int
     let totalColumns: Int
-    let photos: [URL?]
+    let photos: [String?]
     let title: String
 
     struct Ratio: Hashable, Codable {
@@ -82,6 +82,13 @@ struct ProjectStore {
 
 private extension Array where Element == Optional<URL> {
     
+    func toData() -> Data? {
+        try? JSONEncoder().encode(self)
+    }
+}
+
+private extension Array where Element == Optional<String> {
+
     func toData() -> Data? {
         try? JSONEncoder().encode(self)
     }

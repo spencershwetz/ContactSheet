@@ -15,7 +15,7 @@ final class ProjectViewController: UIViewController {
         let id: UUID
         let pageSizeRatio: Ratio
         let photoAspectRatio: Ratio
-        let photoURLs: [URL?]
+        let photoIds: [String?]
         let totalRows: Int
         let totalColumns: Int
         let title: String
@@ -74,7 +74,7 @@ final class ProjectViewController: UIViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-        gridView.photos = config.photoURLs.map { .init(photoURL: $0) }
+        gridView.photos = config.photoIds.map { .init(photoURL: nil, assetIdentifier: $0) }
         gridView.totalColumns = config.totalColumns
         gridView.totalRows = config.totalRows
         gridView.aspectRatio = config.photoAspectRatio
@@ -104,7 +104,7 @@ final class ProjectViewController: UIViewController {
             photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
             totalRows: gridView.totalRows,
             totalColumns: gridView.totalColumns,
-            photos: gridView.photos.map(\.photoURL),
+            photos: gridView.photos.map(\.assetIdentifier),
             title: config.title
         ))
     }
@@ -231,7 +231,7 @@ final class ProjectViewController: UIViewController {
             id: id,
             pageSizeRatio: .init(width: 16, height: 9),
             photoAspectRatio: .init(width: 1, height: 1),
-            photoURLs: [],
+            photoIds: [],
             totalRows: 4,
             totalColumns: 3,
             title: "Untitled Project"

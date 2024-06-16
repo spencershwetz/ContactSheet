@@ -64,8 +64,11 @@ final class LibraryViewController: UIViewController {
             cell.onExport = { [unowned self] in
                 navigationController?.pushViewController(ExportViewController(), animated: true)
             }
-            if let photoURL: URL? = projects[indexPath.item].photos.first(where: {$0 != nil}), let url = photoURL  {
-                cell.image = .load(url: url)
+            if let photoId: String? = projects[indexPath.item].photos.first(where: {$0 != nil}), let photoId = photoId  {
+                PhotoAssetStore.shared.getImageWithLocalId(identifier: photoId) { image in
+                    cell.image = image
+                }
+                ///cell.image = .load(url: url)
             }
             cell.title = projects[indexPath.item].title
         
@@ -171,7 +174,7 @@ private extension ProjectViewController.Config {
             photoAspectRatio: .init(
                 width: project.photoAspectRatio.width,
                 height: project.photoAspectRatio.height),
-            photoURLs: project.photos,
+            photoIds: project.photos,
             totalRows: project.totalRows,
             totalColumns: project.totalColumns,
             title: project.title
@@ -183,7 +186,7 @@ private extension ProjectViewController.Config {
             id: id,
             pageSizeRatio: .init(width: 16, height: 9),
             photoAspectRatio: .init(width: 1, height: 1),
-            photoURLs: [],
+            photoIds: [],
             totalRows: 4,
             totalColumns: 3,
             title: "Untitled Project"
