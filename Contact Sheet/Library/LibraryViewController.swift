@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class LibraryViewController: UIViewController {
     
@@ -25,8 +26,8 @@ final class LibraryViewController: UIViewController {
     private let store = ProjectStore.shared
     private let gridItemCount: CGFloat = 3
     private let spacingEachCell: CGFloat = 16
-    private let sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
-    
+    private let sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = sectionInset
@@ -63,6 +64,12 @@ final class LibraryViewController: UIViewController {
             cell.onExport = { [unowned self] in
                 navigationController?.pushViewController(ExportViewController(), animated: true)
             }
+            if let photoURL: URL? = projects[indexPath.item].photos.first(where: {$0 != nil}), let url = photoURL  {
+                cell.image = .load(url: url)
+            }
+            cell.title = projects[indexPath.item].title
+        
+
             return cell
         }
     }
@@ -82,6 +89,7 @@ final class LibraryViewController: UIViewController {
             forCellWithReuseIdentifier: LibraryCell.identifier
         )
         view.addSubview(collectionView)
+        collectionView.allowsMultipleSelection = true
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -141,12 +149,12 @@ extension LibraryViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let horizontalMargin = sectionInset.left + sectionInset.right
-        let totalSpacing = (gridItemCount - 1) * spacingEachCell
+        let totalSpacing = ((gridItemCount - 1) * spacingEachCell) + 0.1
         let totalWidth = collectionView.bounds.width - totalSpacing - horizontalMargin
         
         return CGSize(
             width: totalWidth / gridItemCount,
-            height: totalWidth / gridItemCount
+            height: totalWidth / gridItemCount + 50
         )
     }
 }
@@ -165,7 +173,8 @@ private extension ProjectViewController.Config {
                 height: project.photoAspectRatio.height),
             photoURLs: project.photos,
             totalRows: project.totalRows,
-            totalColumns: project.totalColumns
+            totalColumns: project.totalColumns,
+            title: project.title
         )
     }
     
@@ -176,7 +185,21 @@ private extension ProjectViewController.Config {
             photoAspectRatio: .init(width: 1, height: 1),
             photoURLs: [],
             totalRows: 4,
-            totalColumns: 3
+            totalColumns: 3,
+            title: "Untitled Project"
         )
     }
+}
+
+#Preview {
+    return makeLibraryViewController().asPreview()
+
+    func makeLibraryViewController() -> UIViewController {
+        let vc = LibraryViewController()
+        let navigationController = UINavigationController(rootViewController: vc)
+        navigationController.navigationBar.prefersLargeTitles = true
+        vc.title = "Library"
+        return navigationController
+    }
+
 }

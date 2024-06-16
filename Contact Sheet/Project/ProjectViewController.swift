@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 final class ProjectViewController: UIViewController {
 
@@ -17,6 +18,7 @@ final class ProjectViewController: UIViewController {
         let photoURLs: [URL?]
         let totalRows: Int
         let totalColumns: Int
+        let title: String
     }
     
     @State private var pageSizeRatio: Ratio
@@ -38,6 +40,7 @@ final class ProjectViewController: UIViewController {
                 self?.photoAspectRatio = $0
             }
         })
+
     private lazy var headerStackView = VStackView(
         arrangedSubviews: [pageSizePicker, photoAspectRatioPicker]
     )
@@ -75,6 +78,7 @@ final class ProjectViewController: UIViewController {
         gridView.totalColumns = config.totalColumns
         gridView.totalRows = config.totalRows
         gridView.aspectRatio = config.photoAspectRatio
+        title = config.title
     }
     
     required init?(coder: NSCoder) {
@@ -83,7 +87,7 @@ final class ProjectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Project"
+        title = config.title
         view.backgroundColor = .systemBackground
         navigationItem.largeTitleDisplayMode = .never
         bind()
@@ -100,7 +104,8 @@ final class ProjectViewController: UIViewController {
             photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
             totalRows: gridView.totalRows,
             totalColumns: gridView.totalColumns,
-            photos: gridView.photos.map(\.photoURL)
+            photos: gridView.photos.map(\.photoURL),
+            title: config.title
         ))
     }
 
@@ -215,5 +220,21 @@ final class ProjectViewController: UIViewController {
         alert.addAction(submitAction)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+}
+
+#Preview {
+    return ProjectViewController(config: initialConfig(id: UUID())).asPreview()
+
+    func initialConfig(id: UUID) -> ProjectViewController.Config {
+        ProjectViewController.Config(
+            id: id,
+            pageSizeRatio: .init(width: 16, height: 9),
+            photoAspectRatio: .init(width: 1, height: 1),
+            photoURLs: [],
+            totalRows: 4,
+            totalColumns: 3,
+            title: "Untitled Project"
+        )
     }
 }

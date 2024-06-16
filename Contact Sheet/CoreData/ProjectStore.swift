@@ -14,6 +14,7 @@ struct Project: Hashable {
     let totalRows: Int
     let totalColumns: Int
     let photos: [URL?]
+    let title: String
 
     struct Ratio: Hashable, Codable {
         let width: CGFloat
@@ -47,7 +48,8 @@ struct ProjectStore {
                 photoAspectRatio: $0.photoAspectRatio!.decode(),
                 totalRows: Int($0.totalRows),
                 totalColumns: Int($0.totalColumns),
-                photos: $0.photos!.decode()
+                photos: $0.photos!.decode(),
+                title: $0.title ?? ""
             )
         } ?? []
     }
@@ -63,6 +65,7 @@ struct ProjectStore {
         projectToBeUpdated.totalRows = Int16(project.totalRows)
         projectToBeUpdated.totalColumns = Int16(project.totalColumns)
         projectToBeUpdated.photos = project.photos.toData()
+        projectToBeUpdated.title = project.title
         
         context.saveIfNeeded()
     }

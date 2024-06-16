@@ -31,6 +31,7 @@
 		23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */; };
 		23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */; };
 		23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E612C19EC65001A5966 /* ProjectGridCell.swift */; };
+		64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC58E52C1EB08500694C24 /* Extensions+Preview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		23F50E612C19EC65001A5966 /* ProjectGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectGridCell.swift; sourceTree = "<group>"; };
+		64FC58E52C1EB08500694C24 /* Extensions+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extensions+Preview.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 		230725472C1897CF0053774F /* Contact Sheet */ = {
 			isa = PBXGroup;
 			children = (
+				64FC58E42C1EB06300694C24 /* Previews */,
 				230DF3052C1D7DFE00927983 /* UserDefault */,
 				23A756D02C1D7BD500F2FB10 /* CoreData */,
 				2380F9FC2C189AFE00548FDA /* App */,
@@ -195,6 +198,14 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		64FC58E42C1EB06300694C24 /* Previews */ = {
+			isa = PBXGroup;
+			children = (
+				64FC58E52C1EB08500694C24 /* Extensions+Preview.swift */,
+			);
+			path = Previews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -269,6 +280,7 @@
 				230DF3092C1D7F2E00927983 /* ProjectStore.swift in Sources */,
 				230725492C1897CF0053774F /* AppDelegate.swift in Sources */,
 				23F50E582C19E952001A5966 /* ProjectGridView.swift in Sources */,
+				64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */,
 				23F50E5A2C19EA0D001A5966 /* VStackView.swift in Sources */,
 				23F50E5C2C19EA1A001A5966 /* HStackView.swift in Sources */,
 				23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */,

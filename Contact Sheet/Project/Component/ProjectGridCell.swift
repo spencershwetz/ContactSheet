@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class ProjectGridCell: UICollectionViewCell {
     
@@ -90,3 +91,7 @@ extension ProjectGridCell: UIContextMenuInteractionDelegate {
         }
     }
 }
+
+#Preview(body: {
+    ProjectGridCell().asPreview()
+})
