@@ -23,10 +23,26 @@ final class LibraryViewController: UIViewController {
         }
     }
     
+    private var createButtonBarItem: UIBarButtonItem!
+    private var mergeButtonBarItem: UIBarButtonItem!
+    private var selectButtonBarItem: UIBarButtonItem!
+
+    private var selectedProject: Project? = nil
     private let store = ProjectStore.shared
     private let gridItemCount: CGFloat = 3
     private let spacingEachCell: CGFloat = 16
     private let sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+
+    private var isSelectionEnabled: Bool = false
+    private var selectedProjects: [(Project, Int)] = [] {
+        didSet {
+            if selectedProjects.count > 1 {
+                addMergeMenuBarItem()
+            } else {
+                removeMergeMenuBarItem()
+            }
+        }
+    }
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -64,11 +80,17 @@ final class LibraryViewController: UIViewController {
             cell.onExport = { [unowned self] in
                 navigationController?.pushViewController(ExportViewController(), animated: true)
             }
+
+            cell.onRename = { [unowned self] in
+                selectedProject = projects[indexPath.item]
+                showRenameAlert()
+            }
+            cell.isEnableSelection = isSelectionEnabled
+            cell.isImageSelected = selectedProjects.contains(where: {$0.0.id == projects[indexPath.item].id})
             if let photoId: String? = projects[indexPath.item].photos.first(where: {$0 != nil}), let photoId = photoId  {
                 PhotoAssetStore.shared.getImageWithLocalId(identifier: photoId) { image in
                     cell.image = image
                 }
-                ///cell.image = .load(url: url)
             }
             cell.title = projects[indexPath.item].title
         
@@ -92,7 +114,6 @@ final class LibraryViewController: UIViewController {
             forCellWithReuseIdentifier: LibraryCell.identifier
         )
         view.addSubview(collectionView)
-        collectionView.allowsMultipleSelection = true
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -102,24 +123,43 @@ final class LibraryViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
+        createButtonBarItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(handleCreateProject)
+        )
+
+        selectButtonBarItem = UIBarButtonItem(
+            title: "Select",
+            style: .plain,
+            target: self,
+            action: #selector(handleSelectAction)
+        )
+
+        mergeButtonBarItem = UIBarButtonItem(
+            title: "Merge",
+            style: .plain,
+            target: self,
+            action: #selector(handleMergeProjects)
+        )
+
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(
-                barButtonSystemItem: .add,
-                target: self,
-                action: #selector(handleCreateProject)
-            ),
-            UIBarButtonItem(
-                title: "Select",
-                style: .plain,
-                target: self,
-                action: #selector(handleSelectAction)
-            )
+            createButtonBarItem,
+            selectButtonBarItem
         ]
     }
 
     @objc
     private func handleSelectAction() {
-        
+        isSelectionEnabled.toggle()
+        if isSelectionEnabled {
+            selectedProjects = []
+        }
+        if let lastItem = self.navigationItem.rightBarButtonItems?.last {
+            lastItem.title = isSelectionEnabled == false ? "Select" : "Cancel"
+        }
+
+        self.collectionView.reloadData()
     }
     
     @objc
@@ -130,6 +170,48 @@ final class LibraryViewController: UIViewController {
         let vc = ProjectViewController(config: .initialConfig(id: newProjectID))
         navigationController?.pushViewController(vc, animated: true)
     }
+
+    @objc
+    private func handleMergeProjects() {
+        var newProject = Project(
+            id: UUID(),
+            pageSizeRatio: .init(width: 1, height: 1),
+            photoAspectRatio: .init(width: 1, height: 1),
+            totalRows: 0,
+            totalColumns: 0,
+            photos: [],
+            title: "Untitled Project"
+        )
+        store.create(id: newProject.id)
+        
+        let projects: [Project] = selectedProjects.map({$0.0})
+        let photos: [String] = projects.map({$0.photos.compactMap({$0})}).reduce([], +)
+
+        newProject.photos = photos
+        newProject.totalRows = Int(photos.count / 4) + 1
+        newProject.totalColumns = 4
+        store.update(project: newProject)
+        self.projects.append(newProject)
+        selectedProjects = []
+        handleSelectAction()
+    }
+
+    func addMergeMenuBarItem() {
+        navigationItem.rightBarButtonItems = [
+            createButtonBarItem,
+            selectButtonBarItem,
+            mergeButtonBarItem,
+        ]
+    }
+
+    func removeMergeMenuBarItem() {
+        navigationItem.rightBarButtonItems = [
+            createButtonBarItem,
+            selectButtonBarItem
+        ]
+
+    }
+
 }
 
 extension LibraryViewController: UICollectionViewDelegate {
@@ -138,9 +220,19 @@ extension LibraryViewController: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        let project = projects[indexPath.item]
-        let vc = ProjectViewController(config: .init(project: project))
-        navigationController?.pushViewController(vc, animated: true)
+        if isSelectionEnabled {
+            if let idx = self.selectedProjects.firstIndex(where: {$0.1 == indexPath.item}) {
+                selectedProjects.remove(at: idx)
+            } else {
+                selectedProjects.append((projects[indexPath.item], indexPath.item))
+            }
+            collectionView.reloadData()
+
+        } else {
+            let project = projects[indexPath.item]
+            let vc = ProjectViewController(config: .init(project: project))
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
@@ -159,6 +251,47 @@ extension LibraryViewController: UICollectionViewDelegateFlowLayout {
             width: totalWidth / gridItemCount,
             height: totalWidth / gridItemCount + 50
         )
+    }
+}
+
+extension LibraryViewController {
+    private func showRenameAlert() {
+        let alert = UIAlertController(
+            title: "Project Name",
+            message: "Please enter project name",
+            preferredStyle: .alert
+        )
+
+        alert.addTextField { textField in
+            textField.placeholder = "Name"
+            textField.keyboardType = .default
+        }
+
+        let submitAction = UIAlertAction(
+            title: "Okay",
+            style: .default
+        ) { [unowned alert, weak self] _ in
+            guard
+                let nameText = alert.textFields![0].text, !(nameText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            else {
+                return
+            }
+            self?.handleRenameProjectAction(with: nameText)
+        }
+
+        alert.addAction(submitAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
+    func handleRenameProjectAction(with title: String) {
+        selectedProject?.title = title
+        store.update(project: selectedProject!)
+        collectionView.reloadData()
+        if let firstIdx = projects.firstIndex(where: {$0.id == selectedProject?.id}) {
+            projects[firstIdx].title = selectedProject?.title ?? ""
+        }
+        selectedProject = nil
     }
 }
 

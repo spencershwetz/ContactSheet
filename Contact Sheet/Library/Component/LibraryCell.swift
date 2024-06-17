@@ -12,12 +12,24 @@ final class LibraryCell: UICollectionViewCell {
     
     var onExport: (() -> Void)?
     var onDelete: (() -> Void)?
-    
+    var onRename: (() -> Void)?
+
     private let photoView: UIImageView = UIImageView()
+    private let selectImageView: UIImageView = UIImageView()
     var aspectRatio = Ratio(width: 1, height: 1)
     private var photoViewWidthConstraint: NSLayoutConstraint?
     private var photoViewHeigthConstraint: NSLayoutConstraint?
     private var labelHeightConstraint: NSLayoutConstraint?
+    var isEnableSelection: Bool = false {
+        didSet {
+            selectImageView.isHidden = !isEnableSelection
+        }
+    }
+    var isImageSelected: Bool = false {
+        didSet {
+            selectImageView.image = UIImage(systemName: isImageSelected ? "checkmark.circle.fill" : "circle")
+        }
+    }
 
     var image: UIImage? {
         didSet {
@@ -70,11 +82,7 @@ final class LibraryCell: UICollectionViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
-
         ])
-
-
-
         photoViewHeigthConstraint = photoView.heightAnchor.constraint(equalToConstant: 0)
         photoViewHeigthConstraint?.isActive = true
         photoViewWidthConstraint = photoView.widthAnchor.constraint(equalToConstant: 0)
@@ -85,7 +93,10 @@ final class LibraryCell: UICollectionViewCell {
         contentView.addInteraction(UIContextMenuInteraction(delegate: self))
         contentView.isUserInteractionEnabled = true
 
-        
+        selectImageView.image = UIImage(systemName: "circle")
+        contentView.addSubview(selectImageView)
+        selectImageView.isHidden = true
+
     }
     
     required init?(coder: NSCoder) {
@@ -109,6 +120,12 @@ final class LibraryCell: UICollectionViewCell {
         photoViewWidthConstraint?.constant = width
         photoViewHeigthConstraint?.constant = height
         labelHeightConstraint?.constant = 50
+        selectImageView.frame = .init(
+            x: contentView.bounds.width - 35,
+            y: contentView.bounds.height - 85,
+            width: 30,
+            height: 30
+        )
     }
 }
 
@@ -130,7 +147,13 @@ extension LibraryCell: UIContextMenuInteractionDelegate {
                 attributes: .destructive,
                 handler: { [weak self] _ in self?.onDelete?() }
             )
-            return UIMenu(children: [exportAction, deleteAction])
+
+            let renameAction = UIAction(
+                title: "Rename",
+                image: UIImage(systemName: "square.and.pencil"),
+                handler: { [weak self] _ in self?.onRename?() }
+            )
+            return UIMenu(children: [exportAction, renameAction, deleteAction])
         }
     }
 }

@@ -9,12 +9,12 @@ import CoreData
 
 struct Project: Hashable {
     let id: UUID
-    let pageSizeRatio: Ratio
-    let photoAspectRatio: Ratio
-    let totalRows: Int
-    let totalColumns: Int
-    let photos: [String?]
-    let title: String
+    var pageSizeRatio: Ratio
+    var photoAspectRatio: Ratio
+    var totalRows: Int
+    var totalColumns: Int
+    var photos: [String?]
+    var title: String
 
     struct Ratio: Hashable, Codable {
         let width: CGFloat
@@ -31,7 +31,7 @@ struct ProjectStore {
     private var context: NSManagedObjectContext {
         CoreDataContainer.shared.context
     }
-    
+    @discardableResult
     func create(id: UUID) {
         let project = ProjectEntity(context: context)
         project.id = id
