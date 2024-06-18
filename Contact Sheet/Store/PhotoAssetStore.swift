@@ -36,15 +36,22 @@ extension PhotoAssetStore {
         }
     }
 
-    func getImageWithLocalId(identifier: String, completion: @escaping ((_ image: UIImage?) -> ()?)) {
-        let options = PHFetchOptions()
-        let results = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: options)
+    func getImageWithLocalId(identifier: String, completion: @escaping (UIImage?) -> Void) {
+        let results = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
         let manager = PHImageManager.default()
-
-        results.enumerateObjects { (thisAsset, _, _) in
-            manager.requestImage(for: thisAsset, targetSize: CGSize(width: 1024.0, height: 1024.0), contentMode: .aspectFit, options: nil, resultHandler: {(image, _) in
-                completion(image)
-            })
+        let imageRequestOption = PHImageRequestOptions()
+        imageRequestOption.deliveryMode = .highQualityFormat
+        
+        results.enumerateObjects { asset, _, _ in
+            manager.requestImage(
+                for: asset,
+                targetSize: CGSize(width: 1024.0, height: 1024.0),
+                contentMode: .aspectFit,
+                options: imageRequestOption,
+                resultHandler: { image, _ in
+                    completion(image)
+                }
+            )
         }
     }
 }

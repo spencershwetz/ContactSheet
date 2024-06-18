@@ -58,6 +58,11 @@ final class ProjectGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        photoView.image = nil
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
