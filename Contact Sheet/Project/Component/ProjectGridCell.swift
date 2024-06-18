@@ -76,8 +76,8 @@ final class ProjectGridCell: UICollectionViewCell {
             width = aspectRatio.width * height / aspectRatio.height
         }
 
-        photoViewWidthConstraint?.constant = width
-        photoViewHeigthConstraint?.constant = height
+        photoViewWidthConstraint?.constant = max(0, width)
+        photoViewHeigthConstraint?.constant = max(0, height)
     }
 }
 

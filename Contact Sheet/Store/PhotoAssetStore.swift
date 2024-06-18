@@ -9,8 +9,8 @@ import Foundation
 import Photos
 import UIKit
 
-class PhotoAssetStore {
-    static let shared: PhotoAssetStore = PhotoAssetStore()
+struct PhotoAssetStore {
+    static let shared = PhotoAssetStore()
     private init() {}
 }
 

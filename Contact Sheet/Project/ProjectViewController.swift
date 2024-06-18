@@ -77,7 +77,7 @@ final class ProjectViewController: UIViewController {
         gridView.photos = config.photoIds.map { .init(assetIdentifier: $0) }
         gridView.totalColumns = config.totalColumns
         gridView.totalRows = config.totalRows
-        gridView.aspectRatio = config.photoAspectRatio
+        bind()
         title = config.title
     }
     
@@ -90,7 +90,6 @@ final class ProjectViewController: UIViewController {
         title = config.title
         view.backgroundColor = .systemBackground
         navigationItem.largeTitleDisplayMode = .never
-        bind()
         setupHeader()
         setupRowAndColumnStepperLabel()
         setupGrid()
