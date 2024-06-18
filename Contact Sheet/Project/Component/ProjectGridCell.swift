@@ -30,10 +30,10 @@ final class ProjectGridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.layer.borderWidth = 0.5
-        contentView.layer.borderColor = UIColor.label.cgColor
         contentView.clipsToBounds = true
 
+        photoView.layer.borderWidth = 0.5
+        photoView.layer.borderColor = UIColor.label.cgColor
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
         photoView.translatesAutoresizingMaskIntoConstraints = false
