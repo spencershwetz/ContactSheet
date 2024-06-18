@@ -29,7 +29,7 @@ final class ProjectViewController: UIViewController {
     
     private lazy var pageSizePicker = RatioPickerView
         .pageSizePicker(onSelect: { [weak self] in
-            print("@@@", $0)
+            self?.pageSizeRatio = $0
         })
     private lazy var photoAspectRatioPicker = RatioPickerView
         .photoAspectRatioPicker(onSelect: { [weak self] in
@@ -74,7 +74,7 @@ final class ProjectViewController: UIViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-        gridView.photos = config.photoIds.map { .init(photoURL: nil, assetIdentifier: $0) }
+        gridView.photos = config.photoIds.map { .init(assetIdentifier: $0) }
         gridView.totalColumns = config.totalColumns
         gridView.totalRows = config.totalRows
         gridView.aspectRatio = config.photoAspectRatio

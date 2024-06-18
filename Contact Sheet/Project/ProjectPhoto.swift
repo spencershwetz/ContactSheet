@@ -9,35 +9,28 @@ import UIKit
 
 struct ProjectPhoto: Hashable {
     let id = UUID()
-    let photoURL: URL?
-    var assetIdentifier: String? = nil
+    let assetIdentifier: String?
 }
 
 extension Array where Element == ProjectPhoto {
 
-    func addImages(_ images: [String], from startingIndex: Int) -> [Element] {
-        var imageIds = images
+    func addImages(_ imageIDs: [String], from startingIndex: Int) -> [Element] {
+        var imageIDs = imageIDs
         var items = self
-        items[startingIndex] = ProjectPhoto(photoURL: nil, assetIdentifier: imageIds[0])
-        imageIds.remove(at: 0)
+        items[startingIndex] = ProjectPhoto(assetIdentifier: imageIDs[0])
+        imageIDs.remove(at: 0)
 
-        for id in imageIds {
-            if let index = items.firstIndex(where: {$0.photoURL == nil && $0.assetIdentifier == nil}) {
-                items[index] = ProjectPhoto(photoURL: nil, assetIdentifier: id)
+        for id in imageIDs {
+            if let index = items.firstIndex(where: { $0.assetIdentifier == nil}) {
+                items[index] = ProjectPhoto(assetIdentifier: id)
             }
         }
-        return items
-    }
-
-    func addImage(_ image: URL?, at index: Int) -> [Element] {
-        var items = self
-        items[index] = ProjectPhoto(photoURL: image)
         return items
     }
     
     func removeImage(at index: Int) -> [Element] {
         var items = self
-        items[index] = ProjectPhoto(photoURL: nil)
+        items[index] = ProjectPhoto(assetIdentifier: nil)
         return items
     }
     

@@ -78,7 +78,6 @@ final class ProjectGridView: UICollectionView {
             ) as! ProjectGridCell
             cell.aspectRatio = aspectRatio
             cell.imageAssetId = item.assetIdentifier
-            ///cell.image = .loadFromItem(item: item)
             cell.onDelete = { [weak self] in
                 self?.photos = self?.photos.removeImage(at: indexPath.item) ?? []
             }
@@ -107,7 +106,7 @@ final class ProjectGridView: UICollectionView {
         if photos.count < maxItems {
             let totalItemToAppend = maxItems - photos.count
             let newItemsToAppend = (0..<totalItemToAppend)
-                .map { _ in ProjectPhoto(photoURL: nil) }
+                .map { _ in ProjectPhoto(assetIdentifier: nil) }
             photos = photos + newItemsToAppend
         } else {
             let totalItemsToRemove = photos.count - maxItems
@@ -168,8 +167,8 @@ extension ProjectGridView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ProjectGridCell
-        if cell.image == nil {
-            imagePicker.show(on: viewController, maxLimit: photos.filter({$0.photoURL == nil && $0.assetIdentifier == nil}).count, onPickImages: { [weak self] in
+        if cell.imageAssetId == nil {
+            imagePicker.show(on: viewController, onPickImages: { [weak self] in
                 guard let self else { return }
                 if !($0.isEmpty) {
                     photos = photos.addImages($0, from: indexPath.item)

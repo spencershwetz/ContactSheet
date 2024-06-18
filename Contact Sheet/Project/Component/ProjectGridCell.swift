@@ -14,16 +14,10 @@ final class ProjectGridCell: UICollectionViewCell {
     var aspectRatio = Ratio(width: 1, height: 1)
     var imageAssetId: String? {
         didSet {
-            if let imageAssetId {
-                PhotoAssetStore.shared.getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
-                    self?.image = image
-                }
+            guard let imageAssetId else { return }
+            PhotoAssetStore.shared.getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
+                self?.photoView.image = image
             }
-        }
-    }
-    var image: UIImage? {
-        didSet {
-            photoView.image = image
         }
     }
     
@@ -88,7 +82,7 @@ extension ProjectGridCell: UIContextMenuInteractionDelegate {
         _ interaction: UIContextMenuInteraction,
         configurationForMenuAtLocation location: CGPoint
     ) -> UIContextMenuConfiguration? {
-        guard image != nil else { return nil }
+        guard imageAssetId != nil else { return nil }
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let deleteAction = UIAction(
                 title: "Delete",
