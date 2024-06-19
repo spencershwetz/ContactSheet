@@ -154,11 +154,17 @@ final class ProjectViewController: UIViewController {
             .store(in: &subscriptions)
         
         gridView.$totalRows
-            .sink { [weak self] in self?.rowLabel.text = "Rows \($0)" }
+            .sink { [weak self] in
+                self?.rowStepper.value = Double($0)
+                self?.rowLabel.text = "Rows \($0)"
+            }
             .store(in: &subscriptions)
         
         gridView.$totalColumns
-            .sink { [weak self] in self?.columnLabel.text = "Columns \($0)" }
+            .sink { [weak self] in
+                self?.columnStepper.value = Double($0)
+                self?.columnLabel.text = "Columns \($0)"
+            }
             .store(in: &subscriptions)
     }
     

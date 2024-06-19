@@ -40,10 +40,13 @@ final class ProjectGridView: UICollectionView {
 
     var photos: [ProjectPhoto] = [] {
         didSet {
+            photos.indices.forEach { storedPhotosForEachCell[$0] = photos[$0].assetIdentifier }
             applySnapshot(items: photos)
         }
     }
     
+    private var storedPhotosForEachCell: [Int: String] = [:]
+
     private let spacingEachCell: CGFloat = 8
     private let imagePicker = MultiImagePicker()
 
@@ -104,9 +107,8 @@ final class ProjectGridView: UICollectionView {
         guard maxItems > 0 else { return }
         
         if photos.count < maxItems {
-            let totalItemToAppend = maxItems - photos.count
-            let newItemsToAppend = (0..<totalItemToAppend)
-                .map { _ in ProjectPhoto(assetIdentifier: nil) }
+            let newItemsToAppend = (photos.count..<maxItems)
+                .map { ProjectPhoto(assetIdentifier: storedPhotosForEachCell[$0]) }
             photos = photos + newItemsToAppend
         } else {
             let totalItemsToRemove = photos.count - maxItems
@@ -168,11 +170,9 @@ extension ProjectGridView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ProjectGridCell
         if cell.imageAssetId == nil {
-            imagePicker.show(on: viewController, onPickImages: { [weak self] in
+            imagePicker.show(on: viewController, onPickImages: { [weak self] images in
                 guard let self else { return }
-                if !($0.isEmpty) {
-                    photos = photos.addImages($0, from: indexPath.item)
-                }
+                photos = photos.addImages(images, from: indexPath.item)
             })
         }
     }
