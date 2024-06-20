@@ -8,17 +8,8 @@
 import UIKit
 
 final class ProjectGridView: UICollectionView {
-    
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ProjectPhoto>
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, ProjectPhoto>
 
-    private enum Section: Hashable {
-        case main
-    }
-    
     weak var viewController: UIViewController?
-    
-    private lazy var diffDataSource = makeDiffDataSource()
     
     @State var totalColumns: Int = 0 {
         didSet {
@@ -34,14 +25,14 @@ final class ProjectGridView: UICollectionView {
     
     var aspectRatio: Ratio = .random {
         didSet {
-            forceReloadItems()
+            reloadData()
         }
     }
 
     var photos: [ProjectPhoto] = [] {
         didSet {
             photos.indices.forEach { storedPhotosForEachCell[$0] = photos[$0].assetIdentifier }
-            applySnapshot(items: photos)
+            reloadData()
         }
     }
     
@@ -57,48 +48,42 @@ final class ProjectGridView: UICollectionView {
         layout.minimumLineSpacing = spacingEachCell
         layout.minimumInteritemSpacing = spacingEachCell
         super.init(frame: .zero, collectionViewLayout: layout)
+
         delegate = self
-        dragDelegate = self
-        dropDelegate = self
-        dragInteractionEnabled = true
+        dataSource = self
         register(ProjectGridCell.self, forCellWithReuseIdentifier: ProjectGridCell.identifier)
         showsVerticalScrollIndicator = false
+
+        let longPressGesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(handleLongGesture(_:))
+        )
+        longPressGesture.minimumPressDuration = 0.1
+        addGestureRecognizer(longPressGesture)
     }
     
+    @objc
+    private func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            guard let selectedIndexPath = indexPathForItem(at: gesture.location(in: self))
+            else { break }
+            beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case .ended:
+            endInteractiveMovement()
+        default:
+            cancelInteractiveMovement()
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func invalidateLayout() {
         layout.invalidateLayout()
-    }
-    
-    private func makeDiffDataSource() -> DataSource {
-        .init(collectionView: self) { [unowned self] collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ProjectGridCell.identifier,
-                for: indexPath
-            ) as! ProjectGridCell
-            cell.aspectRatio = aspectRatio
-            cell.imageAssetId = item.assetIdentifier
-            cell.onDelete = { [weak self] in
-                self?.photos = self?.photos.removeImage(at: indexPath.item) ?? []
-            }
-            return cell
-        }
-    }
-    
-    private func applySnapshot(items: [ProjectPhoto], animatingDifferences: Bool = true) {
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(items)
-        diffDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
-    
-    private func forceReloadItems() {
-        let currentItems = photos
-        applySnapshot(items: [], animatingDifferences: false)
-        applySnapshot(items: currentItems, animatingDifferences: false)
     }
     
     private func updateItems() {
@@ -119,51 +104,33 @@ final class ProjectGridView: UICollectionView {
     }
 }
 
-extension ProjectGridView: UICollectionViewDragDelegate {
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        itemsForBeginning session: UIDragSession,
-        at indexPath: IndexPath
-    ) -> [UIDragItem] {
-        let item = diffDataSource.itemIdentifier(for: indexPath)
-        let itemProvider = NSItemProvider(object: "\(String(describing: item))" as NSString)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = item
-        return [dragItem]
+extension ProjectGridView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        photos.count
     }
-}
-
-extension ProjectGridView: UICollectionViewDropDelegate {
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        performDropWith coordinator: UICollectionViewDropCoordinator
-    ) {
-        guard let destinationIndexPath = coordinator.destinationIndexPath else { return }
-        coordinator.items.forEach { item in
-            guard let sourceIndex = item.sourceIndexPath else { return }
-            photos = photos.movedItem(at: sourceIndex.item, to: destinationIndexPath.item)
-            coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ProjectGridCell.identifier,
+            for: indexPath
+        ) as! ProjectGridCell
+        cell.aspectRatio = aspectRatio
+        cell.imageAssetId = photos[indexPath.item].assetIdentifier
+        cell.onDelete = { [weak self] in
+            self?.photos = self?.photos.removeImage(at: indexPath.item) ?? []
         }
+        return cell
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
-        canHandle session: UIDropSession
-    ) -> Bool {
-        return session.canLoadObjects(ofClass: NSString.self)
+        moveItemAt sourceIndexPath: IndexPath,
+        to destinationIndexPath: IndexPath
+    ) {
+        photos = photos.movedItem(at: sourceIndexPath.item, to: destinationIndexPath.item)
     }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        dropSessionDidUpdate session: UIDropSession,
-        withDestinationIndexPath destinationIndexPath: IndexPath?
-    ) -> UICollectionViewDropProposal {
-        return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-    }
+    
 }
-
 
 extension ProjectGridView: UICollectionViewDelegate {
     

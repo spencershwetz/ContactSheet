@@ -58,6 +58,11 @@ final class ProjectGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        photoView.layer.borderColor = UIColor.label.cgColor
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         photoView.image = nil

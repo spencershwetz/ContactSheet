@@ -9,12 +9,14 @@ import Foundation
 import Photos
 import UIKit
 
-struct PhotoAssetStore {
-    static let shared = PhotoAssetStore()
-    private init() {}
-}
+final class PhotoAssetStore {
 
-extension PhotoAssetStore {
+    private var cachesImages: [String: UIImage] = [:]
+    
+    static let shared = PhotoAssetStore()
+    
+    private init() {}
+
     func getImagesWithLocalIds(identifiers: [String], completion: @escaping ((_ images: [UIImage]) -> ()?)) {
         var images: [UIImage] = []
         let options = PHFetchOptions()
@@ -37,21 +39,26 @@ extension PhotoAssetStore {
     }
 
     func getImageWithLocalId(identifier: String, completion: @escaping (UIImage?) -> Void) {
-        let results = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
-        let manager = PHImageManager.default()
-        let imageRequestOption = PHImageRequestOptions()
-        imageRequestOption.deliveryMode = .highQualityFormat
-        
-        results.enumerateObjects { asset, _, _ in
-            manager.requestImage(
-                for: asset,
-                targetSize: CGSize(width: 1024.0, height: 1024.0),
-                contentMode: .aspectFit,
-                options: imageRequestOption,
-                resultHandler: { image, _ in
-                    completion(image)
-                }
-            )
+        if let image = cachesImages[identifier] {
+            completion(image)
+        } else {
+            let results = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
+            let manager = PHImageManager.default()
+            let imageRequestOption = PHImageRequestOptions()
+            imageRequestOption.deliveryMode = .highQualityFormat
+
+            results.enumerateObjects { asset, _, _ in
+                manager.requestImage(
+                    for: asset,
+                    targetSize: CGSize(width: 1024.0, height: 1024.0),
+                    contentMode: .aspectFit,
+                    options: imageRequestOption,
+                    resultHandler: { [weak self] image, _ in
+                        self?.cachesImages[identifier] = image
+                        completion(image)
+                    }
+                )
+            }
         }
     }
 }

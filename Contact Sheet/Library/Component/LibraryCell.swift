@@ -53,7 +53,7 @@ final class LibraryCell: UICollectionViewCell {
         contentView.clipsToBounds = true
 
         titleLabel.font = .preferredFont(forTextStyle: .body)
-        titleLabel.textColor = .black
+        titleLabel.textColor = .label
         titleLabel.clipsToBounds = true
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = .center
