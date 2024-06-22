@@ -33,15 +33,26 @@ struct ProjectStore {
     }
 
     func create(id: UUID) {
-        let emptyURLs: [URL?] = (0..<12).map { _ in nil }
-        let project = ProjectEntity(context: context)
-        project.id = id
-        project.title = "Untitled Project"
-        project.pageSizeRatio = Project.Ratio(width: 16, height: 9).toData()
-        project.photoAspectRatio = Project.Ratio(width: 1, height: 1).toData()
-        project.totalRows = 4
-        project.totalColumns = 3
-        project.photos = emptyURLs.toData()
+        create(Project(
+            id: id,
+            pageSizeRatio: Project.Ratio(width: 16, height: 9),
+            photoAspectRatio: Project.Ratio(width: 1, height: 1),
+            totalRows: 4,
+            totalColumns: 3,
+            photos: (0..<12).map { _ in nil },
+            title: "Untitled Project"
+        ))
+    }
+
+    func create(_ project: Project) {
+        let newProject = ProjectEntity(context: context)
+        newProject.id = project.id
+        newProject.title = project.title
+        newProject.pageSizeRatio = project.pageSizeRatio.toData()
+        newProject.photoAspectRatio = project.photoAspectRatio.toData()
+        newProject.totalRows = Int16(project.totalRows)
+        newProject.totalColumns = Int16(project.totalColumns)
+        newProject.photos = project.photos.toData()
         context.saveIfNeeded()
     }
     

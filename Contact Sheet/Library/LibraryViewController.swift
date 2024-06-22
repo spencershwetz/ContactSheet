@@ -38,7 +38,7 @@ final class LibraryViewController: UIViewController {
     }
 
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = AlignedCollectionViewFlowLayout(verticalAlignment: .top)
         layout.sectionInset = sectionInset
         layout.minimumLineSpacing = spacingEachCell
         layout.minimumInteritemSpacing = spacingEachCell
@@ -183,23 +183,19 @@ final class LibraryViewController: UIViewController {
 
     @objc
     private func handleMergeProjects() {
-        var newProject = Project(
+        let photos = selectedProjects.map { $0.photos.compactMap { $0 } }.reduce([], +)
+
+        let newProject = Project(
             id: UUID(),
-            pageSizeRatio: .init(width: 1, height: 1),
+            pageSizeRatio: .init(width: 16, height: 9),
             photoAspectRatio: .init(width: 1, height: 1),
-            totalRows: 0,
-            totalColumns: 0,
-            photos: [],
+            totalRows: Int(photos.count / 4) + 1,
+            totalColumns: 4,
+            photos: photos,
             title: "Untitled Project"
         )
-        store.create(id: newProject.id)
 
-        let photos: [String] = selectedProjects.map { $0.photos.compactMap { $0 } }.reduce([], +)
-
-        newProject.photos = photos
-        newProject.totalRows = Int(photos.count / 4) + 1
-        newProject.totalColumns = 4
-        store.update(project: newProject)
+        store.create(newProject)
         appendProject(newProject)
         selectedProjects = []
         handleSelectAction()
@@ -260,10 +256,33 @@ extension LibraryViewController: UICollectionViewDelegateFlowLayout {
         let totalSpacing = ((gridItemCount - 1) * spacingEachCell) + 0.1
         let totalWidth = collectionView.bounds.width - totalSpacing - horizontalMargin
         
+        let width = totalWidth / gridItemCount
+        
         return CGSize(
-            width: totalWidth / gridItemCount,
-            height: totalWidth / gridItemCount + 50
+            width: width,
+            height: calculateHeight(
+                width: width,
+                title: diffDataSource.itemIdentifier(for: indexPath)?.title
+            )
         )
+    }
+    
+    private func calculateHeight(width: CGFloat, title: String?) -> CGFloat {
+        let cell = LibraryCell()
+        let preferredSize = CGSize(
+            width: width,
+            height: UIView.layoutFittingCompressedSize.height
+        )
+
+        cell.title = title
+        
+        let size = cell.systemLayoutSizeFitting(
+            preferredSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        
+        return size.height
     }
 }
 
