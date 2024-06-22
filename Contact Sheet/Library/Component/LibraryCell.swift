@@ -15,7 +15,7 @@ final class LibraryCell: UICollectionViewCell {
     var onRename: (() -> Void)?
 
     private let titleLabel = UILabel()
-    private let photoView = UIImageView()
+    private let photoView = LibraryThumbnailContentView()
     private let selectImageView = UIImageView()
 
     var isEnableSelection: Bool = false {
@@ -30,9 +30,9 @@ final class LibraryCell: UICollectionViewCell {
         }
     }
 
-    var image: UIImage? {
+    var images: [String?] = [] {
         didSet {
-            photoView.image = image
+            photoView.images = images
         }
     }
 
@@ -67,7 +67,7 @@ final class LibraryCell: UICollectionViewCell {
         contentView.addSubview(contentStackView)
 
         NSLayoutConstraint.activate([
-            photoView.heightAnchor.constraint(equalTo: photoView.widthAnchor, multiplier: 1),
+            photoView.heightAnchor.constraint(equalTo: photoView.widthAnchor, multiplier: 1.3),
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -96,7 +96,12 @@ final class LibraryCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        photoView.image = nil
+        photoView.images = []
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        photoView.layer.borderColor = UIColor.label.cgColor
     }
 }
 

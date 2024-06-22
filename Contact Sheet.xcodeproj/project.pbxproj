@@ -22,6 +22,8 @@
 		23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */; };
 		23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */; };
 		23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */; };
+		23AFC8F52C26B63F00E12C9C /* LibraryThumbnailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */; };
+		23AFC8F72C26B6F300E12C9C /* LibraryThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F62C26B6F300E12C9C /* LibraryThumbnailCell.swift */; };
 		23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9B2C19D511001A5966 /* ProjectViewController.swift */; };
 		23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9E2C19D538001A5966 /* ExportViewController.swift */; };
 		23F50E272C19DE87001A5966 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E262C19DE87001A5966 /* State.swift */; };
@@ -55,6 +57,8 @@
 		23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPhoto.swift; sourceTree = "<group>"; };
 		23A756D22C1D7BE600F2FB10 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryThumbnailContentView.swift; sourceTree = "<group>"; };
+		23AFC8F62C26B6F300E12C9C /* LibraryThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryThumbnailCell.swift; sourceTree = "<group>"; };
 		23F50D9B2C19D511001A5966 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
 		23F50D9E2C19D538001A5966 /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		23F50E262C19DE87001A5966 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				230DF30D2C1D880F00927983 /* LibraryCell.swift */,
+				23AFC8F62C26B6F300E12C9C /* LibraryThumbnailCell.swift */,
+				23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */,
 				23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */,
 			);
 			path = Component;
@@ -291,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2307254D2C1897CF0053774F /* LibraryViewController.swift in Sources */,
+				23AFC8F52C26B63F00E12C9C /* LibraryThumbnailContentView.swift in Sources */,
 				230DF3092C1D7F2E00927983 /* ProjectStore.swift in Sources */,
 				230725492C1897CF0053774F /* AppDelegate.swift in Sources */,
 				23F50E582C19E952001A5966 /* ProjectGridView.swift in Sources */,
@@ -305,6 +312,7 @@
 				23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */,
 				23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */,
 				23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */,
+				23AFC8F72C26B6F300E12C9C /* LibraryThumbnailCell.swift in Sources */,
 				23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */,
 				64FC58E92C1F663600694C24 /* PhotoAssetStore.swift in Sources */,
 				23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */,
@@ -458,7 +466,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -493,7 +501,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";

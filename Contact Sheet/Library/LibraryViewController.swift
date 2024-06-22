@@ -95,17 +95,11 @@ final class LibraryViewController: UIViewController {
             cell.onExport = { [unowned self] in
                 navigationController?.pushViewController(ExportViewController(), animated: true)
             }
-
             cell.onRename = { [unowned self] in
                 showRenameProjectAlert(project)
             }
             cell.isEnableSelection = isSelectionEnabled
-
-            if let photoId: String? = project.photos.first(where: {$0 != nil}), let photoId {
-                PhotoAssetStore.shared.getImageWithLocalId(identifier: photoId) { image in
-                    cell.image = image
-                }
-            }
+            cell.images = Array(project.photos.prefix(8))
             cell.title = project.title
         
             return cell
