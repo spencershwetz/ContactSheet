@@ -17,24 +17,17 @@ final class LibraryViewController: UIViewController {
         case main
     }
 
-    private var projects: [Project] = [] {
-        didSet {
-            applySnapshot(items: projects)
-        }
-    }
-    
     private var createButtonBarItem: UIBarButtonItem!
     private var mergeButtonBarItem: UIBarButtonItem!
     private var selectButtonBarItem: UIBarButtonItem!
 
-    private var selectedProject: Project? = nil
     private let store = ProjectStore.shared
     private let gridItemCount: CGFloat = 3
     private let spacingEachCell: CGFloat = 16
     private let sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
 
     private var isSelectionEnabled: Bool = false
-    private var selectedProjects: [(Project, Int)] = [] {
+    private var selectedProjects: [Project] = [] {
         didSet {
             if selectedProjects.count > 1 {
                 addMergeMenuBarItem()
@@ -64,46 +57,66 @@ final class LibraryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        projects = store.get()
+        reloadData()
+    }
+    
+    private func reloadData() {
+        applySnapshot(items: store.get())
+    }
+    
+    private func redrawCells() {
+        let items = diffDataSource.snapshot().itemIdentifiers
+        applySnapshot(items: [], animatingDifferences: false)
+        applySnapshot(items: items, animatingDifferences: false)
+    }
+    
+    private func appendProject(_ project: Project) {
+        var snapshot = diffDataSource.snapshot()
+        snapshot.appendItems([project])
+        diffDataSource.apply(snapshot)
+    }
+    
+    private func deleteProject(_ project: Project) {
+        var snapshot = diffDataSource.snapshot()
+        snapshot.deleteItems([project])
+        diffDataSource.apply(snapshot)
     }
     
     private func makeDiffDataSource() -> DataSource {
-        .init(collectionView: collectionView) { [unowned self] collectionView, indexPath, item in
+        .init(collectionView: collectionView) { [unowned self] collectionView, indexPath, project in
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: LibraryCell.identifier,
                 for: indexPath
             ) as! LibraryCell
             cell.onDelete = { [unowned self] in
-                store.delete(id: projects[indexPath.item].id)
-                projects.remove(at: indexPath.item)
+                store.delete(id: project.id)
+                deleteProject(project)
             }
             cell.onExport = { [unowned self] in
                 navigationController?.pushViewController(ExportViewController(), animated: true)
             }
 
             cell.onRename = { [unowned self] in
-                selectedProject = projects[indexPath.item]
-                showRenameAlert()
+                showRenameProjectAlert(project)
             }
             cell.isEnableSelection = isSelectionEnabled
-            cell.isImageSelected = selectedProjects.contains(where: {$0.0.id == projects[indexPath.item].id})
-            if let photoId: String? = projects[indexPath.item].photos.first(where: {$0 != nil}), let photoId = photoId  {
+
+            if let photoId: String? = project.photos.first(where: {$0 != nil}), let photoId {
                 PhotoAssetStore.shared.getImageWithLocalId(identifier: photoId) { image in
                     cell.image = image
                 }
             }
-            cell.title = projects[indexPath.item].title
+            cell.title = project.title
         
-
             return cell
         }
     }
     
-    private func applySnapshot(items: [Project]) {
+    private func applySnapshot(items: [Project], animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
-        diffDataSource.apply(snapshot)
+        diffDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
     private func setupCollectionView() {
@@ -155,11 +168,8 @@ final class LibraryViewController: UIViewController {
         if isSelectionEnabled {
             selectedProjects = []
         }
-        if let lastItem = self.navigationItem.rightBarButtonItems?.last {
-            lastItem.title = isSelectionEnabled == false ? "Select" : "Cancel"
-        }
-
-        self.collectionView.reloadData()
+        selectButtonBarItem.title = isSelectionEnabled ? "Cancel" : "Select"
+        redrawCells()
     }
     
     @objc
@@ -183,20 +193,19 @@ final class LibraryViewController: UIViewController {
             title: "Untitled Project"
         )
         store.create(id: newProject.id)
-        
-        let projects: [Project] = selectedProjects.map({$0.0})
-        let photos: [String] = projects.map({$0.photos.compactMap({$0})}).reduce([], +)
+
+        let photos: [String] = selectedProjects.map { $0.photos.compactMap { $0 } }.reduce([], +)
 
         newProject.photos = photos
         newProject.totalRows = Int(photos.count / 4) + 1
         newProject.totalColumns = 4
         store.update(project: newProject)
-        self.projects.append(newProject)
+        appendProject(newProject)
         selectedProjects = []
         handleSelectAction()
     }
 
-    func addMergeMenuBarItem() {
+    private func addMergeMenuBarItem() {
         navigationItem.rightBarButtonItems = [
             createButtonBarItem,
             selectButtonBarItem,
@@ -204,14 +213,12 @@ final class LibraryViewController: UIViewController {
         ]
     }
 
-    func removeMergeMenuBarItem() {
+    private func removeMergeMenuBarItem() {
         navigationItem.rightBarButtonItems = [
             createButtonBarItem,
             selectButtonBarItem
         ]
-
     }
-
 }
 
 extension LibraryViewController: UICollectionViewDelegate {
@@ -220,16 +227,22 @@ extension LibraryViewController: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
+        guard
+            let project = diffDataSource.itemIdentifier(for: indexPath),
+            let cell = collectionView.cellForItem(at: indexPath) as? LibraryCell
+        else {
+            return
+        }
+        
         if isSelectionEnabled {
-            if let idx = self.selectedProjects.firstIndex(where: {$0.1 == indexPath.item}) {
-                selectedProjects.remove(at: idx)
+            if cell.isImageSelected {
+                selectedProjects.removeAll(where: { $0.id == project.id })
             } else {
-                selectedProjects.append((projects[indexPath.item], indexPath.item))
+                selectedProjects.append(project)
             }
-            collectionView.reloadData()
-
+            cell.isImageSelected.toggle()
         } else {
-            let project = projects[indexPath.item]
+            guard let project = diffDataSource.itemIdentifier(for: indexPath) else { return }
             let vc = ProjectViewController(config: .init(project: project))
             navigationController?.pushViewController(vc, animated: true)
         }
@@ -255,7 +268,7 @@ extension LibraryViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension LibraryViewController {
-    private func showRenameAlert() {
+    private func showRenameProjectAlert(_ project: Project) {
         let alert = UIAlertController(
             title: "Project Name",
             message: "Please enter project name",
@@ -270,28 +283,23 @@ extension LibraryViewController {
         let submitAction = UIAlertAction(
             title: "Okay",
             style: .default
-        ) { [unowned alert, weak self] _ in
+        ) { [unowned alert, unowned self] _ in
             guard
-                let nameText = alert.textFields![0].text, !(nameText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                let nameText = alert.textFields![0].text,
+                !(nameText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             else {
                 return
             }
-            self?.handleRenameProjectAction(with: nameText)
+
+            var project = project
+            project.title = nameText
+            store.update(project: project)
+            reloadData()
         }
 
         alert.addAction(submitAction)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
-    }
-
-    func handleRenameProjectAction(with title: String) {
-        selectedProject?.title = title
-        store.update(project: selectedProject!)
-        collectionView.reloadData()
-        if let firstIdx = projects.firstIndex(where: {$0.id == selectedProject?.id}) {
-            projects[firstIdx].title = selectedProject?.title ?? ""
-        }
-        selectedProject = nil
     }
 }
 

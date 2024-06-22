@@ -49,6 +49,7 @@ final class ProjectGridView: UICollectionView {
         layout.minimumInteritemSpacing = spacingEachCell
         super.init(frame: .zero, collectionViewLayout: layout)
 
+        clipsToBounds = false
         delegate = self
         dataSource = self
         register(ProjectGridCell.self, forCellWithReuseIdentifier: ProjectGridCell.identifier)
