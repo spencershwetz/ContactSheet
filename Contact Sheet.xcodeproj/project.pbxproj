@@ -24,6 +24,8 @@
 		23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */; };
 		23AFC8F52C26B63F00E12C9C /* LibraryThumbnailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */; };
 		23AFC8F72C26B6F300E12C9C /* LibraryThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F62C26B6F300E12C9C /* LibraryThumbnailCell.swift */; };
+		23D9E0282C2C48C400540648 /* Mantis in Frameworks */ = {isa = PBXBuildFile; productRef = 23D9E0272C2C48C400540648 /* Mantis */; };
+		23D9E02A2C2C577000540648 /* CropPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D9E0292C2C577000540648 /* CropPresenter.swift */; };
 		23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9B2C19D511001A5966 /* ProjectViewController.swift */; };
 		23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9E2C19D538001A5966 /* ExportViewController.swift */; };
 		23F50E272C19DE87001A5966 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E262C19DE87001A5966 /* State.swift */; };
@@ -59,6 +61,7 @@
 		23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryThumbnailContentView.swift; sourceTree = "<group>"; };
 		23AFC8F62C26B6F300E12C9C /* LibraryThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryThumbnailCell.swift; sourceTree = "<group>"; };
+		23D9E0292C2C577000540648 /* CropPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CropPresenter.swift; path = ../../../../../Documents/CropPresenter.swift; sourceTree = "<group>"; };
 		23F50D9B2C19D511001A5966 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
 		23F50D9E2C19D538001A5966 /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		23F50E262C19DE87001A5966 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23D9E0282C2C48C400540648 /* Mantis in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +209,7 @@
 				23F50E282C19DEAA001A5966 /* RatioPickerView.swift */,
 				23F50E572C19E952001A5966 /* ProjectGridView.swift */,
 				23F50E612C19EC65001A5966 /* ProjectGridCell.swift */,
+				23D9E0292C2C577000540648 /* CropPresenter.swift */,
 				232C98C12C1B34D00064B2C6 /* ImagePicker.swift */,
 			);
 			path = Component;
@@ -242,6 +247,9 @@
 			dependencies = (
 			);
 			name = "Contact Sheet";
+			packageProductDependencies = (
+				23D9E0272C2C48C400540648 /* Mantis */,
+			);
 			productName = "Contact Sheet";
 			productReference = 230725452C1897CF0053774F /* Contact Sheet.app */;
 			productType = "com.apple.product-type.application";
@@ -270,6 +278,9 @@
 				Base,
 			);
 			mainGroup = 2307253C2C1897CF0053774F;
+			packageReferences = (
+				23D9E0262C2C48C400540648 /* XCRemoteSwiftPackageReference "Mantis" */,
+			);
 			productRefGroup = 230725462C1897CF0053774F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -318,6 +329,7 @@
 				23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */,
 				230DF30E2C1D880F00927983 /* LibraryCell.swift in Sources */,
 				230DF3042C1D7DD600927983 /* CoreDataContainer.swift in Sources */,
+				23D9E02A2C2C577000540648 /* CropPresenter.swift in Sources */,
 				232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */,
 				230DF3072C1D7E0800927983 /* AppUserDefaults.swift in Sources */,
 				2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */,
@@ -466,7 +478,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -501,7 +513,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -551,6 +563,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		23D9E0262C2C48C400540648 /* XCRemoteSwiftPackageReference "Mantis" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/guoyingtao/Mantis.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.7.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		23D9E0272C2C48C400540648 /* Mantis */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23D9E0262C2C48C400540648 /* XCRemoteSwiftPackageReference "Mantis" */;
+			productName = Mantis;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */ = {

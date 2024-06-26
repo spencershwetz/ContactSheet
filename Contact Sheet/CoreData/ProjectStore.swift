@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import UIKit
 
 struct Project: Hashable {
     let id: UUID
@@ -13,12 +14,49 @@ struct Project: Hashable {
     var photoAspectRatio: Ratio
     var totalRows: Int
     var totalColumns: Int
-    var photos: [String?]
+    var photos: [Photo]
     var title: String
 
     struct Ratio: Hashable, Codable {
         let width: CGFloat
         let height: CGFloat
+    }
+    
+    struct Photo: Hashable, Codable {
+        enum CodingKeys: CodingKey {
+            case assetIdentifier
+            case croppedImage
+        }
+
+        let assetIdentifier: String?
+        let croppedImage: UIImage?
+
+        init(assetIdentifier: String?, croppedImage: UIImage?) {
+            self.assetIdentifier = assetIdentifier
+            self.croppedImage = croppedImage
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            assetIdentifier = try? container.decodeIfPresent(String.self, forKey: .assetIdentifier)
+            let imageData = try? container.decodeIfPresent(Data.self, forKey: .croppedImage)
+
+            if let imageData {
+                self.croppedImage = UIImage(data: imageData)
+            } else {
+                self.croppedImage = nil
+            }
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(assetIdentifier, forKey: .assetIdentifier)
+
+            if let jpegData = croppedImage?.pngData() {
+                try container.encode(jpegData, forKey: .croppedImage)
+            }
+        }
     }
 }
 
@@ -39,7 +77,7 @@ struct ProjectStore {
             photoAspectRatio: Project.Ratio(width: 1, height: 1),
             totalRows: 4,
             totalColumns: 3,
-            photos: (0..<12).map { _ in nil },
+            photos: (0..<12).map { _ in .init(assetIdentifier: nil, croppedImage: nil) },
             title: "Untitled Project"
         ))
     }
@@ -97,7 +135,7 @@ struct ProjectStore {
     }
 }
 
-private extension Array where Element == Optional<URL> {
+private extension Array where Element == Project.Photo {
     
     func toData() -> Data? {
         try? JSONEncoder().encode(self)

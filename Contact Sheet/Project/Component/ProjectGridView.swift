@@ -31,15 +31,21 @@ final class ProjectGridView: UICollectionView {
 
     var photos: [ProjectPhoto] = [] {
         didSet {
-            photos.indices.forEach { storedPhotosForEachCell[$0] = photos[$0].assetIdentifier }
+            photos.indices.forEach {
+                storedPhotosForEachCell[$0] = ProjectPhoto(
+                    assetIdentifier: photos[$0].assetIdentifier,
+                    croppedImage: photos[$0].croppedImage
+                )
+            }
             reloadData()
         }
     }
     
-    private var storedPhotosForEachCell: [Int: String] = [:]
+    private var storedPhotosForEachCell: [Int: ProjectPhoto] = [:]
 
     private let spacingEachCell: CGFloat = 8
     private let imagePicker = MultiImagePicker()
+    private lazy var cropPresenter = CropPresenter(viewController: viewController)
 
     private let layout = UICollectionViewFlowLayout()
 
@@ -49,7 +55,7 @@ final class ProjectGridView: UICollectionView {
         layout.minimumInteritemSpacing = spacingEachCell
         super.init(frame: .zero, collectionViewLayout: layout)
 
-        clipsToBounds = false
+        clipsToBounds = true
         delegate = self
         dataSource = self
         register(ProjectGridCell.self, forCellWithReuseIdentifier: ProjectGridCell.identifier)
@@ -94,7 +100,12 @@ final class ProjectGridView: UICollectionView {
         
         if photos.count < maxItems {
             let newItemsToAppend = (photos.count..<maxItems)
-                .map { ProjectPhoto(assetIdentifier: storedPhotosForEachCell[$0]) }
+                .map {
+                    ProjectPhoto(
+                        assetIdentifier: storedPhotosForEachCell[$0]?.assetIdentifier,
+                        croppedImage: storedPhotosForEachCell[$0]?.croppedImage
+                    )
+                }
             photos = photos + newItemsToAppend
         } else {
             let totalItemsToRemove = photos.count - maxItems
@@ -106,17 +117,23 @@ final class ProjectGridView: UICollectionView {
 }
 
 extension ProjectGridView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         photos.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProjectGridCell.identifier,
             for: indexPath
         ) as! ProjectGridCell
         cell.aspectRatio = aspectRatio
-        cell.imageAssetId = photos[indexPath.item].assetIdentifier
+        cell.configure(photos[indexPath.item])
         cell.onDelete = { [weak self] in
             self?.photos = self?.photos.removeImage(at: indexPath.item) ?? []
         }
@@ -137,7 +154,21 @@ extension ProjectGridView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ProjectGridCell
-        if cell.imageAssetId == nil {
+        
+        if let imageAssetId = cell.imageAssetId {
+            PhotoAssetStore.shared
+                .getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
+                    guard let self, let image else { return }
+                    cropPresenter.show(
+                        image: image,
+                        ratio: aspectRatio,
+                        onCropped: { [weak self] in
+                            guard let self else { return }
+                            photos = photos.updatedCroppedImage($0, at: indexPath.item)
+                        }
+                    )
+                }
+        } else {
             imagePicker.show(on: viewController, onPickImages: { [weak self] images in
                 guard let self else { return }
                 photos = photos.addImages(images, from: indexPath.item)

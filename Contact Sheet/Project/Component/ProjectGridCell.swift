@@ -12,15 +12,8 @@ final class ProjectGridCell: UICollectionViewCell {
     
     var onDelete: (() -> Void)?
     var aspectRatio = Ratio(width: 1, height: 1)
-    var imageAssetId: String? {
-        didSet {
-            guard let imageAssetId else { return }
-            PhotoAssetStore.shared.getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
-                self?.photoView.image = image
-            }
-        }
-    }
-    
+    private(set) var imageAssetId: String?
+
     static let identifier = String(describing: ProjectGridCell.self)
     
     private let photoView = UIImageView()
@@ -83,6 +76,19 @@ final class ProjectGridCell: UICollectionViewCell {
 
         photoViewWidthConstraint?.constant = max(0, width)
         photoViewHeigthConstraint?.constant = max(0, height)
+    }
+    
+    func configure(_ photo: ProjectPhoto) {
+        imageAssetId = photo.assetIdentifier
+        
+        if let croppedImage = photo.croppedImage {
+            photoView.image = croppedImage
+        } else {
+            guard let imageAssetId else { return }
+            PhotoAssetStore.shared.getImageWithLocalId(identifier: imageAssetId) { [weak self] in
+                self?.photoView.image = $0
+            }
+        }
     }
 }
 

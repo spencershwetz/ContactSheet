@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct ProjectPhoto: Hashable {
-    let id = UUID()
+struct ProjectPhoto {
     let assetIdentifier: String?
+    let croppedImage: UIImage?
 }
 
 extension Array where Element == ProjectPhoto {
@@ -19,19 +19,32 @@ extension Array where Element == ProjectPhoto {
         var items = self
 
         var imageIDs = imageIDs
-        items[startingIndex] = ProjectPhoto(assetIdentifier: imageIDs.removeFirst())
-        
+        items[startingIndex] = ProjectPhoto(
+            assetIdentifier: imageIDs.removeFirst(),
+            croppedImage: nil
+        )
+
         for id in imageIDs {
             if let index = items.firstIndex(where: { $0.assetIdentifier == nil}) {
-                items[index] = ProjectPhoto(assetIdentifier: id)
+                items[index] = ProjectPhoto(assetIdentifier: id, croppedImage: nil)
             }
         }
         return items
     }
     
+    func updatedCroppedImage(_ image: UIImage, at index: Int) -> [Element] {
+        let item = self[index]
+        var items = self
+        items[index] = ProjectPhoto(
+            assetIdentifier: item.assetIdentifier,
+            croppedImage: image
+        )
+        return items
+    }
+
     func removeImage(at index: Int) -> [Element] {
         var items = self
-        items[index] = ProjectPhoto(assetIdentifier: nil)
+        items[index] = ProjectPhoto(assetIdentifier: nil, croppedImage: nil)
         return items
     }
     

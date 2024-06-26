@@ -15,7 +15,7 @@ final class ProjectViewController: UIViewController {
         let id: UUID
         let pageSizeRatio: Ratio
         let photoAspectRatio: Ratio
-        let photoIds: [String?]
+        let photos: [ProjectPhoto]
         let totalRows: Int
         let totalColumns: Int
         let title: String
@@ -73,8 +73,13 @@ final class ProjectViewController: UIViewController {
         photoAspectRatio = config.photoAspectRatio
         
         super.init(nibName: nil, bundle: nil)
-        
-        gridView.photos = config.photoIds.map { .init(assetIdentifier: $0) }
+
+        gridView.photos = config.photos.map {
+            .init(
+                assetIdentifier: $0.assetIdentifier,
+                croppedImage: $0.croppedImage
+            )
+        }
         gridView.totalColumns = config.totalColumns
         gridView.totalRows = config.totalRows
         bind()
@@ -103,7 +108,10 @@ final class ProjectViewController: UIViewController {
             photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
             totalRows: gridView.totalRows,
             totalColumns: gridView.totalColumns,
-            photos: gridView.photos.map(\.assetIdentifier),
+            photos: gridView.photos.map { .init(
+                assetIdentifier: $0.assetIdentifier,
+                croppedImage: $0.croppedImage
+            ) },
             title: config.title
         ))
     }
@@ -236,7 +244,7 @@ final class ProjectViewController: UIViewController {
             id: id,
             pageSizeRatio: .init(width: 16, height: 9),
             photoAspectRatio: .init(width: 1, height: 1),
-            photoIds: [],
+            photos: [],
             totalRows: 4,
             totalColumns: 3,
             title: "Untitled Project"

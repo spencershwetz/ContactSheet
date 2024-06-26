@@ -99,7 +99,7 @@ final class LibraryViewController: UIViewController {
                 showRenameProjectAlert(project)
             }
             cell.isEnableSelection = isSelectionEnabled
-            cell.images = Array(project.photos.prefix(8))
+            cell.images = Array(project.photos.map(\.assetIdentifier).prefix(8))
             cell.title = project.title
         
             return cell
@@ -232,7 +232,6 @@ extension LibraryViewController: UICollectionViewDelegate {
             }
             cell.isImageSelected.toggle()
         } else {
-            guard let project = diffDataSource.itemIdentifier(for: indexPath) else { return }
             let vc = ProjectViewController(config: .init(project: project))
             navigationController?.pushViewController(vc, animated: true)
         }
@@ -328,7 +327,7 @@ private extension ProjectViewController.Config {
             photoAspectRatio: .init(
                 width: project.photoAspectRatio.width,
                 height: project.photoAspectRatio.height),
-            photoIds: project.photos,
+            photos: project.photos.map { ProjectPhoto(assetIdentifier: $0.assetIdentifier, croppedImage: $0.croppedImage)},
             totalRows: project.totalRows,
             totalColumns: project.totalColumns,
             title: project.title
@@ -340,7 +339,7 @@ private extension ProjectViewController.Config {
             id: id,
             pageSizeRatio: .init(width: 16, height: 9),
             photoAspectRatio: .init(width: 1, height: 1),
-            photoIds: [],
+            photos: [],
             totalRows: 4,
             totalColumns: 3,
             title: "Untitled Project"
