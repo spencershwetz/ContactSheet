@@ -17,9 +17,29 @@ final class LibraryViewController: UIViewController {
         case main
     }
 
-    private var createButtonBarItem: UIBarButtonItem!
-    private var mergeButtonBarItem: UIBarButtonItem!
-    private var selectButtonBarItem: UIBarButtonItem!
+    private lazy var createButtonBarItem = UIBarButtonItem(
+        barButtonSystemItem: .add,
+        target: self,
+        action: #selector(handleCreateProject)
+    )
+    private lazy var mergeButtonBarItem = UIBarButtonItem(
+        title: "Merge",
+        style: .plain,
+        target: self,
+        action: #selector(handleMergeProjects)
+    )
+    private lazy var selectButtonBarItem = UIBarButtonItem(
+        title: "Select",
+        style: .plain,
+        target: self,
+        action: #selector(handleSelectAction)
+    )
+    private lazy var settingButtonBarItem = UIBarButtonItem(
+        image: UIImage(systemName: "gear"),
+        style: .plain,
+        target: self,
+        action: #selector(handleSettingAction)
+    )
 
     private let store = ProjectStore.shared
     private let gridItemCount: CGFloat = 3
@@ -30,9 +50,9 @@ final class LibraryViewController: UIViewController {
     private var selectedProjects: [Project] = [] {
         didSet {
             if selectedProjects.count > 1 {
-                addMergeMenuBarItem()
+                mergeButtonBarItem.isHidden = false
             } else {
-                removeMergeMenuBarItem()
+                mergeButtonBarItem.isHidden = true
             }
         }
     }
@@ -130,29 +150,12 @@ final class LibraryViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        createButtonBarItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(handleCreateProject)
-        )
-
-        selectButtonBarItem = UIBarButtonItem(
-            title: "Select",
-            style: .plain,
-            target: self,
-            action: #selector(handleSelectAction)
-        )
-
-        mergeButtonBarItem = UIBarButtonItem(
-            title: "Merge",
-            style: .plain,
-            target: self,
-            action: #selector(handleMergeProjects)
-        )
-
+        mergeButtonBarItem.isHidden = true
         navigationItem.rightBarButtonItems = [
+            settingButtonBarItem,
             createButtonBarItem,
-            selectButtonBarItem
+            selectButtonBarItem,
+            mergeButtonBarItem
         ]
     }
 
@@ -164,6 +167,8 @@ final class LibraryViewController: UIViewController {
         }
         selectButtonBarItem.title = isSelectionEnabled ? "Cancel" : "Select"
         redrawCells()
+        settingButtonBarItem.isHidden = isSelectionEnabled
+        createButtonBarItem.isHidden = isSelectionEnabled
     }
     
     @objc
@@ -194,20 +199,11 @@ final class LibraryViewController: UIViewController {
         selectedProjects = []
         handleSelectAction()
     }
-
-    private func addMergeMenuBarItem() {
-        navigationItem.rightBarButtonItems = [
-            createButtonBarItem,
-            selectButtonBarItem,
-            mergeButtonBarItem,
-        ]
-    }
-
-    private func removeMergeMenuBarItem() {
-        navigationItem.rightBarButtonItems = [
-            createButtonBarItem,
-            selectButtonBarItem
-        ]
+    
+    @objc
+    private func handleSettingAction() {
+        let setting = SettingViewController()
+        present(UINavigationController(rootViewController: setting), animated: true)
     }
 }
 

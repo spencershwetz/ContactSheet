@@ -20,4 +20,10 @@ extension UILabel {
         self.font = font
         return self
     }
+    
+    @discardableResult
+    func textColor(_ textColor: UIColor?) -> Self {
+        self.textColor = textColor
+        return self
+    }
 }
