@@ -1,6 +1,6 @@
 //
 //  CloudKitSyncMonitor.swift
-//  SwipePhoto
+//  Contact Sheet
 //
 //  Created by Windy on 08/03/24.
 //
@@ -9,11 +9,11 @@ import Combine
 import CoreData
 
 final class CloudKitSyncMonitor {
-    
+
     static let shared = CloudKitSyncMonitor()
 
     @Published var lastSyncDate: String = ""
-    
+
     private var subscriptions = Set<AnyCancellable>()
 
     func setupObserver() {
@@ -32,7 +32,7 @@ final class CloudKitSyncMonitor {
 }
 
 private extension Date {
-    
+
     var formattedHourFormat: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"

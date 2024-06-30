@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Mantis
 
 final class ProjectGridView: UICollectionView {
 
@@ -45,7 +46,7 @@ final class ProjectGridView: UICollectionView {
 
     private let spacingEachCell: CGFloat = 8
     private let imagePicker = MultiImagePicker()
-    private lazy var cropPresenter = CropPresenter(viewController: viewController)
+//    private lazy var cropPresenter = CropPresenter(viewController: viewController)
 
     private let layout = UICollectionViewFlowLayout()
 
@@ -117,17 +118,11 @@ final class ProjectGridView: UICollectionView {
 }
 
 extension ProjectGridView: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         photos.count
     }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProjectGridCell.identifier,
             for: indexPath
@@ -154,19 +149,18 @@ extension ProjectGridView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ProjectGridCell
-        
         if let imageAssetId = cell.imageAssetId {
             PhotoAssetStore.shared
                 .getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
                     guard let self, let image else { return }
-                    cropPresenter.show(
-                        image: image,
-                        ratio: aspectRatio,
-                        onCropped: { [weak self] in
-                            guard let self else { return }
-                            photos = photos.updatedCroppedImage($0, at: indexPath.item)
-                        }
-                    )
+//                    cropPresenter.show(
+//                        image: image,
+//                        ratio: aspectRatio,
+//                        onCropped: { [weak self] in
+//                            guard let self else { return }
+//                            photos = photos.updatedCroppedImage($0, at: indexPath.item)
+//                        }
+//                    )
                 }
         } else {
             imagePicker.show(on: viewController, onPickImages: { [weak self] images in

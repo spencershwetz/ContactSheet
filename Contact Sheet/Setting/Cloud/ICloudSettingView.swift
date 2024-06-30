@@ -9,14 +9,14 @@ import UIKit
 import Combine
 
 final class CloudSettingView: UIView {
-    
+
     private let textLabel = UILabel()
         .text("Enable iCloud Sync")
-    
+
     private let syncInformationLabel = UILabel()
         .textColor(.secondaryLabel)
         .font(.preferredFont(forTextStyle: .footnote))
-    
+
     private lazy var toggle = {
         let toggle = UISwitch()
         toggle.isOn = AppUserDefaults.bool(forKey: .enabledICloudSync)
@@ -25,16 +25,16 @@ final class CloudSettingView: UIView {
         }), for: .valueChanged)
         return toggle
     }()
-    
+
     private var syncInformationSubscriptions: AnyCancellable?
-    
+
     private let onUpdate: () -> Void
-    
+
     init(onUpdate: @escaping () -> Void) {
         self.onUpdate = onUpdate
 
         super.init(frame: .zero)
-        
+
         syncInformationSubscriptions = CloudKitSyncMonitor.shared.$lastSyncDate
             .sink { [weak self] in
                 self?.onUpdate()
@@ -46,12 +46,12 @@ final class CloudSettingView: UIView {
             distribution: .equalCentering,
             arrangedSubviews: [textLabel, toggle]
         )
-        
+
         let mainStackView = VStackView(spacing: 0, arrangedSubviews: [hStackview, syncInformationLabel])
             .margin(.init(top: 8, left: 16, bottom: 8, right: 16))
         addSubview(mainStackView, constraint: .fill)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -73,7 +73,7 @@ final class ProjectViewController: UIViewController {
         photoAspectRatio = config.photoAspectRatio
         
         super.init(nibName: nil, bundle: nil)
-
+        
         gridView.photos = config.photos.map {
             .init(
                 assetIdentifier: $0.assetIdentifier,

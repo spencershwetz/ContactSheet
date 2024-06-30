@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ProjectPhoto {
+struct ProjectPhoto: Hashable {
     let assetIdentifier: String?
     let croppedImage: UIImage?
 }
@@ -31,7 +31,7 @@ extension Array where Element == ProjectPhoto {
         }
         return items
     }
-    
+
     func updatedCroppedImage(_ image: UIImage, at index: Int) -> [Element] {
         let item = self[index]
         var items = self
@@ -41,6 +41,7 @@ extension Array where Element == ProjectPhoto {
         )
         return items
     }
+
 
     func removeImage(at index: Int) -> [Element] {
         var items = self

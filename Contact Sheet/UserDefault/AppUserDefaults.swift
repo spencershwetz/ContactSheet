@@ -12,7 +12,7 @@ struct AppUserDefaults {
     private init() {}
     
     private static let userDefault = UserDefaults.standard
-    
+
     enum Key: String {
         case enabledICloudSync
     }
@@ -20,7 +20,7 @@ struct AppUserDefaults {
     static func setValue(_ value: Any?, forKey key: Key) {
         userDefault.setValue(value, forKey: key.rawValue)
     }
-    
+
     static func bool(forKey key: Key) -> Bool {
         userDefault.bool(forKey: key.rawValue)
     }

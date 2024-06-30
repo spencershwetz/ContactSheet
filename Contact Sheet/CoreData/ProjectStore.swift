@@ -21,7 +21,6 @@ struct Project: Hashable {
         let width: CGFloat
         let height: CGFloat
     }
-    
     struct Photo: Hashable, Codable {
         enum CodingKeys: CodingKey {
             case assetIdentifier
@@ -35,7 +34,7 @@ struct Project: Hashable {
             self.assetIdentifier = assetIdentifier
             self.croppedImage = croppedImage
         }
-        
+
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -48,7 +47,7 @@ struct Project: Hashable {
                 self.croppedImage = nil
             }
         }
-        
+
         func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(assetIdentifier, forKey: .assetIdentifier)
@@ -136,7 +135,7 @@ struct ProjectStore {
 }
 
 private extension Array where Element == Project.Photo {
-    
+
     func toData() -> Data? {
         try? JSONEncoder().encode(self)
     }

@@ -113,7 +113,7 @@ final class LibraryViewController: UIViewController {
                 deleteProject(project)
             }
             cell.onExport = { [unowned self] in
-                navigationController?.pushViewController(ExportViewController(), animated: true)
+                navigationController?.pushViewController(ExportViewController(project: project), animated: true)
             }
             cell.onRename = { [unowned self] in
                 showRenameProjectAlert(project)
@@ -150,12 +150,12 @@ final class LibraryViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        mergeButtonBarItem.isHidden = true
         navigationItem.rightBarButtonItems = [
             settingButtonBarItem,
             createButtonBarItem,
             selectButtonBarItem,
             mergeButtonBarItem
+
         ]
     }
 
@@ -199,7 +199,6 @@ final class LibraryViewController: UIViewController {
         selectedProjects = []
         handleSelectAction()
     }
-    
     @objc
     private func handleSettingAction() {
         let setting = SettingViewController()

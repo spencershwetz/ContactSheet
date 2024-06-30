@@ -80,7 +80,7 @@ final class ProjectGridCell: UICollectionViewCell {
     
     func configure(_ photo: ProjectPhoto) {
         imageAssetId = photo.assetIdentifier
-        
+
         if let croppedImage = photo.croppedImage {
             photoView.image = croppedImage
         } else {
@@ -90,6 +90,7 @@ final class ProjectGridCell: UICollectionViewCell {
             }
         }
     }
+
 }
 
 extension ProjectGridCell: UIContextMenuInteractionDelegate {

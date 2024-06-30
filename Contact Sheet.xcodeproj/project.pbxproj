@@ -24,12 +24,6 @@
 		23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */; };
 		23AFC8F52C26B63F00E12C9C /* LibraryThumbnailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */; };
 		23AFC8F72C26B6F300E12C9C /* LibraryThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F62C26B6F300E12C9C /* LibraryThumbnailCell.swift */; };
-		23D9E0282C2C48C400540648 /* Mantis in Frameworks */ = {isa = PBXBuildFile; productRef = 23D9E0272C2C48C400540648 /* Mantis */; };
-		23D9E02A2C2C577000540648 /* CropPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D9E0292C2C577000540648 /* CropPresenter.swift */; };
-		23EC16772C2FFD9F00D7EA61 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EC16762C2FFD9F00D7EA61 /* SettingViewController.swift */; };
-		23EC167B2C2FFF8700D7EA61 /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EC167A2C2FFF8700D7EA61 /* UIStackView+Ext.swift */; };
-		23EC167D2C3001F500D7EA61 /* CloudSyncMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EC167C2C3001F500D7EA61 /* CloudSyncMonitor.swift */; };
-		23EC167F2C30034C00D7EA61 /* CloudSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EC167E2C30034C00D7EA61 /* CloudSettingView.swift */; };
 		23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9B2C19D511001A5966 /* ProjectViewController.swift */; };
 		23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9E2C19D538001A5966 /* ExportViewController.swift */; };
 		23F50E272C19DE87001A5966 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E262C19DE87001A5966 /* State.swift */; };
@@ -40,6 +34,14 @@
 		23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */; };
 		23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */; };
 		23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E612C19EC65001A5966 /* ProjectGridCell.swift */; };
+		64E311702C3137A200737EE7 /* ExportSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */; };
+		64E311722C31C70B00737EE7 /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */; };
+		64E311772C31C7CB00737EE7 /* ICloudSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */; };
+		64E311792C31C7EE00737EE7 /* CloudKitSyncMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311782C31C7EE00737EE7 /* CloudKitSyncMonitor.swift */; };
+		64E3117B2C31C80C00737EE7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E3117A2C31C80C00737EE7 /* SettingViewController.swift */; };
+		64E3117E2C31C87500737EE7 /* Mantis in Frameworks */ = {isa = PBXBuildFile; productRef = 64E3117D2C31C87500737EE7 /* Mantis */; };
+		64EA49A42C2B1C1100D81A99 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EA49A32C2B1C1100D81A99 /* ExportView.swift */; };
+		64EA49A82C2B3EDA00D81A99 /* ExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EA49A72C2B3EDA00D81A99 /* ExportViewModel.swift */; };
 		64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC58E52C1EB08500694C24 /* Extensions+Preview.swift */; };
 		64FC58E92C1F663600694C24 /* PhotoAssetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC58E82C1F663600694C24 /* PhotoAssetStore.swift */; };
 /* End PBXBuildFile section */
@@ -65,11 +67,6 @@
 		23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryThumbnailContentView.swift; sourceTree = "<group>"; };
 		23AFC8F62C26B6F300E12C9C /* LibraryThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryThumbnailCell.swift; sourceTree = "<group>"; };
-		23D9E0292C2C577000540648 /* CropPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CropPresenter.swift; path = ../../../../../Documents/CropPresenter.swift; sourceTree = "<group>"; };
-		23EC16762C2FFD9F00D7EA61 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		23EC167A2C2FFF8700D7EA61 /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
-		23EC167C2C3001F500D7EA61 /* CloudSyncMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncMonitor.swift; sourceTree = "<group>"; };
-		23EC167E2C30034C00D7EA61 /* CloudSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSettingView.swift; sourceTree = "<group>"; };
 		23F50D9B2C19D511001A5966 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
 		23F50D9E2C19D538001A5966 /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		23F50E262C19DE87001A5966 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -80,6 +77,13 @@
 		23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		23F50E612C19EC65001A5966 /* ProjectGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectGridCell.swift; sourceTree = "<group>"; };
+		64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheetCell.swift; sourceTree = "<group>"; };
+		64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
+		64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudSettingView.swift; sourceTree = "<group>"; };
+		64E311782C31C7EE00737EE7 /* CloudKitSyncMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSyncMonitor.swift; sourceTree = "<group>"; };
+		64E3117A2C31C80C00737EE7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		64EA49A32C2B1C1100D81A99 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
+		64EA49A72C2B3EDA00D81A99 /* ExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewModel.swift; sourceTree = "<group>"; };
 		64FC58E52C1EB08500694C24 /* Extensions+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extensions+Preview.swift"; sourceTree = "<group>"; };
 		64FC58E82C1F663600694C24 /* PhotoAssetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAssetStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D9E0282C2C48C400540648 /* Mantis in Frameworks */,
+				64E3117E2C31C87500737EE7 /* Mantis in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,12 +119,12 @@
 		230725472C1897CF0053774F /* Contact Sheet */ = {
 			isa = PBXGroup;
 			children = (
+				64E311732C31C7B500737EE7 /* Setting */,
 				64FC58E42C1EB06300694C24 /* Previews */,
 				230DF3052C1D7DFE00927983 /* UserDefault */,
 				23A756D02C1D7BD500F2FB10 /* CoreData */,
 				2380F9FC2C189AFE00548FDA /* App */,
 				64FC58E72C1F662700694C24 /* Store */,
-				23EC16752C2FFD8B00D7EA61 /* Setting */,
 				23F50D9A2C19D500001A5966 /* Library */,
 				23F50D9D2C19D52E001A5966 /* Project */,
 				23F50DA02C19D541001A5966 /* Export */,
@@ -172,24 +176,6 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		23EC16752C2FFD8B00D7EA61 /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				23EC16802C30035700D7EA61 /* Cloud */,
-				23EC16762C2FFD9F00D7EA61 /* SettingViewController.swift */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
-		23EC16802C30035700D7EA61 /* Cloud */ = {
-			isa = PBXGroup;
-			children = (
-				23EC167C2C3001F500D7EA61 /* CloudSyncMonitor.swift */,
-				23EC167E2C30034C00D7EA61 /* CloudSettingView.swift */,
-			);
-			path = Cloud;
-			sourceTree = "<group>";
-		};
 		23F50D9A2C19D500001A5966 /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +198,7 @@
 		23F50DA02C19D541001A5966 /* Export */ = {
 			isa = PBXGroup;
 			children = (
+				64EA49A22C2B1BFE00D81A99 /* ExportViewSUI */,
 				23F50D9E2C19D538001A5966 /* ExportViewController.swift */,
 			);
 			path = Export;
@@ -226,7 +213,7 @@
 				23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */,
 				23F50E592C19EA0D001A5966 /* VStackView.swift */,
 				23F50E5B2C19EA1A001A5966 /* HStackView.swift */,
-				23EC167A2C2FFF8700D7EA61 /* UIStackView+Ext.swift */,
+				64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -237,10 +224,37 @@
 				23F50E282C19DEAA001A5966 /* RatioPickerView.swift */,
 				23F50E572C19E952001A5966 /* ProjectGridView.swift */,
 				23F50E612C19EC65001A5966 /* ProjectGridCell.swift */,
-				23D9E0292C2C577000540648 /* CropPresenter.swift */,
 				232C98C12C1B34D00064B2C6 /* ImagePicker.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		64E311732C31C7B500737EE7 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				64E311742C31C7BE00737EE7 /* Cloud */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		64E311742C31C7BE00737EE7 /* Cloud */ = {
+			isa = PBXGroup;
+			children = (
+				64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */,
+				64E311782C31C7EE00737EE7 /* CloudKitSyncMonitor.swift */,
+				64E3117A2C31C80C00737EE7 /* SettingViewController.swift */,
+			);
+			path = Cloud;
+			sourceTree = "<group>";
+		};
+		64EA49A22C2B1BFE00D81A99 /* ExportViewSUI */ = {
+			isa = PBXGroup;
+			children = (
+				64EA49A32C2B1C1100D81A99 /* ExportView.swift */,
+				64EA49A72C2B3EDA00D81A99 /* ExportViewModel.swift */,
+				64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */,
+			);
+			path = ExportViewSUI;
 			sourceTree = "<group>";
 		};
 		64FC58E42C1EB06300694C24 /* Previews */ = {
@@ -276,7 +290,7 @@
 			);
 			name = "Contact Sheet";
 			packageProductDependencies = (
-				23D9E0272C2C48C400540648 /* Mantis */,
+				64E3117D2C31C87500737EE7 /* Mantis */,
 			);
 			productName = "Contact Sheet";
 			productReference = 230725452C1897CF0053774F /* Contact Sheet.app */;
@@ -307,7 +321,7 @@
 			);
 			mainGroup = 2307253C2C1897CF0053774F;
 			packageReferences = (
-				23D9E0262C2C48C400540648 /* XCRemoteSwiftPackageReference "Mantis" */,
+				64E3117C2C31C87500737EE7 /* XCRemoteSwiftPackageReference "Mantis" */,
 			);
 			productRefGroup = 230725462C1897CF0053774F /* Products */;
 			projectDirPath = "";
@@ -335,33 +349,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23EC16772C2FFD9F00D7EA61 /* SettingViewController.swift in Sources */,
 				2307254D2C1897CF0053774F /* LibraryViewController.swift in Sources */,
+				64E311702C3137A200737EE7 /* ExportSheetCell.swift in Sources */,
 				23AFC8F52C26B63F00E12C9C /* LibraryThumbnailContentView.swift in Sources */,
 				230DF3092C1D7F2E00927983 /* ProjectStore.swift in Sources */,
 				230725492C1897CF0053774F /* AppDelegate.swift in Sources */,
+				64E3117B2C31C80C00737EE7 /* SettingViewController.swift in Sources */,
+				64E311792C31C7EE00737EE7 /* CloudKitSyncMonitor.swift in Sources */,
 				23F50E582C19E952001A5966 /* ProjectGridView.swift in Sources */,
 				64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */,
 				23F50E5A2C19EA0D001A5966 /* VStackView.swift in Sources */,
-				23EC167B2C2FFF8700D7EA61 /* UIStackView+Ext.swift in Sources */,
+				64E311722C31C70B00737EE7 /* UIStackView+Ext.swift in Sources */,
 				23F50E5C2C19EA1A001A5966 /* HStackView.swift in Sources */,
 				23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */,
+				64E311772C31C7CB00737EE7 /* ICloudSettingView.swift in Sources */,
 				230DF30B2C1D80BF00927983 /* NSManageObjectContext+Ext.swift in Sources */,
 				23F50E292C19DEAA001A5966 /* RatioPickerView.swift in Sources */,
-				23EC167D2C3001F500D7EA61 /* CloudSyncMonitor.swift in Sources */,
 				23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */,
 				23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */,
 				23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */,
 				23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */,
-				23EC167F2C30034C00D7EA61 /* CloudSettingView.swift in Sources */,
+				64EA49A82C2B3EDA00D81A99 /* ExportViewModel.swift in Sources */,
 				23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */,
 				23AFC8F72C26B6F300E12C9C /* LibraryThumbnailCell.swift in Sources */,
 				23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */,
 				64FC58E92C1F663600694C24 /* PhotoAssetStore.swift in Sources */,
 				23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */,
+				64EA49A42C2B1C1100D81A99 /* ExportView.swift in Sources */,
 				230DF30E2C1D880F00927983 /* LibraryCell.swift in Sources */,
 				230DF3042C1D7DD600927983 /* CoreDataContainer.swift in Sources */,
-				23D9E02A2C2C577000540648 /* CropPresenter.swift in Sources */,
 				232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */,
 				230DF3072C1D7E0800927983 /* AppUserDefaults.swift in Sources */,
 				2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */,
@@ -510,7 +526,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -545,7 +561,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -597,20 +613,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		23D9E0262C2C48C400540648 /* XCRemoteSwiftPackageReference "Mantis" */ = {
+		64E3117C2C31C87500737EE7 /* XCRemoteSwiftPackageReference "Mantis" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/guoyingtao/Mantis.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.7.5;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.5;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		23D9E0272C2C48C400540648 /* Mantis */ = {
+		64E3117D2C31C87500737EE7 /* Mantis */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 23D9E0262C2C48C400540648 /* XCRemoteSwiftPackageReference "Mantis" */;
+			package = 64E3117C2C31C87500737EE7 /* XCRemoteSwiftPackageReference "Mantis" */;
 			productName = Mantis;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -7,24 +7,14 @@
 
 import UIKit
 import CoreData
-import Combine
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    private var subscriptions = Set<AnyCancellable>()
-    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        
-        NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange)
-            .sink { _ in CoreDataContainer.shared.context.saveIfNeeded() }
-            .store(in: &subscriptions)
-        
-        CloudKitSyncMonitor.shared.setupObserver()
-
         return true
     }
 
