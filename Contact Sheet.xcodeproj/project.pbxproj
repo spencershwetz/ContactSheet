@@ -19,6 +19,7 @@
 		230DF30E2C1D880F00927983 /* LibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DF30D2C1D880F00927983 /* LibraryCell.swift */; };
 		232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232C98C12C1B34D00064B2C6 /* ImagePicker.swift */; };
 		2367AB702C1D8F090003AAE8 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2367AB6F2C1D8F090003AAE8 /* UIImage+Ext.swift */; };
+		239E14E92C32E1B8001FB31E /* CropPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E14E82C32E1B8001FB31E /* CropPresenter.swift */; };
 		23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */; };
 		23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */; };
 		23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */; };
@@ -62,6 +63,7 @@
 		230DF30D2C1D880F00927983 /* LibraryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCell.swift; sourceTree = "<group>"; };
 		232C98C12C1B34D00064B2C6 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		2367AB6F2C1D8F090003AAE8 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
+		239E14E82C32E1B8001FB31E /* CropPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropPresenter.swift; sourceTree = "<group>"; };
 		23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPhoto.swift; sourceTree = "<group>"; };
 		23A756D22C1D7BE600F2FB10 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		23F50E2A2C19DED8001A5966 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				239E14E82C32E1B8001FB31E /* CropPresenter.swift */,
 				23F50E282C19DEAA001A5966 /* RatioPickerView.swift */,
 				23F50E572C19E952001A5966 /* ProjectGridView.swift */,
 				23F50E612C19EC65001A5966 /* ProjectGridCell.swift */,
@@ -378,6 +381,7 @@
 				64EA49A42C2B1C1100D81A99 /* ExportView.swift in Sources */,
 				230DF30E2C1D880F00927983 /* LibraryCell.swift in Sources */,
 				230DF3042C1D7DD600927983 /* CoreDataContainer.swift in Sources */,
+				239E14E92C32E1B8001FB31E /* CropPresenter.swift in Sources */,
 				232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */,
 				230DF3072C1D7E0800927983 /* AppUserDefaults.swift in Sources */,
 				2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */,
@@ -526,7 +530,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -561,7 +565,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";

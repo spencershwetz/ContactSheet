@@ -46,7 +46,7 @@ final class ProjectGridView: UICollectionView {
 
     private let spacingEachCell: CGFloat = 8
     private let imagePicker = MultiImagePicker()
-//    private lazy var cropPresenter = CropPresenter(viewController: viewController)
+    private lazy var cropPresenter = CropPresenter(viewController: viewController)
 
     private let layout = UICollectionViewFlowLayout()
 
@@ -153,14 +153,14 @@ extension ProjectGridView: UICollectionViewDelegate {
             PhotoAssetStore.shared
                 .getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
                     guard let self, let image else { return }
-//                    cropPresenter.show(
-//                        image: image,
-//                        ratio: aspectRatio,
-//                        onCropped: { [weak self] in
-//                            guard let self else { return }
-//                            photos = photos.updatedCroppedImage($0, at: indexPath.item)
-//                        }
-//                    )
+                    cropPresenter.show(
+                        image: image,
+                        ratio: aspectRatio,
+                        onCropped: { [weak self] in
+                            guard let self else { return }
+                            photos = photos.updatedCroppedImage($0, at: indexPath.item)
+                        }
+                    )
                 }
         } else {
             imagePicker.show(on: viewController, onPickImages: { [weak self] images in
