@@ -36,6 +36,7 @@ final class CropPresenter {
         cropViewController.config.presetFixedRatioType = .alwaysUsingOnePresetFixedRatio(
             ratio: ratio.width / ratio.height)
         cropViewController.delegate = self
+        cropViewController.modalPresentationStyle = .fullScreen
 
         viewController?.present(cropViewController, animated: true)
     }
