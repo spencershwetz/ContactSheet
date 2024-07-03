@@ -62,7 +62,7 @@ extension ExportViewController {
 extension ExportViewController {
     @objc
     private func handleShareProject() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ExportImage"), object: nil)
+        
     }
 }
 #Preview(body: {

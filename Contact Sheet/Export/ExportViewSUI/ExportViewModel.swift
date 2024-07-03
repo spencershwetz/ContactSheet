@@ -19,8 +19,6 @@ class ExportViewModel: ObservableObject {
     @Published var titleColor: Color = Color.white
     @Published var selectedColor: Color = Color.red
     
-    @Published var showActionSheet: Bool = false
-
     @Published var selectedColorType: SelectedColor = .Background
     @Published var selectedExportType: SelectedExportType = .PDF
 

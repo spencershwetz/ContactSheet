@@ -36,22 +36,7 @@ struct ExportView: View {
             SheetView()
             Spacer()
         }
-        .actionSheet(isPresented: $exportVM.showActionSheet, content: {
-            ActionSheet(title: Text("Export type"),
-                        message: Text("Choose a export type"),
-                        buttons: [
-                            .default(Text("PDF")) {
-                                print("Tapped on PDF export")
-                            },
-                            .default(Text("Image")) {
-                                print("Tapped on Image export")
-                            },
-                            .cancel()
-                        ])
-        })
-        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("ExportImage")), perform: { _ in
-            self.exportVM.showActionSheet.toggle()
-        })        .onAppear {
+        .onAppear {
             self.exportVM.recalculatePages()
         }
         .onChange(of: [self.exportVM.rowStepper, self.exportVM.columnStepper], perform: { value in
