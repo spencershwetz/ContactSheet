@@ -19,6 +19,8 @@
 		230DF30E2C1D880F00927983 /* LibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DF30D2C1D880F00927983 /* LibraryCell.swift */; };
 		232C98C22C1B34D00064B2C6 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232C98C12C1B34D00064B2C6 /* ImagePicker.swift */; };
 		2367AB702C1D8F090003AAE8 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2367AB6F2C1D8F090003AAE8 /* UIImage+Ext.swift */; };
+		2396C1302C358F5500D05D18 /* AppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2396C12F2C358F5500D05D18 /* AppearanceSwitcher.swift */; };
+		2396C1322C358F6900D05D18 /* AppearanceSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2396C1312C358F6900D05D18 /* AppearanceSettingView.swift */; };
 		239E14E92C32E1B8001FB31E /* CropPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E14E82C32E1B8001FB31E /* CropPresenter.swift */; };
 		23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */; };
 		23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */; };
@@ -63,6 +65,8 @@
 		230DF30D2C1D880F00927983 /* LibraryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCell.swift; sourceTree = "<group>"; };
 		232C98C12C1B34D00064B2C6 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		2367AB6F2C1D8F090003AAE8 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
+		2396C12F2C358F5500D05D18 /* AppearanceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSwitcher.swift; sourceTree = "<group>"; };
+		2396C1312C358F6900D05D18 /* AppearanceSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettingView.swift; sourceTree = "<group>"; };
 		239E14E82C32E1B8001FB31E /* CropPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropPresenter.swift; sourceTree = "<group>"; };
 		23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPhoto.swift; sourceTree = "<group>"; };
 		23A756D22C1D7BE600F2FB10 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
@@ -167,6 +171,15 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		2396C12E2C358F4A00D05D18 /* Apperance */ = {
+			isa = PBXGroup;
+			children = (
+				2396C12F2C358F5500D05D18 /* AppearanceSwitcher.swift */,
+				2396C1312C358F6900D05D18 /* AppearanceSettingView.swift */,
+			);
+			path = Apperance;
+			sourceTree = "<group>";
+		};
 		23A756D02C1D7BD500F2FB10 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +248,7 @@
 		64E311732C31C7B500737EE7 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				2396C12E2C358F4A00D05D18 /* Apperance */,
 				64E311742C31C7BE00737EE7 /* Cloud */,
 			);
 			path = Setting;
@@ -361,9 +375,11 @@
 				64E311792C31C7EE00737EE7 /* CloudKitSyncMonitor.swift in Sources */,
 				23F50E582C19E952001A5966 /* ProjectGridView.swift in Sources */,
 				64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */,
+				2396C1322C358F6900D05D18 /* AppearanceSettingView.swift in Sources */,
 				23F50E5A2C19EA0D001A5966 /* VStackView.swift in Sources */,
 				64E311722C31C70B00737EE7 /* UIStackView+Ext.swift in Sources */,
 				23F50E5C2C19EA1A001A5966 /* HStackView.swift in Sources */,
+				2396C1302C358F5500D05D18 /* AppearanceSwitcher.swift in Sources */,
 				23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */,
 				64E311772C31C7CB00737EE7 /* ICloudSettingView.swift in Sources */,
 				230DF30B2C1D80BF00927983 /* NSManageObjectContext+Ext.swift in Sources */,
@@ -530,7 +546,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -565,7 +581,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";

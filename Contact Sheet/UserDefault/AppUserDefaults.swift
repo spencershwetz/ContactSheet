@@ -15,6 +15,7 @@ struct AppUserDefaults {
 
     enum Key: String {
         case enabledICloudSync
+        case appearance
     }
     
     static func setValue(_ value: Any?, forKey key: Key) {
@@ -27,5 +28,9 @@ struct AppUserDefaults {
     
     static func string(forKey key: Key) -> String? {
         userDefault.string(forKey: key.rawValue)
+    }
+    
+    static func integer(forKey key: Key) -> Int {
+        userDefault.integer(forKey: key.rawValue) 
     }
 }

@@ -11,6 +11,7 @@ final class SettingViewController: UIViewController {
 
     enum Setting: CaseIterable {
         case iCloudSync
+        case appearance
     }
 
     private let items = Setting.allCases
@@ -44,6 +45,10 @@ extension SettingViewController: UITableViewDataSource {
                 content: CloudSettingView(onUpdate: { [weak self] in
                     self?.updateTableViewHeight()
                 })
+            )
+        case .appearance:
+            SettingCellWrapper(
+                content: AppearanceSettingView()
             )
         }
     }
