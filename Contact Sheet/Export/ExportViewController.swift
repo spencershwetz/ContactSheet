@@ -15,6 +15,7 @@ final class ExportViewController: UIViewController {
     private let selectImageView = UIImageView()
     private var shareButtonBarItem: UIBarButtonItem!
     private var vm: ExportViewModel = ExportViewModel()
+    private let store = ProjectStore.shared
     private let project: Project
     var bgColorLabel: String? {
         didSet {
@@ -34,6 +35,11 @@ final class ExportViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        store.update(project: vm.selectedProject)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Export"

@@ -18,7 +18,7 @@ final class ProjectViewController: UIViewController {
         let photos: [ProjectPhoto]
         let totalRows: Int
         let totalColumns: Int
-        let title: String
+        var title: String
     }
     
     @State private var pageSizeRatio: Ratio
@@ -40,6 +40,14 @@ final class ProjectViewController: UIViewController {
                 self?.photoAspectRatio = $0
             }
         })
+
+    private lazy var exportButtonBarItem = UIBarButtonItem(
+        image: UIImage(systemName: "square.and.arrow.up"),
+        style: .plain,
+        target: self,
+        action: #selector(handleExportAction)
+    )
+
 
     private lazy var headerStackView = VStackView(
         arrangedSubviews: [pageSizePicker, photoAspectRatioPicker]
@@ -65,7 +73,7 @@ final class ProjectViewController: UIViewController {
 
     private lazy var gridView = ProjectGridView()
     
-    private let config: Config
+    private var config: Config
     
     init(config: Config) {
         self.config = config
@@ -98,6 +106,9 @@ final class ProjectViewController: UIViewController {
         setupHeader()
         setupRowAndColumnStepperLabel()
         setupGrid()
+        setupNavigationBar()
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(somethingWasTapped(_:)))
+        self.navigationController?.navigationBar.addGestureRecognizer(tapGestureRecognizer)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -124,6 +135,12 @@ final class ProjectViewController: UIViewController {
         gridView.invalidateLayout()
     }
     
+    private func setupNavigationBar() {
+        navigationItem.rightBarButtonItems = [
+            exportButtonBarItem
+        ]
+    }
+
     private func setupRowAndColumnStepperLabel() {
         let stackView = HStackView(
             distribution: .equalCentering,
@@ -234,6 +251,81 @@ final class ProjectViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
+
+    @objc
+    private func handleExportAction() {
+        let project = Project(
+            id: config.id,
+            pageSizeRatio: Project.Ratio(
+                width: config.pageSizeRatio.width,
+                height: config.pageSizeRatio.height
+            ),
+            photoAspectRatio: Project.Ratio(
+                width: config.photoAspectRatio.width,
+                height: config.photoAspectRatio.height
+            ),
+            totalRows: config.totalRows,
+            totalColumns: config.totalColumns,
+            photos: config.photos.map({Project.Photo(assetIdentifier: $0.assetIdentifier, croppedImage: $0.croppedImage)}),
+            title: config.title
+        )
+        navigationController?.pushViewController(
+            ExportViewController(project: project), animated: true
+        )
+
+    }
+
+    private func showRenameProjectAlert(_ project: Project) {
+        let alert = UIAlertController(
+            title: "Project Name",
+            message: "Please enter project name",
+            preferredStyle: .alert
+        )
+
+        alert.addTextField { textField in
+            textField.placeholder = "Name"
+            textField.keyboardType = .default
+            textField.text = project.title
+        }
+
+        let submitAction = UIAlertAction(
+            title: "Done",
+            style: .default
+        ) { [unowned alert, unowned self] _ in
+            guard
+                let nameText = alert.textFields![0].text,
+                !(nameText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            else {
+                return
+            }
+
+            var project = project
+            project.title = nameText
+            config.title = nameText
+            store.update(project: project)
+            title = nameText
+        }
+
+        alert.addAction(submitAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
+    @objc private func somethingWasTapped(_ sth: AnyObject){
+        showRenameProjectAlert(Project(
+            id: config.id,
+            pageSizeRatio: .init(width: pageSizeRatio.width, height: pageSizeRatio.height),
+            photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
+            totalRows: gridView.totalRows,
+            totalColumns: gridView.totalColumns,
+            photos: gridView.photos.map { .init(
+                assetIdentifier: $0.assetIdentifier,
+                croppedImage: $0.croppedImage
+            ) },
+            title: config.title
+        ))
+    }
+
 }
 
 #Preview {

@@ -57,9 +57,18 @@ extension ExportViewModel {
 }
 
 extension ExportViewModel {
+    func setSteppers() {
+        self.rowStepper = self.selectedProject.totalRows > 6 ? 6 : self.selectedProject.totalRows
+        self.columnStepper = self.selectedProject.totalColumns > 6 ? 6 : self.selectedProject.totalColumns
+        self.columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: self.columnStepper)
+
+    }
+
     func recalculatePages() {
         let imagePerPage: Int = self.columnStepper * self.rowStepper
         self.numberOfSheets = Int(ceil(Double(Double(self.selectedImages.count)/Double(imagePerPage))))
+        self.selectedProject.totalColumns = self.columns.count
+        self.selectedProject.totalRows = Int(self.selectedImages.count / self.columns.count) + 1
     }
 
     func getArrayForPage(index: Int) -> [UIImage?] {
@@ -68,7 +77,6 @@ extension ExportViewModel {
         var images: [UIImage?] = []
         for i in index * maxImagePerPage..<maxImagePerPage * pageNo {
             if i < selectedImages.count {
-                let image = selectedImages[i]
                 images.append(selectedImages[i])
             }
         }

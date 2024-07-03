@@ -37,6 +37,8 @@ struct ExportView: View {
             Spacer()
         }
         .onAppear {
+            
+            self.exportVM.setSteppers()
             self.exportVM.recalculatePages()
         }
         .onChange(of: [self.exportVM.rowStepper, self.exportVM.columnStepper], perform: { value in
