@@ -13,8 +13,7 @@ struct ExportView: View {
     @ObservedObject private var exportVM: ExportViewModel
     init(exportVM: ExportViewModel) {
         self.exportVM = exportVM
-        UIPageControl.appearance().currentPageIndicatorTintColor = .black
-        UIPageControl.appearance().pageIndicatorTintColor = .gray
+        ///UIPageControl.appearance().currentPageIndicatorTintColor = .
 
     }
     var body: some View {

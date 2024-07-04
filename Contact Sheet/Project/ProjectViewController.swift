@@ -14,7 +14,7 @@ final class ProjectViewController: UIViewController {
     struct Config {
         let id: UUID
         let pageSizeRatio: Ratio
-        let photoAspectRatio: Ratio
+        var photoAspectRatio: Ratio
         let photos: [ProjectPhoto]
         let totalRows: Int
         let totalColumns: Int
@@ -254,6 +254,7 @@ final class ProjectViewController: UIViewController {
 
     @objc
     private func handleExportAction() {
+        self.config.photoAspectRatio = .init(width: photoAspectRatio.width, height: photoAspectRatio.height)
         let project = Project(
             id: config.id,
             pageSizeRatio: Project.Ratio(

@@ -67,8 +67,10 @@ extension ExportViewModel {
     func recalculatePages() {
         let imagePerPage: Int = self.columnStepper * self.rowStepper
         self.numberOfSheets = Int(ceil(Double(Double(self.selectedImages.count)/Double(imagePerPage))))
-        self.selectedProject.totalColumns = self.columns.count
-        self.selectedProject.totalRows = Int(self.selectedImages.count / self.columns.count) + 1
+        withAnimation {
+            self.selectedProject.totalColumns = self.columns.count
+            self.selectedProject.totalRows = Int(self.selectedImages.count / self.columns.count) + 1
+        }
     }
 
     func getArrayForPage(index: Int) -> [UIImage?] {

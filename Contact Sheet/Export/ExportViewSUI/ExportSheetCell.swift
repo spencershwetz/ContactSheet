@@ -29,12 +29,17 @@ struct ExportSheetCell: View {
                         LazyVGrid(columns: exportVM.columns, spacing: 8) {
                             let arrImages = exportVM.getArrayForPage(index: self.currentPage)
                             ForEach(0..<arrImages.count, id: \.self) { index in
-                                ImageCell(image: arrImages[index])
+                                ImageCell(viewModel: exportVM, image: arrImages[index])
                                     .frame(
-                                        maxWidth: max(calculateItemSize(proxy.size, 8), 0),
-                                        maxHeight: max(calculateItemHeight(proxy.size, 8), 0),
+                                        width: max(calculateItemSize(proxy.size, 8), 0),
+                                        height: max(calculateItemSize(proxy.size, 8), 0),
                                         alignment: .center
                                     )
+//                                    .frame(
+//                                        width: max(calculateItemSize(proxy.size, 8), 0),
+//                                        height: max(calculateItemHeight(proxy.size, 8), 0),
+//                                        alignment: .center
+//                                    )
                                     .clipped()
                             }
                         }
@@ -49,7 +54,9 @@ struct ExportSheetCell: View {
 //                }
 //            })
             .onChange(of: self.exportVM.columnStepper, perform: { value in
-                self.exportVM.columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: self.exportVM.columnStepper)
+                withAnimation {
+                    self.exportVM.columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: self.exportVM.columnStepper)
+                }
             })
             .frame(
                 maxWidth: .infinity,
@@ -64,7 +71,8 @@ struct ExportSheetCell: View {
     private func calculateItemSize(_ size: CGSize, _ spacing: Double) -> CGFloat {
         let numberOfColumn = CGFloat(exportVM.columnStepper)
         let actualWidth = size.width - numberOfColumn * spacing
-        return actualWidth / numberOfColumn
+        let height = calculateItemHeight(size, spacing)
+        return actualWidth / numberOfColumn > height ?  height : actualWidth / numberOfColumn
     }
 
     private func calculateItemHeight(_ size: CGSize, _ spacing: Double) -> CGFloat {
@@ -82,16 +90,39 @@ struct ExportSheetCell: View {
 
 extension ExportSheetCell {
     struct ImageCell: View {
+        @StateObject var viewModel: ExportViewModel
         var image: UIImage?
-        init(image: UIImage? = nil) {
-            self.image = image
-        }
+
         var body: some View {
             VStack {
-                Image(uiImage: self.image ?? UIImage())
-                    .resizable()
-                    .scaledToFit()
+                GeometryReader { geo in
+                    Image(uiImage: self.image ?? UIImage())
+                        .resizable()
+                        .scaledToFill()
+                        .frame(
+                            width: getHeightWidth(totalSize: geo.size).width,
+                            height: getHeightWidth(totalSize: geo.size).height,
+                            alignment: .center
+                        )
+                        .clipped()
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        
+        func getHeightWidth(totalSize: CGSize) -> (width: Double,height: Double) {
+//            let ratio = self.viewModel.selectedProject.photoAspectRatio.width / self.viewModel.selectedProject.photoAspectRatio.height
+            var width: Double = totalSize.width
+            var height: Double = totalSize.height
+            if self.viewModel.selectedProject.photoAspectRatio.width > self.viewModel.selectedProject.photoAspectRatio.height {
+                height = self.viewModel.selectedProject.photoAspectRatio.height * width / self.viewModel.selectedProject.photoAspectRatio.width
+            } else {
+                width = self.viewModel.selectedProject.photoAspectRatio.width * height / self.viewModel.selectedProject.photoAspectRatio.height
+            }
+
+            print("width - \(width), height - \(height)")
+            return (width, height)
+
         }
     }
 }
