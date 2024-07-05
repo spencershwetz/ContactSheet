@@ -234,7 +234,7 @@ final class ProjectViewController: UIViewController {
         }
 
         let submitAction = UIAlertAction(
-            title: "Okay",
+            title: "Confirm",
             style: .default
         ) { [unowned alert, weak self] _ in
             guard
