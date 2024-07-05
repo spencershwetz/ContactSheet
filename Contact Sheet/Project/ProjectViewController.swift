@@ -42,7 +42,7 @@ final class ProjectViewController: UIViewController {
         })
 
     private lazy var exportButtonBarItem = UIBarButtonItem(
-        image: UIImage(systemName: "square.and.arrow.up"),
+        title: "Export",
         style: .plain,
         target: self,
         action: #selector(handleExportAction)
