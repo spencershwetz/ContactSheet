@@ -130,6 +130,7 @@ final class LibraryViewController: UIViewController {
                 showRenameProjectAlert(project)
             }
             cell.isEnableSelection = isSelectionEnabled
+            cell.ratio = Ratio(width: project.photoAspectRatio.width, height: project.photoAspectRatio.height)
             cell.images = Array(project.photos.map(\.assetIdentifier).prefix(8))
             cell.title = project.title
             cell.isImageSelected = selectedProjects.contains(project)
@@ -270,31 +271,35 @@ extension LibraryViewController: UICollectionViewDelegateFlowLayout {
         let totalWidth = collectionView.bounds.width - totalSpacing - horizontalMargin
         
         let width = totalWidth / gridItemCount
-        
+
         return CGSize(
             width: width,
             height: calculateHeight(
                 width: width,
-                title: diffDataSource.itemIdentifier(for: indexPath)?.title
+                project: diffDataSource.itemIdentifier(for: indexPath)
             )
         )
     }
     
-    private func calculateHeight(width: CGFloat, title: String?) -> CGFloat {
+    private func calculateHeight(width: CGFloat, project: Project?) -> CGFloat {
         let cell = LibraryCell()
+        
+        cell.ratio = Ratio(
+            width: project?.photoAspectRatio.width ?? 1,
+            height: project?.photoAspectRatio.height ?? 1
+        )
+        cell.images = (0..<8).map { _ in nil }
+        cell.title = project?.title
+        
         let preferredSize = CGSize(
             width: width,
             height: UIView.layoutFittingCompressedSize.height
         )
-
-        cell.title = title
-        
         let size = cell.systemLayoutSizeFitting(
             preferredSize,
             withHorizontalFittingPriority: .required,
             verticalFittingPriority: .fittingSizeLevel
         )
-        
         return size.height
     }
 }

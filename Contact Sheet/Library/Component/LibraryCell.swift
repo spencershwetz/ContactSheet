@@ -41,6 +41,12 @@ final class LibraryCell: UICollectionViewCell {
             titleLabel.text = title
         }
     }
+    
+    var ratio: Ratio = .init(width: 1, height: 1) {
+        didSet {
+            photoView.ratio = ratio
+        }
+    }
 
     static let identifier = String(describing: LibraryCell.self)
     
@@ -67,7 +73,6 @@ final class LibraryCell: UICollectionViewCell {
         contentView.addSubview(contentStackView)
 
         NSLayoutConstraint.activate([
-            photoView.heightAnchor.constraint(equalTo: photoView.widthAnchor, multiplier: 1.3),
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
