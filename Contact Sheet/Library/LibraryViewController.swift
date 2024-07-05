@@ -44,7 +44,12 @@ final class LibraryViewController: UIViewController {
     private let store = ProjectStore.shared
     private let gridItemCount: CGFloat = 3
     private let spacingEachCell: CGFloat = 16
-    private let sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    private lazy var sectionInset = UIEdgeInsets(
+        top: 16,
+        left: 16,
+        bottom: view.safeAreaInsets.bottom + 16,
+        right: 16
+    )
 
     private var isSelectionEnabled: Bool = false
     private var selectedProjects: [Project] = [] {
@@ -71,6 +76,7 @@ final class LibraryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        selectedProjects = []
         setupNavigationBar()
         setupCollectionView()
     }
@@ -121,6 +127,7 @@ final class LibraryViewController: UIViewController {
             cell.isEnableSelection = isSelectionEnabled
             cell.images = Array(project.photos.map(\.assetIdentifier).prefix(8))
             cell.title = project.title
+            cell.isImageSelected = selectedProjects.contains(project)
         
             return cell
         }
@@ -143,7 +150,7 @@ final class LibraryViewController: UIViewController {
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
@@ -155,20 +162,18 @@ final class LibraryViewController: UIViewController {
             createButtonBarItem,
             selectButtonBarItem,
             mergeButtonBarItem
-
         ]
     }
 
     @objc
     private func handleSelectAction() {
         isSelectionEnabled.toggle()
-        if isSelectionEnabled {
-            selectedProjects = []
-        }
+        selectedProjects = []
+        mergeButtonBarItem.isHidden = true
         selectButtonBarItem.title = isSelectionEnabled ? "Cancel" : "Select"
-        redrawCells()
         settingButtonBarItem.isHidden = isSelectionEnabled
         createButtonBarItem.isHidden = isSelectionEnabled
+        redrawCells()
     }
     
     @objc

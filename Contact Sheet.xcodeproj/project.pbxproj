@@ -22,6 +22,7 @@
 		2396C1302C358F5500D05D18 /* AppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2396C12F2C358F5500D05D18 /* AppearanceSwitcher.swift */; };
 		2396C1322C358F6900D05D18 /* AppearanceSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2396C1312C358F6900D05D18 /* AppearanceSettingView.swift */; };
 		239E14E92C32E1B8001FB31E /* CropPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E14E82C32E1B8001FB31E /* CropPresenter.swift */; };
+		23A730882C3824C800624539 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A730872C3824C800624539 /* UIView+Ext.swift */; };
 		23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */; };
 		23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */; };
 		23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */; };
@@ -68,6 +69,7 @@
 		2396C12F2C358F5500D05D18 /* AppearanceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSwitcher.swift; sourceTree = "<group>"; };
 		2396C1312C358F6900D05D18 /* AppearanceSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettingView.swift; sourceTree = "<group>"; };
 		239E14E82C32E1B8001FB31E /* CropPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropPresenter.swift; sourceTree = "<group>"; };
+		23A730872C3824C800624539 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		23A756CE2C1C867A00F2FB10 /* ProjectPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPhoto.swift; sourceTree = "<group>"; };
 		23A756D22C1D7BE600F2FB10 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */,
 				2367AB6F2C1D8F090003AAE8 /* UIImage+Ext.swift */,
 				23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */,
+				23A730872C3824C800624539 /* UIView+Ext.swift */,
 				23F50E592C19EA0D001A5966 /* VStackView.swift */,
 				23F50E5B2C19EA1A001A5966 /* HStackView.swift */,
 				64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */,
@@ -372,6 +375,7 @@
 				230DF3092C1D7F2E00927983 /* ProjectStore.swift in Sources */,
 				230725492C1897CF0053774F /* AppDelegate.swift in Sources */,
 				64E3117B2C31C80C00737EE7 /* SettingViewController.swift in Sources */,
+				23A730882C3824C800624539 /* UIView+Ext.swift in Sources */,
 				64E311792C31C7EE00737EE7 /* CloudKitSyncMonitor.swift in Sources */,
 				23F50E582C19E952001A5966 /* ProjectGridView.swift in Sources */,
 				64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */,
