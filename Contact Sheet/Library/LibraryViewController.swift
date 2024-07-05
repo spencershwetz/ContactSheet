@@ -28,11 +28,17 @@ final class LibraryViewController: UIViewController {
         target: self,
         action: #selector(handleMergeProjects)
     )
+    private lazy var deleteButtonBarItem = UIBarButtonItem(
+        title: "Delete",
+        style: .plain,
+        target: self,
+        action: #selector(handleDeleteAction)
+    )
     private lazy var selectButtonBarItem = UIBarButtonItem(
         title: "Select",
         style: .plain,
         target: self,
-        action: #selector(handleSelectAction)
+        action: #selector(handleToggleEditModeAction)
     )
     private lazy var settingButtonBarItem = UIBarButtonItem(
         image: UIImage(systemName: "gear"),
@@ -54,11 +60,8 @@ final class LibraryViewController: UIViewController {
     private var isSelectionEnabled: Bool = false
     private var selectedProjects: [Project] = [] {
         didSet {
-            if selectedProjects.count > 1 {
-                mergeButtonBarItem.isHidden = false
-            } else {
-                mergeButtonBarItem.isHidden = true
-            }
+            mergeButtonBarItem.isHidden = selectedProjects.count < 2
+            deleteButtonBarItem.isHidden = selectedProjects.isEmpty
         }
     }
 
@@ -88,6 +91,7 @@ final class LibraryViewController: UIViewController {
     
     private func reloadData() {
         applySnapshot(items: store.get())
+        selectButtonBarItem.isHidden = diffDataSource.snapshot().itemIdentifiers.isEmpty
     }
     
     private func redrawCells() {
@@ -106,6 +110,7 @@ final class LibraryViewController: UIViewController {
         var snapshot = diffDataSource.snapshot()
         snapshot.deleteItems([project])
         diffDataSource.apply(snapshot)
+        selectButtonBarItem.isHidden = diffDataSource.snapshot().itemIdentifiers.isEmpty
     }
     
     private func makeDiffDataSource() -> DataSource {
@@ -161,12 +166,13 @@ final class LibraryViewController: UIViewController {
             settingButtonBarItem,
             createButtonBarItem,
             selectButtonBarItem,
-            mergeButtonBarItem
+            mergeButtonBarItem,
+            deleteButtonBarItem
         ]
     }
 
     @objc
-    private func handleSelectAction() {
+    private func handleToggleEditModeAction() {
         isSelectionEnabled.toggle()
         selectedProjects = []
         mergeButtonBarItem.isHidden = true
@@ -175,7 +181,20 @@ final class LibraryViewController: UIViewController {
         createButtonBarItem.isHidden = isSelectionEnabled
         redrawCells()
     }
-    
+
+    @objc
+    private func handleDeleteAction() {
+        let alert = UIAlertController(title: "Delete Projects", message: "Do you want to delete all the selected projects?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            selectedProjects.map(\.id).forEach { self.store.delete(id: $0) }
+            selectedProjects.forEach(deleteProject)
+            handleToggleEditModeAction()
+        })
+        present(alert, animated: true)
+    }
+
     @objc
     private func handleCreateProject() {
         let newProjectID = UUID()
@@ -202,8 +221,9 @@ final class LibraryViewController: UIViewController {
         store.create(newProject)
         appendProject(newProject)
         selectedProjects = []
-        handleSelectAction()
+        handleToggleEditModeAction()
     }
+
     @objc
     private func handleSettingAction() {
         let setting = SettingViewController()
