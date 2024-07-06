@@ -7,18 +7,16 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
-///ExportViewModel
-class ExportViewModel: ObservableObject {
+final class ExportViewModel: ObservableObject {
 
-//    @Published var selectedProject: Project!
-    @Published var selectedProject: Project = Project(id: UUID(), pageSizeRatio: .init(width: 0, height: 0), photoAspectRatio: .init(width: 0, height: 0), totalRows: 0, totalColumns: 0, photos: [], title: "") 
+    var selectedProject: Project = .empty()
 
     @Published var selectedImages: [UIImage?] = []
     @Published var bgColor: Color = Color.black
     @Published var titleColor: Color = Color.white
     @Published var selectedColor: Color = Color.red
-    
     @Published var selectedColorType: SelectedColor = .Background
     @Published var selectedExportType: SelectedExportType = .PDF
 
@@ -43,9 +41,26 @@ class ExportViewModel: ObservableObject {
         case PDF
         case JPEG
     }
-}
 
-extension ExportViewModel {
+    private var subscriptions = Set<AnyCancellable>()
+    
+    init() {
+        Publishers.CombineLatest($rowStepper, $columnStepper)
+            .sink { [weak self] row, column in self?.recalculatePages(row: row, column: column) }
+            .store(in: &subscriptions)
+        
+        $selectedColor
+            .dropFirst()
+            .sink { [weak self] in
+                guard let self else { return }
+                switch selectedColorType {
+                case .Background: bgColor = $0
+                case .Title: titleColor = $0
+                }
+            }
+            .store(in: &subscriptions)
+    }
+    
     func fetchAllImages() {
         let imageIds: [String] = self.selectedProject.photos.compactMap({$0.assetIdentifier}).filter({!($0.isEmpty)})
         for imageId in imageIds {
@@ -58,14 +73,13 @@ extension ExportViewModel {
 
 extension ExportViewModel {
     func setSteppers() {
-        self.rowStepper = self.selectedProject.totalRows > 6 ? 6 : self.selectedProject.totalRows
-        self.columnStepper = self.selectedProject.totalColumns > 6 ? 6 : self.selectedProject.totalColumns
-        self.columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: self.columnStepper)
-
+        rowStepper = min(6, selectedProject.totalRows)
+        columnStepper = min(6, selectedProject.totalColumns)
+        columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: columnStepper)
     }
 
-    func recalculatePages() {
-        let imagePerPage: Int = self.columnStepper * self.rowStepper
+    func recalculatePages(row: Int, column: Int) {
+        let imagePerPage = row * column
         self.numberOfSheets = Int(ceil(Double(Double(self.selectedImages.count)/Double(imagePerPage))))
         withAnimation {
             self.selectedProject.totalColumns = self.columns.count
@@ -83,5 +97,20 @@ extension ExportViewModel {
             }
         }
         return images
+    }
+}
+
+private extension Project {
+
+    static func empty() -> Project {
+        Project(
+            id: UUID(),
+            pageSizeRatio: .init(width: 0, height: 0),
+            photoAspectRatio: .init(width: 0, height: 0),
+            totalRows: 0,
+            totalColumns: 0,
+            photos: [],
+            title: ""
+        )
     }
 }

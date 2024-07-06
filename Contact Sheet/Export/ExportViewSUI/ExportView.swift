@@ -11,14 +11,14 @@ import UIKit
 ///`ExportView`
 struct ExportView: View {
     @ObservedObject private var exportVM: ExportViewModel
+    
     init(exportVM: ExportViewModel) {
         self.exportVM = exportVM
-        ///UIPageControl.appearance().currentPageIndicatorTintColor = .
-
     }
+    
     var body: some View {
         VStack {
-            VStack(spacing: 12) {
+            VStack(spacing: 8) {
                 ColorPickerCell(
                     title: "Background Color: ",
                     type: .Background,
@@ -33,32 +33,15 @@ struct ExportView: View {
             }
             StepperView()
             SheetView()
-            Spacer()
         }
         .onAppear {
-            
-            self.exportVM.setSteppers()
-            self.exportVM.recalculatePages()
-        }
-        .onChange(of: [self.exportVM.rowStepper, self.exportVM.columnStepper], perform: { value in
-            self.exportVM.recalculatePages()
-        })
-        .onChange(of: self.exportVM.selectedColor) { value in
-            if self.exportVM.selectedColorType == .Background {
-     
-                self.exportVM.bgColor = self.exportVM.selectedColor
-            } else {
-                self.exportVM.titleColor = self.exportVM.selectedColor
-            }
+            exportVM.setSteppers()
         }
         .padding(.all, 16)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         .background {
-            ColorPicker(selection: $exportVM.selectedColor, label: {
-                Text("")
-                    .font(.title3)
-            })
-            .labelsHidden().opacity(0)
+            ColorPicker("", selection: $exportVM.selectedColor)
+                .labelsHidden()
+                .opacity(0)
         }
     }
 }
@@ -89,32 +72,37 @@ class UIColorWellHelper: NSObject {
 
 ///`BackgroundColorView`
 extension ExportView {
-    func ColorPickerCell(title: String, type: ExportViewModel.SelectedColor, color: Binding<Color>) -> some View {
+    func ColorPickerCell(
+        title: String,
+        type: ExportViewModel.SelectedColor,
+        color: Binding<Color>
+    ) -> some View {
         HStack {
+            Spacer()
             Text(title)
-                .font(.title2)
+                .font(.title3)
             Circle()
                 .fill(color.wrappedValue)
-                .frame(width: 30, height: 30, alignment: .center)
+                .frame(width: 24, height: 24)
                 .overlay {
                     Circle()
-                        .stroke(lineWidth: 2)
+                        .stroke(lineWidth: 1)
                 }
                 .onTapGesture {
                     self.exportVM.selectedColorType = type
                     UIColorWellHelper.helper.execute?()
                 }
-                .frame(width: 70)
         }
-        .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
 
 extension ExportView {
     func FileFormatView() -> some View {
         HStack {
+            Spacer()
+            
             Text("File Format: ")
-                .font(.title2)
+                .font(.title3)
 
             Menu {
                 ForEach(ExportViewModel.SelectedExportType.allCases, id: \.rawValue) { type in
@@ -128,12 +116,7 @@ extension ExportView {
                 }
                 .font(.system(size: 24, weight: .bold, design: .rounded))
             }
-            .frame(width: 70)
-
-
-
         }
-        .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
 
@@ -143,40 +126,41 @@ extension ExportView {
         HStack {
             VStack {
                 Text("Rows \(exportVM.rowStepper)")
-                    .font(.title2)
-
+                    .font(.title3)
                 Stepper("", value: $exportVM.rowStepper, in: 1...6)
                     .fixedSize()
             }
             Spacer()
             VStack {
-
                 Text("Columns \(exportVM.columnStepper)")
-                    .font(.title2)
-
+                    .font(.title3)
                 Stepper("", value: $exportVM.columnStepper, in: 1...6)
                     .fixedSize()
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 8)
     }
 }
 
 ///`SheetView`
 extension ExportView {
     func SheetView() -> some View {
-        TabView(selection: $exportVM.selectedPage) {
-            ForEach(0..<exportVM.numberOfSheets, id: \.self) { i in
-                ExportSheetCell(exportVM: exportVM, currentPage: .constant(i)) { snapShot in
-                    self.exportVM.pageSnapshot[i] = snapShot
+        GeometryReader { proxy in
+            ScrollView {
+                TabView(selection: $exportVM.selectedPage) {
+                    ForEach(0..<exportVM.numberOfSheets, id: \.self) { i in
+                        ExportSheetCell(exportVM: exportVM, currentPage: .constant(i)) { snapShot in
+                            self.exportVM.pageSnapshot[i] = snapShot
+                        }
+                    }
                 }
-                    .tag(i)
-                    .frame(maxHeight: UIScreen.main.bounds.height / 2)
-                    .id(i)
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                .frame(height: calculateHeight(width: proxy.size.width))
             }
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-        .frame(maxHeight: UIScreen.main.bounds.height / 2 + 50)
+    }
+
+    private func calculateHeight(width: CGFloat) -> CGFloat {
+        let ratio = exportVM.selectedProject.pageSizeRatio
+        return width * ratio.height / ratio.width
     }
 }

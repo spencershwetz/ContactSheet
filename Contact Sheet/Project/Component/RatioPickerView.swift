@@ -12,9 +12,14 @@ struct Ratio: Equatable {
     let height: CGFloat
     
     var formattedText: String {
-        if self == .random {
+        switch self {
+        case .random:
             return "Custom"
-        } else {
+        case .letterPortrait:
+            return "Portrait"
+        case .letterLandscape:
+            return "Landscape"
+        default:
             let widthString = width.truncatingRemainder(dividingBy: 1) == 0 ? String(
                 format: "%.0f",
                 width
@@ -28,6 +33,8 @@ struct Ratio: Equatable {
     }
     
     static let random = Ratio(width: 0, height: 0)
+    static let letterLandscape = Ratio(width: 1.294, height: 1)
+    static let letterPortrait = Ratio(width: 1, height: 1.294)
 }
 
 final class RatioPickerView: UIView {
@@ -137,9 +144,8 @@ extension RatioPickerView {
         RatioPickerView(
             title: "Page Size",
             selections: [
-                Ratio(width: 16, height: 9),
-                Ratio(width: 9, height: 16),
-                Ratio(width: 1, height: 1)
+                Ratio(width: 1, height: 1.294),
+                Ratio(width: 1.294, height: 1)
             ],
             onSelect: onSelect
         )

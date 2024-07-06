@@ -11,10 +11,10 @@ import SwiftUI
 struct ExportSheetCell: View {
     @ObservedObject var exportVM: ExportViewModel
     @Binding var currentPage: Int
-    @State var exportSheetCell: AnyView!
+
     var completion: ((_ sheetSnap: UIImage?) -> ())?
     var body: some View {
-        exportSheetCell = AnyView(VStack {
+        VStack {
             VStack(alignment: .leading) {
                 Text(self.exportVM.selectedProject.title)
                     .font(.title)
@@ -35,37 +35,19 @@ struct ExportSheetCell: View {
                                         height: max(calculateItemSize(proxy.size, 8), 0),
                                         alignment: .center
                                     )
-//                                    .frame(
-//                                        width: max(calculateItemSize(proxy.size, 8), 0),
-//                                        height: max(calculateItemHeight(proxy.size, 8), 0),
-//                                        alignment: .center
-//                                    )
                                     .clipped()
                             }
                         }
                     }
                 }
-                .padding(.horizontal, 20)
             }
-//            .onReceive(NotificationCenter.default.publisher(for: Notification.Name("ExportImage")), perform: { _ in
-//                let renderer = ImageRenderer(content: exportSheetCell)
-//                if let uiImage = renderer.uiImage {
-//                    completion?(uiImage)
-//                }
-//            })
             .onChange(of: self.exportVM.columnStepper, perform: { value in
                 withAnimation {
                     self.exportVM.columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: self.exportVM.columnStepper)
                 }
             })
-            .frame(
-                maxWidth: .infinity,
-                maxHeight: UIScreen.main.bounds.height / 2
-            )
             .background(self.exportVM.bgColor)
-            .padding(.all, 20)
-        })
-        return exportSheetCell
+        }
     }
     
     private func calculateItemSize(_ size: CGSize, _ spacing: Double) -> CGFloat {
@@ -111,7 +93,6 @@ extension ExportSheetCell {
         }
         
         func getHeightWidth(totalSize: CGSize) -> (width: Double,height: Double) {
-//            let ratio = self.viewModel.selectedProject.photoAspectRatio.width / self.viewModel.selectedProject.photoAspectRatio.height
             var width: Double = totalSize.width
             var height: Double = totalSize.height
             if self.viewModel.selectedProject.photoAspectRatio.width > self.viewModel.selectedProject.photoAspectRatio.height {
@@ -120,9 +101,7 @@ extension ExportSheetCell {
                 width = self.viewModel.selectedProject.photoAspectRatio.width * height / self.viewModel.selectedProject.photoAspectRatio.height
             }
 
-            print("width - \(width), height - \(height)")
             return (width, height)
-
         }
     }
 }
