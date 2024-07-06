@@ -38,6 +38,9 @@
 		23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */; };
 		23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */; };
 		23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E612C19EC65001A5966 /* ProjectGridCell.swift */; };
+		641E24A82C3968C600BD5424 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24A72C3968C600BD5424 /* View+Extensions.swift */; };
+		641E24AA2C39696200BD5424 /* Extension+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24A92C39696200BD5424 /* Extension+Notifications.swift */; };
+		641E24AC2C3976FE00BD5424 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24AB2C3976FE00BD5424 /* ImageSaver.swift */; };
 		64E311702C3137A200737EE7 /* ExportSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */; };
 		64E311722C31C70B00737EE7 /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */; };
 		64E311772C31C7CB00737EE7 /* ICloudSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */; };
@@ -85,6 +88,9 @@
 		23F50E5D2C19EA2B001A5966 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		23F50E5F2C19EA36001A5966 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		23F50E612C19EC65001A5966 /* ProjectGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectGridCell.swift; sourceTree = "<group>"; };
+		641E24A72C3968C600BD5424 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		641E24A92C39696200BD5424 /* Extension+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Notifications.swift"; sourceTree = "<group>"; };
+		641E24AB2C3976FE00BD5424 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheetCell.swift; sourceTree = "<group>"; };
 		64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
 		64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudSettingView.swift; sourceTree = "<group>"; };
@@ -232,6 +238,9 @@
 				23F50E592C19EA0D001A5966 /* VStackView.swift */,
 				23F50E5B2C19EA1A001A5966 /* HStackView.swift */,
 				64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */,
+				641E24A72C3968C600BD5424 /* View+Extensions.swift */,
+				641E24A92C39696200BD5424 /* Extension+Notifications.swift */,
+				641E24AB2C3976FE00BD5424 /* ImageSaver.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -379,6 +388,8 @@
 				64E311792C31C7EE00737EE7 /* CloudKitSyncMonitor.swift in Sources */,
 				23F50E582C19E952001A5966 /* ProjectGridView.swift in Sources */,
 				64FC58E62C1EB08500694C24 /* Extensions+Preview.swift in Sources */,
+				641E24AA2C39696200BD5424 /* Extension+Notifications.swift in Sources */,
+				641E24AC2C3976FE00BD5424 /* ImageSaver.swift in Sources */,
 				2396C1322C358F6900D05D18 /* AppearanceSettingView.swift in Sources */,
 				23F50E5A2C19EA0D001A5966 /* VStackView.swift in Sources */,
 				64E311722C31C70B00737EE7 /* UIStackView+Ext.swift in Sources */,
@@ -391,6 +402,7 @@
 				23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */,
 				23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */,
 				23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */,
+				641E24A82C3968C600BD5424 /* View+Extensions.swift in Sources */,
 				23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */,
 				64EA49A82C2B3EDA00D81A99 /* ExportViewModel.swift in Sources */,
 				23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */,
@@ -550,7 +562,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -585,7 +597,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";

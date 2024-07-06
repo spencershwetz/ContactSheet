@@ -33,6 +33,9 @@ struct ExportView: View {
             }
             StepperView()
             SheetView()
+                .background {
+                    BackgroundRenderingView()
+                }
         }
         .onAppear {
             exportVM.setSteppers()
@@ -43,6 +46,19 @@ struct ExportView: View {
                 .labelsHidden()
                 .opacity(0)
         }
+        .onReceive(NotificationCenter.default.publisher(for: .renderImage), perform: { _ in
+            exportVM.exportPages {
+                exportVM.showSuccessAlert = true
+            }
+        })
+        .alert(isPresented: $exportVM.showSuccessAlert,
+               content: {
+            Alert(
+                title: Text(""),
+                message: Text("Your sheets are stored to image library."),
+                dismissButton: .default(Text("OK"))
+            )
+        })
     }
 }
 
@@ -148,9 +164,11 @@ extension ExportView {
             ScrollView {
                 TabView(selection: $exportVM.selectedPage) {
                     ForEach(0..<exportVM.numberOfSheets, id: \.self) { i in
-                        ExportSheetCell(exportVM: exportVM, currentPage: .constant(i)) { snapShot in
-                            self.exportVM.pageSnapshot[i] = snapShot
-                        }
+                        ExportSheetCell(
+                            exportVM: exportVM,
+                            height: calculateHeight(width: proxy.size.width),
+                            currentPage: .constant(i)
+                        )
                     }
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
@@ -162,5 +180,25 @@ extension ExportView {
     private func calculateHeight(width: CGFloat) -> CGFloat {
         let ratio = exportVM.selectedProject.pageSizeRatio
         return width * ratio.height / ratio.width
+    }
+}
+
+///`BackgroundRenderingView`
+extension ExportView {
+    func BackgroundRenderingView() -> some View {
+        GeometryReader { proxy in
+            ZStack {
+                ForEach(0..<exportVM.numberOfSheets, id: \.self) { i in
+                    ExportSheetCell(
+                        exportVM: exportVM,
+                        height: calculateHeight(width: proxy.size.width),
+                        currentPage: .constant(i)
+                        , renderedImage: { image in
+                            self.exportVM.pageSnapshot[i] = image
+                        })
+                }
+            }
+            .opacity(0.001)
+        }
     }
 }

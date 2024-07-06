@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import PDFKit
 
 final class ExportViewModel: ObservableObject {
 
@@ -25,7 +26,9 @@ final class ExportViewModel: ObservableObject {
     
     @Published var numberOfSheets: Int = 1
     @Published var selectedPage: Int = 0
-    
+    @Published var isSaving: Bool = false
+    @Published var showSuccessAlert: Bool = false
+
     @Published var pageSnapshot: [Int: UIImage] = [:]
 
     @Published var columns: [GridItem] = [
@@ -100,6 +103,45 @@ extension ExportViewModel {
     }
 }
 
+extension ExportViewModel {
+    func exportPages(completion: (() -> ())?) {
+        guard isSaving == false else { return }
+        ///Adding a 0.5 second delay for the images gets rendered correctly
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let images: [UIImage] = self.pageSnapshot.compactMap { dict in
+                return dict.value
+            }.reversed()
+            if self.selectedExportType == .JPEG {
+                for image in images {
+                    ///                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    ContactSheetPhotoAlbum.sharedInstance.saveImage(image: image)
+                }
+                completion?()
+            } else {
+                let pdf = images.makePDF()
+                self.sharePDF(pdf)
+
+            }
+            self.isSaving = false
+            self.pageSnapshot = [:]
+        }
+    }
+
+    func sharePDF(_ filePDF: PDFDocument) {
+        if let pdfData = filePDF.dataRepresentation() {
+            let objectsToShare = [pdfData]
+
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+            if let keyWindow = UIApplication.keyWindow {
+                keyWindow.rootViewController?.present(activityVC, animated: true, completion: {})
+            }
+        }
+    }
+
+
+}
+
 private extension Project {
 
     static func empty() -> Project {
@@ -113,4 +155,17 @@ private extension Project {
             title: ""
         )
     }
+}
+
+extension Array where Element: UIImage {
+
+    func makePDF() -> PDFDocument {
+        let pdfDocument = PDFDocument()
+        for (index,image) in self.enumerated() {
+            let pdfPage = PDFPage(image: image)
+            pdfDocument.insert(pdfPage!, at: index)
+        }
+        return pdfDocument
+    }
+
 }

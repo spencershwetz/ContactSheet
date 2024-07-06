@@ -10,45 +10,25 @@ import SwiftUI
 ///`ExportSheetCell`
 struct ExportSheetCell: View {
     @ObservedObject var exportVM: ExportViewModel
+    var height: Double
     @Binding var currentPage: Int
-
-    var completion: ((_ sheetSnap: UIImage?) -> ())?
+    var renderedImage: ((_ image: UIImage) -> ())?
     var body: some View {
-        VStack {
-            VStack(alignment: .leading) {
-                Text(self.exportVM.selectedProject.title)
-                    .font(.title)
-                    .bold()
-                    .padding(.all, 12)
-                    .foregroundStyle(self.exportVM.titleColor)
-                    .frame(height: 40)
-                    .padding(.bottom, 8)
-
-                GeometryReader { proxy in
-                    ScrollView {
-                        LazyVGrid(columns: exportVM.columns, spacing: 8) {
-                            let arrImages = exportVM.getArrayForPage(index: self.currentPage)
-                            ForEach(0..<arrImages.count, id: \.self) { index in
-                                ImageCell(viewModel: exportVM, image: arrImages[index])
-                                    .frame(
-                                        width: max(calculateItemSize(proxy.size, 8), 0),
-                                        height: max(calculateItemSize(proxy.size, 8), 0),
-                                        alignment: .center
-                                    )
-                                    .clipped()
-                            }
-                        }
-                    }
+        cellBody
+            .onReceive(NotificationCenter.default.publisher(for: .renderImage), perform: { _ in
+                if let image = cellBody.snapshot(withBackgroundColor: self.exportVM.bgColor) {
+                    renderedImage?(image)
                 }
-            }
+            })
             .onChange(of: self.exportVM.columnStepper, perform: { value in
                 withAnimation {
                     self.exportVM.columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: self.exportVM.columnStepper)
                 }
             })
             .background(self.exportVM.bgColor)
-        }
+        .frame(height: height)
         .border(.primary, width: 1)
+
     }
     
     private func calculateItemSize(_ size: CGSize, _ spacing: Double) -> CGFloat {
@@ -63,12 +43,48 @@ struct ExportSheetCell: View {
         let actualHeight = size.height - numberOfRows * spacing
         return actualHeight / numberOfRows
     }
-
-
 }
 
 #Preview {
-    ExportSheetCell(exportVM: ExportViewModel(), currentPage: .constant(0))
+    ExportSheetCell(exportVM: ExportViewModel(), height: 0, currentPage: .constant(0))
+}
+
+extension ExportSheetCell {
+    var cellBody: some View {
+        VStack(alignment: .leading) {
+            Text(self.exportVM.selectedProject.title)
+                .font(.title)
+                .bold()
+                .padding(.horizontal, 12)
+                .foregroundStyle(self.exportVM.titleColor)
+                .frame(height: 40)
+                .padding(.bottom, 8)
+            gridImages
+        }
+    }
+    var gridImages: some View {
+        GeometryReader { proxy in
+            ScrollView {
+                LazyVGrid(columns: exportVM.columns, spacing: 8) {
+                    let arrImages = exportVM.getArrayForPage(index: self.currentPage)
+                    ForEach(0..<arrImages.count, id: \.self) { index in
+                        ImageCell(viewModel: exportVM, image: arrImages[index])
+                            .frame(
+                                width: max(calculateItemSize(proxy.size, 8), 0),
+                                height: max(calculateItemSize(proxy.size, 8), 0),
+                                alignment: .center
+                            )
+                            .clipped()
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 12)
+        .frame(
+            width: UIScreen.main.bounds.width - 24,
+            height: height - 48
+        )
+    }
 }
 
 extension ExportSheetCell {
@@ -106,3 +122,4 @@ extension ExportSheetCell {
         }
     }
 }
+

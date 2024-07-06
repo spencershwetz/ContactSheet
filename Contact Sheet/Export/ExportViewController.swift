@@ -68,7 +68,7 @@ extension ExportViewController {
 extension ExportViewController {
     @objc
     private func handleShareProject() {
-        
+        NotificationCenter.default.post(Notification(name: .renderImage))
     }
 }
 #Preview(body: {
