@@ -254,26 +254,20 @@ final class ProjectViewController: UIViewController {
 
     @objc
     private func handleExportAction() {
-        self.config.photoAspectRatio = .init(width: photoAspectRatio.width, height: photoAspectRatio.height)
         let project = Project(
             id: config.id,
-            pageSizeRatio: Project.Ratio(
-                width: config.pageSizeRatio.width,
-                height: config.pageSizeRatio.height
-            ),
-            photoAspectRatio: Project.Ratio(
-                width: config.photoAspectRatio.width,
-                height: config.photoAspectRatio.height
-            ),
-            totalRows: config.totalRows,
-            totalColumns: config.totalColumns,
-            photos: config.photos.map({Project.Photo(assetIdentifier: $0.assetIdentifier, croppedImage: $0.croppedImage)}),
+            pageSizeRatio: .init(width: pageSizeRatio.width, height: pageSizeRatio.height),
+            photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
+            totalRows: gridView.totalRows,
+            totalColumns: gridView.totalColumns,
+            photos: gridView.photos.map { .init(
+                assetIdentifier: $0.assetIdentifier,
+                croppedImage: $0.croppedImage
+            ) },
             title: config.title
         )
-        navigationController?.pushViewController(
-            ExportViewController(project: project), animated: true
-        )
-
+        let exportViewController = ExportViewController(project: project)
+        navigationController?.pushViewController(exportViewController, animated: true)
     }
 
     private func showRenameProjectAlert(_ project: Project) {
