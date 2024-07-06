@@ -48,6 +48,7 @@ struct ExportSheetCell: View {
             })
             .background(self.exportVM.bgColor)
         }
+        .border(.primary, width: 1)
     }
     
     private func calculateItemSize(_ size: CGSize, _ spacing: Double) -> CGFloat {
