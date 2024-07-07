@@ -17,14 +17,16 @@ final class ExportViewController: UIViewController {
     private var vm: ExportViewModel = ExportViewModel()
     private let store = ProjectStore.shared
     private let project: Project
+    private let isFromCreate: Bool
     var bgColorLabel: String? {
         didSet {
             bgLabel.text = bgColorLabel
         }
     }
 
-    init(project: Project) {
+    init(project: Project, isFromCreate: Bool = false) {
         self.project = project
+        self.isFromCreate = isFromCreate
         self.vm.selectedProject = project
         self.vm.fetchAllImages()
         UIScrollView.appearance().bounces = false
@@ -42,7 +44,7 @@ final class ExportViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Export"
+        title = self.project.title
         view.backgroundColor = .systemBackground
         navigationItem.largeTitleDisplayMode = .never
         addExportView()
@@ -53,6 +55,10 @@ final class ExportViewController: UIViewController {
 
 extension ExportViewController {
     func setUpNavBar() {
+        let backButton = UIBarButtonItem()
+        backButton.title = isFromCreate ? "Create" : "Library"
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+
         shareButtonBarItem = UIBarButtonItem(
             image: UIImage(systemName: "square.and.arrow.up"),
             style: .plain,

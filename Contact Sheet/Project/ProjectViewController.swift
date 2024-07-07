@@ -153,7 +153,29 @@ final class ProjectViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let project = store.get(id: config.id) {
+            config = .init(
+                id: project.id,
+                pageSizeRatio: .init(
+                    width: project.pageSizeRatio.width,
+                    height: project.pageSizeRatio.height
+                ),
+                photoAspectRatio: .init(
+                    width: project.photoAspectRatio.width,
+                    height: project.photoAspectRatio.height),
+                photos: project.photos.map { ProjectPhoto(assetIdentifier: $0.assetIdentifier, croppedImage: $0.croppedImage)},
+                totalRows: project.totalRows,
+                totalColumns: project.totalColumns,
+                title: project.title
+            )
+            gridView.totalColumns = config.totalColumns
+            gridView.totalRows = config.totalRows
+            bind()
+
+        }
+    }
     private func setupGrid() {
         gridView.viewController = self
         gridView.translatesAutoresizingMaskIntoConstraints = false
@@ -266,7 +288,7 @@ final class ProjectViewController: UIViewController {
             ) },
             title: config.title
         )
-        let exportViewController = ExportViewController(project: project)
+        let exportViewController = ExportViewController(project: project, isFromCreate: true)
         navigationController?.pushViewController(exportViewController, animated: true)
     }
 

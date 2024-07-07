@@ -81,7 +81,7 @@ extension ExportSheetCell {
         }
         .padding(.horizontal, 12)
         .frame(
-            width: UIScreen.main.bounds.width - 24,
+            width: UIScreen.main.bounds.width - 36,
             height: height - 48
         )
     }

@@ -81,6 +81,27 @@ struct ProjectStore {
         ))
     }
 
+    func get(id: UUID) -> Project? {
+        let request = ProjectEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+
+        request.fetchLimit = 1
+        let result = try? context.fetch(request
+        )
+        return (result?.compactMap {
+            Project(
+                id: $0.id!,
+                pageSizeRatio: $0.pageSizeRatio!.decode(),
+                photoAspectRatio: $0.photoAspectRatio!.decode(),
+                totalRows: Int($0.totalRows),
+                totalColumns: Int($0.totalColumns),
+                photos: $0.photos!.decode(),
+                title: $0.title ?? ""
+            )
+        } ?? []).first
+
+    }
+
     func create(_ project: Project) {
         let newProject = ProjectEntity(context: context)
         newProject.id = project.id

@@ -46,10 +46,11 @@ class ContactSheetPhotoAlbum {
         }
     }
 
-    func saveImage(image: UIImage) {
+    func saveImage(image: UIImage, completion: @escaping (() -> ())) {
 
         if assetCollection == nil {
-            return   // If there was an error upstream, skip the save.
+            completion()
+            return 
         }
 
         PHPhotoLibrary.shared().performChanges({
@@ -59,7 +60,9 @@ class ContactSheetPhotoAlbum {
             if let albumChangeRequest {
                 albumChangeRequest.addAssets([assetPlaceholder] as NSFastEnumeration)
             }
-        }, completionHandler: nil)
+        }, completionHandler: { _, _ in
+            completion()
+        })
     }
 
 

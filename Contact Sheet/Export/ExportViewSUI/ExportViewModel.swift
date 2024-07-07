@@ -24,6 +24,8 @@ final class ExportViewModel: ObservableObject {
     @Published var rowStepper: Int = 6
     @Published var columnStepper: Int = 1
     
+    @Published var isInitialSetUp: Bool = true
+
     @Published var numberOfSheets: Int = 1
     @Published var selectedPage: Int = 0
     @Published var isSaving: Bool = false
@@ -48,10 +50,10 @@ final class ExportViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     
     init() {
-        Publishers.CombineLatest($rowStepper, $columnStepper)
-            .sink { [weak self] row, column in self?.recalculatePages(row: row, column: column) }
-            .store(in: &subscriptions)
-        
+///        Publishers.CombineLatest($rowStepper, $columnStepper)
+///            .sink { [weak self] row, column in self?.recalculatePages(row: row, column: column) }
+///            .store(in: &subscriptions)
+
         $selectedColor
             .dropFirst()
             .sink { [weak self] in
@@ -79,13 +81,15 @@ extension ExportViewModel {
         rowStepper = min(6, selectedProject.totalRows)
         columnStepper = min(6, selectedProject.totalColumns)
         columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: columnStepper)
+        isInitialSetUp = false
     }
 
     func recalculatePages(row: Int, column: Int) {
+        guard !isInitialSetUp else { return }
         let imagePerPage = row * column
         self.numberOfSheets = Int(ceil(Double(Double(self.selectedImages.count)/Double(imagePerPage))))
         withAnimation {
-            self.selectedProject.totalColumns = self.columns.count
+            self.selectedProject.totalColumns = self.columnStepper
             self.selectedProject.totalRows = Int(self.selectedImages.count / self.columns.count) + 1
         }
     }
@@ -108,18 +112,20 @@ extension ExportViewModel {
         guard isSaving == false else { return }
         ///Adding a 0.5 second delay for the images gets rendered correctly
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let images: [UIImage] = self.pageSnapshot.compactMap { dict in
+            let images: [UIImage] = self.pageSnapshot.sorted(by: {$0.key < $1.key}).compactMap { dict in
                 return dict.value
-            }.reversed()
+            }
             if self.selectedExportType == .JPEG {
-                for image in images {
+                /**for image in images {
+                    usleep(200000)
                     ///                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                    ContactSheetPhotoAlbum.sharedInstance.saveImage(image: image)
-                }
-                completion?()
+                    ContactSheetPhotoAlbum.sharedInstance.saveImage(image: image){}
+                }*/
+                self.shareImagesWithName(images, name: self.selectedProject.title)
+//                completion?()
             } else {
                 let pdf = images.makePDF()
-                self.sharePDF(pdf)
+                self.sharePDFWithName(pdf, name: self.selectedProject.title)
 
             }
             self.isSaving = false
@@ -136,6 +142,25 @@ extension ExportViewModel {
             if let keyWindow = UIApplication.keyWindow {
                 keyWindow.rootViewController?.present(activityVC, animated: true, completion: {})
             }
+        }
+    }
+    func sharePDFWithName(_ filePDF: PDFDocument, name: String) {
+        let temporaryFolder = FileManager.default.temporaryDirectory
+        let fileName = "\(name).pdf"
+        let temporaryFileURL = temporaryFolder.appendingPathComponent(fileName)
+        print(temporaryFileURL.path)
+            filePDF.write(to: temporaryFileURL)
+            let activityViewController = UIActivityViewController(activityItems: [temporaryFileURL], applicationActivities: nil)
+            if let keyWindow = UIApplication.keyWindow {
+                keyWindow.rootViewController?.present(activityViewController, animated: true, completion: {})
+            }
+    }
+
+    func shareImagesWithName(_ images: [UIImage], name: String) {
+//        let activityViewController = UIActivityViewController(activityItems: [images.first!, name], applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: images, applicationActivities: nil)
+        if let keyWindow = UIApplication.keyWindow {
+            keyWindow.rootViewController?.present(activityViewController, animated: true, completion: {})
         }
     }
 

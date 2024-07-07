@@ -37,6 +37,10 @@ struct ExportView: View {
                     BackgroundRenderingView()
                 }
         }
+        .onChange(of: [self.exportVM.rowStepper, self.exportVM.columnStepper], perform: { value in
+            self.exportVM.recalculatePages(row: self.exportVM.rowStepper, column: self.exportVM.columnStepper)
+        })
+
         .onAppear {
             exportVM.setSteppers()
         }
