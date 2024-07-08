@@ -72,7 +72,8 @@ final class ExportViewModel: ObservableObject {
                 self.selectedImages.append(image)
             }
         }
-        analyzeColors()
+//        analyzeColors()
+
     }
 
     private func analyzeColors() {

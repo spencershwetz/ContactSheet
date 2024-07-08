@@ -26,6 +26,7 @@ struct ExportSheetCell: View {
                 }
             })
             .background(self.exportVM.bgColor)
+        
         .frame(height: height)
         .border(.primary, width: 1)
 
@@ -78,6 +79,7 @@ extension ExportSheetCell {
                             alignment: .center
                         )
                         .clipped()
+//                        .background(Color.red)
                 }
             }
         }

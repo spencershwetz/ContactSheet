@@ -14,6 +14,7 @@ struct ExportView: View {
     
     init(exportVM: ExportViewModel) {
         self.exportVM = exportVM
+
     }
     
     var body: some View {
@@ -43,6 +44,10 @@ struct ExportView: View {
 
         .onAppear {
             exportVM.setSteppers()
+            UIView.setAnimationsEnabled(false)
+        }
+        .onDisappear {
+            UIView.setAnimationsEnabled(true)
         }
         .padding(.all, 16)
         .background {
