@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 import PDFKit
+import UIImageColorRatio
 
 final class ExportViewModel: ObservableObject {
 
@@ -50,10 +51,6 @@ final class ExportViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     
     init() {
-///        Publishers.CombineLatest($rowStepper, $columnStepper)
-///            .sink { [weak self] row, column in self?.recalculatePages(row: row, column: column) }
-///            .store(in: &subscriptions)
-
         $selectedColor
             .dropFirst()
             .sink { [weak self] in
@@ -66,12 +63,23 @@ final class ExportViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    @State private(set) var analyzedColors: [UIColor] = []
+    
     func fetchAllImages() {
         let imageIds: [String] = self.selectedProject.photos.compactMap({$0.assetIdentifier}).filter({!($0.isEmpty)})
         for imageId in imageIds {
             PhotoAssetStore.shared.getImageWithLocalId(identifier: imageId) { image in
                 self.selectedImages.append(image)
             }
+        }
+        analyzeColors()
+    }
+
+    private func analyzeColors() {
+        selectedImages.compactMap { $0 }.forEach { value in
+            let result = value.calculateColorRatio(deviation: 200)
+            let colors = result?.colorRatioArray.map(\.color) ?? []
+            analyzedColors += colors
         }
     }
 }

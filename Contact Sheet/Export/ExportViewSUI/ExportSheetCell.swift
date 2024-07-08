@@ -51,39 +51,36 @@ struct ExportSheetCell: View {
 
 extension ExportSheetCell {
     var cellBody: some View {
-        VStack(alignment: .leading) {
-            Text(self.exportVM.selectedProject.title)
+        VStack(alignment: .leading, spacing: 12) {
+            Text(exportVM.selectedProject.title)
                 .font(.title)
                 .bold()
-                .padding(.horizontal, 12)
-                .foregroundStyle(self.exportVM.titleColor)
-                .frame(height: 40)
-                .padding(.bottom, 8)
+                .foregroundStyle(exportVM.titleColor)
             gridImages
-        }
-    }
-    var gridImages: some View {
-        GeometryReader { proxy in
-            ScrollView {
-                LazyVGrid(columns: exportVM.columns, spacing: 8) {
-                    let arrImages = exportVM.getArrayForPage(index: self.currentPage)
-                    ForEach(0..<arrImages.count, id: \.self) { index in
-                        ImageCell(viewModel: exportVM, image: arrImages[index])
-                            .frame(
-                                width: max(calculateItemSize(proxy.size, 8), 0),
-                                height: max(calculateItemSize(proxy.size, 8), 0),
-                                alignment: .center
-                            )
-                            .clipped()
-                    }
+            HStack(spacing: 0) {
+                ForEach(exportVM.analyzedColors, id: \.self) {
+                    Color(uiColor: $0)
+                        .frame(height: 32)
                 }
             }
         }
         .padding(.horizontal, 12)
-        .frame(
-            width: UIScreen.main.bounds.width - 36,
-            height: height - 48
-        )
+    }
+    var gridImages: some View {
+        GeometryReader { proxy in
+            LazyVGrid(columns: exportVM.columns, spacing: 8) {
+                let arrImages = exportVM.getArrayForPage(index: self.currentPage)
+                ForEach(0..<arrImages.count, id: \.self) { index in
+                    ImageCell(viewModel: exportVM, image: arrImages[index])
+                        .frame(
+                            width: max(calculateItemSize(proxy.size, 8), 0),
+                            height: max(calculateItemSize(proxy.size, 8), 0),
+                            alignment: .center
+                        )
+                        .clipped()
+                }
+            }
+        }
     }
 }
 

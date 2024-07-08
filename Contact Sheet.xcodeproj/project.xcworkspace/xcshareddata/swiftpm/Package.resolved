@@ -8,6 +8,15 @@
         "revision" : "d6880eb97267248f89e6cef2dd52785d50627639",
         "version" : "1.9.0"
       }
+    },
+    {
+      "identity" : "uiimagecolorratio",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/623637646/UIImageColorRatio.git",
+      "state" : {
+        "revision" : "a10fec4050d0906955f17653717a3dff7aa1947d",
+        "version" : "1.2.0"
+      }
     }
   ],
   "version" : 2

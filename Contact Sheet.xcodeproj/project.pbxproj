@@ -28,6 +28,7 @@
 		23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F22C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift */; };
 		23AFC8F52C26B63F00E12C9C /* LibraryThumbnailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F42C26B63F00E12C9C /* LibraryThumbnailContentView.swift */; };
 		23AFC8F72C26B6F300E12C9C /* LibraryThumbnailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFC8F62C26B6F300E12C9C /* LibraryThumbnailImageView.swift */; };
+		23E7CF082C3C20D6004DEA8B /* UIImageColorRatio in Frameworks */ = {isa = PBXBuildFile; productRef = 23E7CF072C3C20D6004DEA8B /* UIImageColorRatio */; };
 		23F50D9C2C19D511001A5966 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9B2C19D511001A5966 /* ProjectViewController.swift */; };
 		23F50D9F2C19D538001A5966 /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50D9E2C19D538001A5966 /* ExportViewController.swift */; };
 		23F50E272C19DE87001A5966 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F50E262C19DE87001A5966 /* State.swift */; };
@@ -107,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23E7CF082C3C20D6004DEA8B /* UIImageColorRatio in Frameworks */,
 				64E3117E2C31C87500737EE7 /* Mantis in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +322,7 @@
 			name = "Contact Sheet";
 			packageProductDependencies = (
 				64E3117D2C31C87500737EE7 /* Mantis */,
+				23E7CF072C3C20D6004DEA8B /* UIImageColorRatio */,
 			);
 			productName = "Contact Sheet";
 			productReference = 230725452C1897CF0053774F /* Contact Sheet.app */;
@@ -351,6 +354,7 @@
 			mainGroup = 2307253C2C1897CF0053774F;
 			packageReferences = (
 				64E3117C2C31C87500737EE7 /* XCRemoteSwiftPackageReference "Mantis" */,
+				23E7CF062C3C20D6004DEA8B /* XCRemoteSwiftPackageReference "UIImageColorRatio" */,
 			);
 			productRefGroup = 230725462C1897CF0053774F /* Products */;
 			projectDirPath = "";
@@ -562,7 +566,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -597,7 +601,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -649,6 +653,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		23E7CF062C3C20D6004DEA8B /* XCRemoteSwiftPackageReference "UIImageColorRatio" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/623637646/UIImageColorRatio.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.2.0;
+			};
+		};
 		64E3117C2C31C87500737EE7 /* XCRemoteSwiftPackageReference "Mantis" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/guoyingtao/Mantis.git";
@@ -660,6 +672,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		23E7CF072C3C20D6004DEA8B /* UIImageColorRatio */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23E7CF062C3C20D6004DEA8B /* XCRemoteSwiftPackageReference "UIImageColorRatio" */;
+			productName = UIImageColorRatio;
+		};
 		64E3117D2C31C87500737EE7 /* Mantis */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 64E3117C2C31C87500737EE7 /* XCRemoteSwiftPackageReference "Mantis" */;
