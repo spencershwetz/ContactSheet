@@ -362,7 +362,7 @@ private extension ProjectViewController.Config {
     static func initialConfig(id: UUID) -> Self {
         ProjectViewController.Config(
             id: id,
-            pageSizeRatio: .init(width: 16, height: 9),
+            pageSizeRatio: .letterPortrait,
             photoAspectRatio: .init(width: 1, height: 1),
             photos: [],
             totalRows: 4,
