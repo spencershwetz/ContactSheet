@@ -14,9 +14,10 @@ struct ProjectPhoto: Hashable {
 
 extension Array where Element == ProjectPhoto {
 
-    func addImages(_ imageIDs: [String], from startingIndex: Int) -> [Element] {
-        guard !imageIDs.isEmpty else { return self }
+    func addImages(_ imageIDs: [String], from startingIndex: Int, totalColumns: Int) -> ([Element], addedRows: Int) {
+        guard !imageIDs.isEmpty else { return (self, 0) }
         var items = self
+        var addedRows: Int = 0
 
         var imageIDs = imageIDs
         items[startingIndex] = ProjectPhoto(
@@ -27,9 +28,18 @@ extension Array where Element == ProjectPhoto {
         for id in imageIDs {
             if let index = items.firstIndex(where: { $0.assetIdentifier == nil}) {
                 items[index] = ProjectPhoto(assetIdentifier: id, croppedImage: nil)
+            } else {
+                addedRows += 1
+                for _ in 0..<totalColumns {
+                    items.append(ProjectPhoto(assetIdentifier: nil, croppedImage: nil))
+                }
+                if let index = items.firstIndex(where: { $0.assetIdentifier == nil}) {
+                    items[index] = ProjectPhoto(assetIdentifier: id, croppedImage: nil)
+                }
+
             }
         }
-        return items
+        return (items, addedRows)
     }
 
     func updatedCroppedImage(_ image: UIImage, at index: Int) -> [Element] {

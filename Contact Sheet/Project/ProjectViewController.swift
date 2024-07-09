@@ -153,6 +153,7 @@ final class ProjectViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let project = store.get(id: config.id) {

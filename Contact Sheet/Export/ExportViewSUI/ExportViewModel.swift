@@ -13,7 +13,7 @@ import UIImageColorRatio
 
 final class ExportViewModel: ObservableObject {
 
-    var selectedProject: Project = .empty()
+    @Published var selectedProject: Project = .empty()
 
     @Published var selectedImages: [UIImage?] = []
     @Published var bgColor: Color = Color.black
@@ -72,7 +72,7 @@ final class ExportViewModel: ObservableObject {
                 self.selectedImages.append(image)
             }
         }
-//        analyzeColors()
+        analyzeColors()
 
     }
 

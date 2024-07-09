@@ -16,7 +16,7 @@ final class ExportViewController: UIViewController {
     private var shareButtonBarItem: UIBarButtonItem!
     private var vm: ExportViewModel = ExportViewModel()
     private let store = ProjectStore.shared
-    private let project: Project
+    private var project: Project
     private let isFromCreate: Bool
     var bgColorLabel: String? {
         didSet {
@@ -59,6 +59,9 @@ extension ExportViewController {
         backButton.title = isFromCreate ? "Create" : "Library"
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
 
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(somethingWasTapped(_:)))
+        self.navigationController?.navigationBar.addGestureRecognizer(tapGestureRecognizer)
+
         shareButtonBarItem = UIBarButtonItem(
             image: UIImage(systemName: "square.and.arrow.up"),
             style: .plain,
@@ -68,6 +71,48 @@ extension ExportViewController {
         navigationItem.rightBarButtonItems = [
             shareButtonBarItem
         ]
+    }
+
+
+    @objc private func somethingWasTapped(_ sth: AnyObject){
+        showRenameProjectAlert(project)
+    }
+
+    private func showRenameProjectAlert(_ project: Project) {
+        let alert = UIAlertController(
+            title: "Project Name",
+            message: "Please enter project name",
+            preferredStyle: .alert
+        )
+
+        alert.addTextField { textField in
+            textField.placeholder = "Name"
+            textField.keyboardType = .default
+            textField.text = project.title
+        }
+
+        let submitAction = UIAlertAction(
+            title: "Done",
+            style: .default
+        ) { [unowned alert, unowned self] _ in
+            guard
+                let nameText = alert.textFields![0].text,
+                !(nameText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            else {
+                return
+            }
+
+            var project = project
+            project.title = nameText
+            self.project = project
+            store.update(project: project)
+            vm.selectedProject = project
+            title = nameText
+        }
+
+        alert.addAction(submitAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 

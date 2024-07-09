@@ -165,7 +165,10 @@ extension ProjectGridView: UICollectionViewDelegate {
         } else {
             imagePicker.show(on: viewController, onPickImages: { [weak self] images in
                 guard let self else { return }
-                photos = photos.addImages(images, from: indexPath.item)
+                
+                let (addedPhotos, addedRows) = photos.addImages(images, from: indexPath.item, totalColumns: totalColumns)
+                photos = addedPhotos
+                totalRows += addedRows
             })
         }
     }

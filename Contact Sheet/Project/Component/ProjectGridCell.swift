@@ -17,10 +17,13 @@ final class ProjectGridCell: UICollectionViewCell {
     static let identifier = String(describing: ProjectGridCell.self)
     
     private let photoView = UIImageView()
-    
     private var photoViewWidthConstraint: NSLayoutConstraint?
     private var photoViewHeigthConstraint: NSLayoutConstraint?
-    
+
+    private let deleteButton = UIButton()
+    private var deleteButtonWidthConstraint: NSLayoutConstraint?
+    private var deleteButtonHeigthConstraint: NSLayoutConstraint?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.clipsToBounds = true
@@ -31,20 +34,43 @@ final class ProjectGridCell: UICollectionViewCell {
         photoView.contentMode = .scaleAspectFill
         photoView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(photoView)
-        
+
+
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        deleteButton.setImage(UIImage(systemName: "xmark", withConfiguration: configuration)!.withRenderingMode(.alwaysTemplate), for: .normal)
+        deleteButton.tintColor = .black
+
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
+        deleteButton.backgroundColor = .white.withAlphaComponent(0.01)
+        deleteButton.layer.cornerRadius = 12
+
+
+
+
+        contentView.addSubview(deleteButton)
+
         NSLayoutConstraint.activate([
             photoView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            photoView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            photoView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
-        
+
+        deleteButtonWidthConstraint = deleteButton.widthAnchor.constraint(equalToConstant: 0)
+        deleteButtonWidthConstraint?.isActive = true
+
+        deleteButtonHeigthConstraint = deleteButton.heightAnchor.constraint(equalToConstant: 0)
+        deleteButtonHeigthConstraint?.isActive = true
+
         photoViewHeigthConstraint = photoView.heightAnchor.constraint(equalToConstant: 0)
         photoViewHeigthConstraint?.isActive = true
-        
+
         photoViewWidthConstraint = photoView.widthAnchor.constraint(equalToConstant: 0)
         photoViewWidthConstraint?.isActive = true
         
-        photoView.addInteraction(UIContextMenuInteraction(delegate: self))
-        photoView.isUserInteractionEnabled = true
+//        photoView.addInteraction(UIContextMenuInteraction(delegate: self))
+//        photoView.isUserInteractionEnabled = true
     }
     
     required init?(coder: NSCoder) {
@@ -76,11 +102,14 @@ final class ProjectGridCell: UICollectionViewCell {
 
         photoViewWidthConstraint?.constant = max(0, width)
         photoViewHeigthConstraint?.constant = max(0, height)
+
+        deleteButtonWidthConstraint?.constant = 25
+        deleteButtonHeigthConstraint?.constant = 25
     }
     
     func configure(_ photo: ProjectPhoto) {
         imageAssetId = photo.assetIdentifier
-
+        deleteButton.isHidden = imageAssetId == nil
         if let croppedImage = photo.croppedImage {
             photoView.image = croppedImage
         } else {
@@ -91,6 +120,10 @@ final class ProjectGridCell: UICollectionViewCell {
         }
     }
 
+    @objc
+    func deleteTapped(_ sender: UIButton) {
+        self.onDelete?()
+    }
 }
 
 extension ProjectGridCell: UIContextMenuInteractionDelegate {
