@@ -182,8 +182,9 @@ final class ProjectViewController: UIViewController {
             gridView.totalColumns = config.totalColumns
             gridView.totalRows = config.totalRows
             bind()
-
         }
+        
+        title = config.title
     }
     private func setupGrid() {
         gridView.viewController = self
@@ -297,7 +298,8 @@ final class ProjectViewController: UIViewController {
             ) },
             title: config.title
         )
-        let exportViewController = ExportViewController(project: project, isFromCreate: true)
+        let exportViewController = ExportViewController(project: project)
+        title = "Create"
         navigationController?.pushViewController(exportViewController, animated: true)
     }
 

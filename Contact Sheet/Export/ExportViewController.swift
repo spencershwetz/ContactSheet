@@ -17,16 +17,9 @@ final class ExportViewController: UIViewController {
     private var vm: ExportViewModel = ExportViewModel()
     private let store = ProjectStore.shared
     private var project: Project
-    private let isFromCreate: Bool
-    var bgColorLabel: String? {
-        didSet {
-            bgLabel.text = bgColorLabel
-        }
-    }
 
-    init(project: Project, isFromCreate: Bool = false) {
+    init(project: Project) {
         self.project = project
-        self.isFromCreate = isFromCreate
         self.vm.selectedProject = project
         self.vm.fetchAllImages()
         UIScrollView.appearance().bounces = false
@@ -37,11 +30,12 @@ final class ExportViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        UIView.setAnimationsEnabled(true)
         store.update(project: vm.selectedProject)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = self.project.title
@@ -49,18 +43,17 @@ final class ExportViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         addExportView()
         setUpNavBar()
-        view.backgroundColor = .systemBackground
     }
 }
 
 extension ExportViewController {
+    
     func setUpNavBar() {
-        let backButton = UIBarButtonItem()
-        backButton.title = isFromCreate ? "Create" : "Library"
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-
-        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(somethingWasTapped(_:)))
-        self.navigationController?.navigationBar.addGestureRecognizer(tapGestureRecognizer)
+        let tapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleRenameAction)
+        )
+        navigationController?.navigationBar.addGestureRecognizer(tapGestureRecognizer)
 
         shareButtonBarItem = UIBarButtonItem(
             image: UIImage(systemName: "square.and.arrow.up"),
@@ -73,22 +66,17 @@ extension ExportViewController {
         ]
     }
 
-
-    @objc private func somethingWasTapped(_ sth: AnyObject){
-        showRenameProjectAlert(project)
-    }
-
-    private func showRenameProjectAlert(_ project: Project) {
+    @objc private func handleRenameAction() {
         let alert = UIAlertController(
             title: "Project Name",
             message: "Please enter project name",
             preferredStyle: .alert
         )
 
-        alert.addTextField { textField in
+        alert.addTextField { [weak self] textField in
             textField.placeholder = "Name"
             textField.keyboardType = .default
-            textField.text = project.title
+            textField.text = self?.project.title
         }
 
         let submitAction = UIAlertAction(
@@ -112,7 +100,7 @@ extension ExportViewController {
 
         alert.addAction(submitAction)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
 }
 
@@ -141,16 +129,7 @@ extension ExportViewController {
         let controller = UIHostingController(rootView: ExportView(exportVM: self.vm))
         addChild(controller)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(controller.view)
         controller.didMove(toParent: self)
-
-        NSLayoutConstraint.activate([
-            controller.view.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
-            controller.view.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1),
-            controller.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            controller.view.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        view.addSubview(controller.view, constraint: .fill)
     }
 }
-
-

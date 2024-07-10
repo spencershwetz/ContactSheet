@@ -41,13 +41,9 @@ struct ExportView: View {
         .onChange(of: [self.exportVM.rowStepper, self.exportVM.columnStepper], perform: { value in
             self.exportVM.recalculatePages(row: self.exportVM.rowStepper, column: self.exportVM.columnStepper)
         })
-
         .onAppear {
             exportVM.setSteppers()
             UIView.setAnimationsEnabled(false)
-        }
-        .onDisappear {
-            UIView.setAnimationsEnabled(true)
         }
         .padding(.all, 16)
         .background {
