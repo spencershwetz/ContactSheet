@@ -198,10 +198,7 @@ final class LibraryViewController: UIViewController {
 
     @objc
     private func handleCreateProject() {
-        let newProjectID = UUID()
-        store.create(id: newProjectID)
-        
-        let vc = ProjectViewController(config: .initialConfig(id: newProjectID))
+        let vc = ProjectViewController(config: .initialConfig())
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -359,9 +356,9 @@ private extension ProjectViewController.Config {
         )
     }
     
-    static func initialConfig(id: UUID) -> Self {
+    static func initialConfig() -> Self {
         ProjectViewController.Config(
-            id: id,
+            id: UUID(),
             pageSizeRatio: .letterPortrait,
             photoAspectRatio: .init(width: 1, height: 1),
             photos: [],

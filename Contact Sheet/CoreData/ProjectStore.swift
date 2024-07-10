@@ -69,18 +69,6 @@ struct ProjectStore {
         CoreDataContainer.shared.context
     }
 
-    func create(id: UUID) {
-        create(Project(
-            id: id,
-            pageSizeRatio: Project.Ratio(width: 16, height: 9),
-            photoAspectRatio: Project.Ratio(width: 1, height: 1),
-            totalRows: 4,
-            totalColumns: 3,
-            photos: (0..<12).map { _ in .init(assetIdentifier: nil, croppedImage: nil) },
-            title: "Untitled Project"
-        ))
-    }
-
     func get(id: UUID) -> Project? {
         let request = ProjectEntity.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)

@@ -113,7 +113,7 @@ final class ProjectViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        store.update(project: Project(
+        let projectToBeSaved = Project(
             id: config.id,
             pageSizeRatio: .init(width: pageSizeRatio.width, height: pageSizeRatio.height),
             photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
@@ -124,7 +124,15 @@ final class ProjectViewController: UIViewController {
                 croppedImage: $0.croppedImage
             ) },
             title: config.title
-        ))
+        )
+
+        if store.get(id: config.id) != nil {
+            store.update(project: projectToBeSaved)
+        } else {
+            if gridView.hasPhotos {
+                store.create(projectToBeSaved)
+            }
+        }
     }
 
     override func viewWillTransition(
@@ -359,5 +367,12 @@ final class ProjectViewController: UIViewController {
             totalColumns: 3,
             title: "Untitled Project"
         )
+    }
+}
+
+private extension ProjectGridView {
+    
+    var hasPhotos: Bool {
+        !photos.compactMap(\.assetIdentifier).isEmpty
     }
 }
