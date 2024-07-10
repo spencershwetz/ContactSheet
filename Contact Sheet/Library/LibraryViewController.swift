@@ -96,8 +96,8 @@ final class LibraryViewController: UIViewController {
     
     private func redrawCells() {
         let items = diffDataSource.snapshot().itemIdentifiers
-        applySnapshot(items: [], animatingDifferences: false)
-        applySnapshot(items: items, animatingDifferences: false)
+        applySnapshot(items: [])
+        applySnapshot(items: items)
     }
     
     private func appendProject(_ project: Project) {
@@ -139,11 +139,11 @@ final class LibraryViewController: UIViewController {
         }
     }
     
-    private func applySnapshot(items: [Project], animatingDifferences: Bool = true) {
+    private func applySnapshot(items: [Project]) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
-        diffDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        diffDataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func setupCollectionView() {
