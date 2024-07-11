@@ -21,6 +21,7 @@ final class ExportViewModel: ObservableObject {
     @Published var selectedColor: Color = Color.red
     @Published var selectedColorType: SelectedColor = .Background
     @Published var selectedExportType: SelectedExportType = .PDF
+    @Published var isShowColorBar = true
 
     @Published var rowStepper: Int = 6
     @Published var columnStepper: Int = 1

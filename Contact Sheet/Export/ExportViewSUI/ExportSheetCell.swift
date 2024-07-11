@@ -58,10 +58,12 @@ extension ExportSheetCell {
                 .bold()
                 .foregroundStyle(exportVM.titleColor)
             gridImages
-            HStack(spacing: 0) {
-                ForEach(exportVM.analyzedColors, id: \.self) {
-                    Color(uiColor: $0)
-                        .frame(height: 32)
+            if exportVM.isShowColorBar {
+                HStack(spacing: 0) {
+                    ForEach(exportVM.analyzedColors, id: \.self) {
+                        Color(uiColor: $0)
+                            .frame(height: 32)
+                    }
                 }
             }
         }

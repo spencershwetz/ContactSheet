@@ -14,12 +14,11 @@ struct ExportView: View {
     
     init(exportVM: ExportViewModel) {
         self.exportVM = exportVM
-
     }
     
     var body: some View {
         VStack {
-            VStack(spacing: 8) {
+            VStack(alignment: .trailing, spacing: 8) {
                 ColorPickerCell(
                     title: "Background Color: ",
                     type: .Background,
@@ -31,6 +30,11 @@ struct ExportView: View {
                     color: $exportVM.titleColor
                 )
                 FileFormatView()
+                Toggle(isOn: $exportVM.isShowColorBar) {
+                    Text("Show color: ")
+                        .font(.title3)
+                }
+                .frame(width: 170)
             }
             StepperView()
             SheetView()
