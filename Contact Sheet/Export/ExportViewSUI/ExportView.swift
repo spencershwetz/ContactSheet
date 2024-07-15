@@ -176,6 +176,7 @@ extension ExportView {
                         ExportSheetCell(
                             exportVM: exportVM,
                             height: calculateHeight(width: proxy.size.width),
+                            isRendering: false,
                             currentPage: .constant(i)
                         )
                     }
@@ -201,13 +202,21 @@ extension ExportView {
                     ExportSheetCell(
                         exportVM: exportVM,
                         height: calculateHeight(width: proxy.size.width),
+                        isRendering: true,
                         currentPage: .constant(i)
                         , renderedImage: { image in
                             self.exportVM.pageSnapshot[i] = image
                         })
+                    .padding(.horizontal, 12)
+                    .frame(
+                        width: UIScreen.main.bounds.width - 48,
+                        height: calculateHeight(width: proxy.size.width),
+                        alignment: .topLeading
+                    )
                 }
             }
             .opacity(0.001)
         }
     }
 }
+

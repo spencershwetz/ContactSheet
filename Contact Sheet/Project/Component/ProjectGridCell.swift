@@ -38,7 +38,7 @@ final class ProjectGridCell: UICollectionViewCell {
 
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         deleteButton.setImage(UIImage(systemName: "xmark", withConfiguration: configuration)!.withRenderingMode(.alwaysTemplate), for: .normal)
-        deleteButton.tintColor = .black
+        deleteButton.tintColor = .red
 
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
@@ -53,8 +53,8 @@ final class ProjectGridCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             photoView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             photoView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            deleteButton.topAnchor.constraint(equalTo: photoView.topAnchor, constant: -12),
+            deleteButton.trailingAnchor.constraint(equalTo: photoView.trailingAnchor, constant: 12)
         ])
 
         deleteButtonWidthConstraint = deleteButton.widthAnchor.constraint(equalToConstant: 0)
@@ -90,7 +90,7 @@ final class ProjectGridCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let (width, height): (CGFloat, CGFloat)
+        var (width, height): (CGFloat, CGFloat)
 
         if aspectRatio.width > aspectRatio.height {
             width = contentView.bounds.width
@@ -100,11 +100,15 @@ final class ProjectGridCell: UICollectionViewCell {
             width = aspectRatio.width * height / aspectRatio.height
         }
 
-        photoViewWidthConstraint?.constant = max(0, width)
-        photoViewHeigthConstraint?.constant = max(0, height)
+        width = max(0, width)
+        height = max(0, height)
 
-        deleteButtonWidthConstraint?.constant = 25
-        deleteButtonHeigthConstraint?.constant = 25
+        photoViewWidthConstraint?.constant = width - 12
+        photoViewHeigthConstraint?.constant = height - 12
+
+        deleteButtonWidthConstraint?.constant = min(width * 0.5, 25)
+        deleteButtonHeigthConstraint?.constant = min(height * 0.5, 25)
+
     }
     
     func configure(_ photo: ProjectPhoto) {

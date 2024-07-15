@@ -44,7 +44,7 @@ final class ProjectGridView: UICollectionView {
     
     private var storedPhotosForEachCell: [Int: ProjectPhoto] = [:]
 
-    private let spacingEachCell: CGFloat = 8
+    private let spacingEachCell: CGFloat = 0
     private let imagePicker = MultiImagePicker()
     private lazy var cropPresenter = CropPresenter(viewController: viewController)
 

@@ -11,6 +11,7 @@ import SwiftUI
 struct ExportSheetCell: View {
     @ObservedObject var exportVM: ExportViewModel
     var height: Double
+    var isRendering: Bool
     @Binding var currentPage: Int
     var renderedImage: ((_ image: UIImage) -> ())?
     var body: some View {
@@ -47,7 +48,12 @@ struct ExportSheetCell: View {
 }
 
 #Preview {
-    ExportSheetCell(exportVM: ExportViewModel(), height: 0, currentPage: .constant(0))
+    ExportSheetCell(
+        exportVM: ExportViewModel(),
+        height: 0,
+        isRendering: true,
+        currentPage: .constant(0)
+    )
 }
 
 extension ExportSheetCell {
@@ -57,7 +63,10 @@ extension ExportSheetCell {
                 .font(.title)
                 .bold()
                 .foregroundStyle(exportVM.titleColor)
+                .padding(.horizontal, 6)
+
             gridImages
+
             if exportVM.isShowColorBar {
                 HStack(spacing: 0) {
                     ForEach(exportVM.analyzedColors, id: \.self) {
@@ -69,6 +78,7 @@ extension ExportSheetCell {
         }
         .padding(.horizontal, 12)
     }
+
     var gridImages: some View {
         GeometryReader { proxy in
             LazyVGrid(columns: exportVM.columns, spacing: 8) {
@@ -81,11 +91,17 @@ extension ExportSheetCell {
                             alignment: .center
                         )
                         .clipped()
-//                        .background(Color.red)
                 }
             }
         }
-    }
+        .modifier(
+            CustomFrameModifier(
+                active: isRendering,
+                width: UIScreen.main.bounds.width - 24,
+                height: height - 96,
+                alignment: .topLeading
+            )
+        )    }
 }
 
 extension ExportSheetCell {
@@ -124,3 +140,18 @@ extension ExportSheetCell {
     }
 }
 
+
+struct CustomFrameModifier : ViewModifier {
+    var active : Bool
+    var width: Double
+    var height: Double
+    var alignment: SwiftUI.Alignment
+
+    @ViewBuilder func body(content: Content) -> some View {
+        if active {
+            content.frame(width: width, height: height, alignment: alignment)
+        } else {
+            content
+        }
+    }
+}
