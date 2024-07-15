@@ -37,13 +37,13 @@ final class ProjectGridCell: UICollectionViewCell {
 
 
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
-        deleteButton.setImage(UIImage(systemName: "xmark", withConfiguration: configuration)!.withRenderingMode(.alwaysTemplate), for: .normal)
+        deleteButton.setImage(UIImage(systemName: "x.circle.fill", withConfiguration: configuration)!.withRenderingMode(.alwaysTemplate), for: .normal)
         deleteButton.tintColor = .red
 
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
-        deleteButton.backgroundColor = .white.withAlphaComponent(0.01)
-        deleteButton.layer.cornerRadius = 12
+        deleteButton.backgroundColor = .white
+        deleteButton.layer.cornerRadius = 9
 
 
 
@@ -53,8 +53,8 @@ final class ProjectGridCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             photoView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             photoView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            deleteButton.topAnchor.constraint(equalTo: photoView.topAnchor, constant: -12),
-            deleteButton.trailingAnchor.constraint(equalTo: photoView.trailingAnchor, constant: 12)
+            deleteButton.topAnchor.constraint(equalTo: photoView.topAnchor, constant: -5),
+            deleteButton.trailingAnchor.constraint(equalTo: photoView.trailingAnchor, constant: 5)
         ])
 
         deleteButtonWidthConstraint = deleteButton.widthAnchor.constraint(equalToConstant: 0)
@@ -68,11 +68,8 @@ final class ProjectGridCell: UICollectionViewCell {
 
         photoViewWidthConstraint = photoView.widthAnchor.constraint(equalToConstant: 0)
         photoViewWidthConstraint?.isActive = true
-        
-//        photoView.addInteraction(UIContextMenuInteraction(delegate: self))
-//        photoView.isUserInteractionEnabled = true
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -103,11 +100,11 @@ final class ProjectGridCell: UICollectionViewCell {
         width = max(0, width)
         height = max(0, height)
 
-        photoViewWidthConstraint?.constant = width - 12
-        photoViewHeigthConstraint?.constant = height - 12
+        photoViewWidthConstraint?.constant = width - 10
+        photoViewHeigthConstraint?.constant = height - 10
 
-        deleteButtonWidthConstraint?.constant = min(width * 0.5, 25)
-        deleteButtonHeigthConstraint?.constant = min(height * 0.5, 25)
+        deleteButtonWidthConstraint?.constant = min(width * 0.5, 16)
+        deleteButtonHeigthConstraint?.constant = min(height * 0.5, 16)
 
     }
     

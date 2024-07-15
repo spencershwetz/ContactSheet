@@ -42,6 +42,7 @@
 		641E24A82C3968C600BD5424 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24A72C3968C600BD5424 /* View+Extensions.swift */; };
 		641E24AA2C39696200BD5424 /* Extension+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24A92C39696200BD5424 /* Extension+Notifications.swift */; };
 		641E24AC2C3976FE00BD5424 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24AB2C3976FE00BD5424 /* ImageSaver.swift */; };
+		646588B32C459BF20016D2F5 /* CloudSyncHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646588B22C459BF20016D2F5 /* CloudSyncHistoryView.swift */; };
 		64E311702C3137A200737EE7 /* ExportSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */; };
 		64E311722C31C70B00737EE7 /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */; };
 		64E311772C31C7CB00737EE7 /* ICloudSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */; };
@@ -92,6 +93,7 @@
 		641E24A72C3968C600BD5424 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		641E24A92C39696200BD5424 /* Extension+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Notifications.swift"; sourceTree = "<group>"; };
 		641E24AB2C3976FE00BD5424 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
+		646588B22C459BF20016D2F5 /* CloudSyncHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudSyncHistoryView.swift; sourceTree = "<group>"; };
 		64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheetCell.swift; sourceTree = "<group>"; };
 		64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
 		64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudSettingView.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			children = (
 				2396C12F2C358F5500D05D18 /* AppearanceSwitcher.swift */,
 				2396C1312C358F6900D05D18 /* AppearanceSettingView.swift */,
+				646588B22C459BF20016D2F5 /* CloudSyncHistoryView.swift */,
 			);
 			path = Apperance;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				23F50E5C2C19EA1A001A5966 /* HStackView.swift in Sources */,
 				2396C1302C358F5500D05D18 /* AppearanceSwitcher.swift in Sources */,
 				23A756CF2C1C867A00F2FB10 /* ProjectPhoto.swift in Sources */,
+				646588B32C459BF20016D2F5 /* CloudSyncHistoryView.swift in Sources */,
 				64E311772C31C7CB00737EE7 /* ICloudSettingView.swift in Sources */,
 				230DF30B2C1D80BF00927983 /* NSManageObjectContext+Ext.swift in Sources */,
 				23F50E292C19DEAA001A5966 /* RatioPickerView.swift in Sources */,
@@ -566,7 +570,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -601,7 +605,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";

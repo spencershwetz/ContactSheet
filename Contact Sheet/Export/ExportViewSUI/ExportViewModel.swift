@@ -88,8 +88,8 @@ final class ExportViewModel: ObservableObject {
 
 extension ExportViewModel {
     func setSteppers() {
-        rowStepper = min(6, selectedProject.totalRows)
-        columnStepper = min(6, selectedProject.totalColumns)
+        rowStepper = min(20, selectedProject.totalRows)
+        columnStepper = min(20, selectedProject.totalColumns)
         columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: columnStepper)
         isInitialSetUp = false
     }

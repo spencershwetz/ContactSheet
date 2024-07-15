@@ -152,14 +152,14 @@ extension ExportView {
             VStack {
                 Text("Rows \(exportVM.rowStepper)")
                     .font(.title3)
-                Stepper("", value: $exportVM.rowStepper, in: 1...6)
+                Stepper("", value: $exportVM.rowStepper, in: 1...20)
                     .fixedSize()
             }
             Spacer()
             VStack {
                 Text("Columns \(exportVM.columnStepper)")
                     .font(.title3)
-                Stepper("", value: $exportVM.columnStepper, in: 1...6)
+                Stepper("", value: $exportVM.columnStepper, in: 1...20)
                     .fixedSize()
             }
         }

@@ -101,7 +101,8 @@ extension ExportSheetCell {
                 height: height - 96,
                 alignment: .topLeading
             )
-        )    }
+        )
+    }
 }
 
 extension ExportSheetCell {
