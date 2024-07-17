@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 final class CloudSettingView: UIView {
 
@@ -49,6 +50,29 @@ final class CloudSettingView: UIView {
 
         let mainStackView = VStackView(spacing: 0, arrangedSubviews: [hStackview, syncInformationLabel])
             .margin(.init(top: 8, left: 16, bottom: 8, right: 16))
+        addSubview(mainStackView, constraint: .fill)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+#Preview(body: {
+    CloudSyncHistoryCell().asPreview()
+})
+
+
+final class CloudSyncHistoryCell: UIView {
+
+    private let textLabel = UILabel()
+        .text("Show History")
+
+    init() {
+        super.init(frame: .zero)
+
+        let mainStackView = VStackView(spacing: 0, arrangedSubviews: [textLabel])
+            .margin(.init(top: 10, left: 16, bottom: 10, right: 16))
         addSubview(mainStackView, constraint: .fill)
     }
 

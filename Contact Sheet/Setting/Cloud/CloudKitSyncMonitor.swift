@@ -23,6 +23,7 @@ final class CloudKitSyncMonitor: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     func setupObserver() {
+        setupObserverForCloud()
         NotificationCenter.default
             .publisher(for: NSPersistentCloudKitContainer.eventChangedNotification)
             .map { $0.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey] }
@@ -80,5 +81,68 @@ extension CloudKitSyncMonitor {
             self.errorString = errorString
             self.atDate = atDate
         }
+    }
+}
+
+extension CloudKitSyncMonitor {
+    func setupObserverForCloud() {
+        NotificationCenter.default.publisher(for: NSPersistentCloudKitContainer.eventChangedNotification)
+            .sink(receiveValue: { notification in
+                if let cloudEvent = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey]
+                    as? NSPersistentCloudKitContainer.Event {
+                    var event: EventLogger = EventLogger()
+
+                    if cloudEvent.endDate == nil {
+
+                        switch cloudEvent.type {
+                        case .setup:
+                            event.startString = "⚠️ Starting setup!"
+                            break
+                        case .import:
+                            event.startString = "⚠️ Starting an import!"
+                            break
+                        case .export:
+                            event.startString = "⚠️ Starting an export!"
+                            break
+                        @unknown default:
+                            assertionFailure("NSPersistentCloudKitContainer added a new event type.")
+                        }
+
+                    } else {
+                        switch cloudEvent.type {
+                        case .setup:
+                            event.endString = "⚠️ Setup finished!"
+                            print("⚠️ Setup finished!")
+                        case .import:
+                            event.endString = "⚠️ An import finished!"
+                            print("⚠️ An import finished!")
+                        case .export:
+                            event.endString = "⚠️ An export finished!"
+                            print("⚠️ An export finished!")
+                        @unknown default:
+                            assertionFailure("NSPersistentCloudKitContainer added a new event type.")
+                        }
+
+                        if cloudEvent.succeeded {
+                            event.finalSuccessString = "⚠️ ✅ And it succeeded!"
+                            event.atDate = Date()
+                            print("⚠️ ✅ And it succeeded!")
+                        } else {
+                            event.finalSuccessString = "⚠️ 🔴 But it failed!"
+                            print("⚠️ 🔴 But it failed!")
+                            event.atDate = Date()
+                        }
+
+                        if let error = cloudEvent.error {
+                            event.errorString = "⚠️ 🔴 Error: \(error.localizedDescription)"
+                            print("⚠️ 🔴 Error: \(error.localizedDescription)")
+                        }
+                        DispatchQueue.main.async {
+                            self.cloudEventsList.append(event)
+                        }
+                    }
+                }
+            })
+            .store(in: &disposables)
     }
 }

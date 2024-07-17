@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class SettingViewController: UIViewController {
 
     enum Setting: CaseIterable {
         case iCloudSync
         case appearance
+        case cloudHistory
     }
 
     private let items = Setting.allCases
@@ -22,6 +24,7 @@ final class SettingViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(tableView, constraint: .fill)
         tableView.dataSource = self
+        tableView.delegate = self
         title = "Setting"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
@@ -36,7 +39,7 @@ final class SettingViewController: UIViewController {
     }
 }
 
-extension SettingViewController: UITableViewDataSource {
+extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch items[indexPath.item] {
@@ -50,11 +53,20 @@ extension SettingViewController: UITableViewDataSource {
             SettingCellWrapper(
                 content: AppearanceSettingView()
             )
+
+        case .cloudHistory:
+            SettingCellWrapper(content: CloudSyncHistoryCell())
         }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         items.count
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if items[indexPath.item] == .cloudHistory {
+            navigationController?.pushViewController(CloudSyncHistoryViewController(), animated: true)
+        }
     }
 }
 
@@ -95,3 +107,7 @@ extension UIView {
         }
     }
 }
+
+#Preview(body: {
+    SettingViewController().asPreview()
+})
