@@ -22,6 +22,7 @@ final class ExportViewModel: ObservableObject {
     @Published var selectedColorType: SelectedColor = .Background
     @Published var selectedExportType: SelectedExportType = .PDF
     @Published var isShowColorBar = true
+    @Published var refreshUI = false
 
     @Published var rowStepper: Int = 6
     @Published var columnStepper: Int = 1
@@ -67,10 +68,24 @@ final class ExportViewModel: ObservableObject {
     @State private(set) var analyzedColors: [UIColor] = []
     
     func fetchAllImages() {
-        let imageIds: [String] = self.selectedProject.photos.compactMap({$0.assetIdentifier}).filter({!($0.isEmpty)})
-        for imageId in imageIds {
-            PhotoAssetStore.shared.getImageWithLocalId(identifier: imageId) { image in
-                self.selectedImages.append(image)
+        var imageURLs: [(String?, String?)] = self.selectedProject.photos.map({ ($0.imageURL, $0.editImageURL) }).filter({!(($0.0 ?? "").isEmpty)})
+        imageURLs = imageURLs.filter({$0.0 != nil})
+        for (imageURL, croppedImageURL) in imageURLs {
+
+            if let croppedImageURL = croppedImageURL, let editImageURL = URL(string: croppedImageURL) {
+                ImageLoader.loadImage(from: editImageURL) { [weak self] image in
+                    guard let self = self else { return }
+                    self.selectedImages.append(image)
+                    print("Append images")
+                }
+            } else {
+                guard let imageURL, let imagePathURL = URL(string: imageURL) else { return }
+
+                ImageLoader.loadImage(from: imagePathURL) { [weak self] image in
+                    guard let self = self else { return }
+                    self.selectedImages.append(image)
+                    print("Append images")
+                }
             }
         }
         analyzeColors()

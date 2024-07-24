@@ -40,11 +40,22 @@ final class LibraryThumbnailImageView: UIView {
     }
     
     @discardableResult
-    func imageURL(_ imageURL: String?) -> Self {
-        guard let imageURL else { return self }
-        PhotoAssetStore.shared.getImageWithLocalId(identifier: imageURL) { [weak self] in
-            self?.imageView.image = $0
+    func imageURL(_ imageURL: String?, _ editedImageURL: String?) -> Self {
+        guard let imageURL, let imagePathURL = URL(string: imageURL) else { return self }
+        if let editedImageURL = editedImageURL, let editedImagePathURL = URL(string: editedImageURL) {
+            ImageLoader.loadImage(from: editedImagePathURL) { [weak self] image in
+                guard let self = self else { return }
+                self.imageView.image = image
+            }
+        } else {
+            ImageLoader.loadImage(from: imagePathURL) { [weak self] image in
+                guard let self = self else { return }
+                self.imageView.image = image
+            }
         }
+//        PhotoAssetStore.shared.getImageWithLocalId(identifier: imageURL) { [weak self] in
+//            self?.imageView.image = $0
+//        }
         return self
     }
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 final class LibraryViewController: UIViewController {
     
@@ -75,9 +76,11 @@ final class LibraryViewController: UIViewController {
     }()
     
     private lazy var diffDataSource = makeDiffDataSource()
-    
+    var cancellable = [AnyCancellable]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyCombineObservers()
         view.backgroundColor = .systemBackground
         selectedProjects = []
         setupNavigationBar()
@@ -131,7 +134,9 @@ final class LibraryViewController: UIViewController {
             }
             cell.isEnableSelection = isSelectionEnabled
             cell.ratio = Ratio(width: project.photoAspectRatio.width, height: project.photoAspectRatio.height)
-            cell.images = Array(project.photos.map(\.assetIdentifier).prefix(8))
+//            cell.images = Array(project.photos.map(\.imageURL).prefix(8))
+            cell.images = Array(project.photos.map({($0.imageURL, $0.editImageURL)}).prefix(8))
+//            cell.images = Array(project.photos.map(\.imageURL).prefix(8))
             cell.title = project.title
             cell.isImageSelected = selectedProjects.contains(project)
         
@@ -143,7 +148,8 @@ final class LibraryViewController: UIViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
-        diffDataSource.apply(snapshot, animatingDifferences: false)
+        diffDataSource.apply(snapshot, animatingDifferences: true)
+
     }
     
     private func setupCollectionView() {
@@ -285,7 +291,7 @@ extension LibraryViewController: UICollectionViewDelegateFlowLayout {
             width: project?.photoAspectRatio.width ?? 1,
             height: project?.photoAspectRatio.height ?? 1
         )
-        cell.images = (0..<8).map { _ in nil }
+        cell.images = (0..<8).map { _ in (nil,nil) }
         cell.title = project?.title
         
         let preferredSize = CGSize(
@@ -349,7 +355,7 @@ private extension ProjectViewController.Config {
             photoAspectRatio: .init(
                 width: project.photoAspectRatio.width,
                 height: project.photoAspectRatio.height),
-            photos: project.photos.map { ProjectPhoto(assetIdentifier: $0.assetIdentifier, croppedImage: $0.croppedImage)},
+            photos: project.photos.map { CloudPhoto(imageURL: $0.imageURL, editImageURL: $0.editImageURL)},
             totalRows: project.totalRows,
             totalColumns: project.totalColumns,
             title: project.title
@@ -380,4 +386,18 @@ private extension ProjectViewController.Config {
         return navigationController
     }
 
+}
+
+extension LibraryViewController {
+    private func applyCombineObservers() {
+        let publisher = NotificationCenter.default.publisher(for: .cloudSynced, object: nil)
+        publisher
+            .debounce(for: .milliseconds(5000), scheduler: RunLoop.main)
+            .sink { [weak self] _ in
+                Task {
+                    self?.reloadData()
+                    ImageLoader.fetchFilesFromICloud()
+                }
+            }.store(in: &cancellable)
+    }
 }

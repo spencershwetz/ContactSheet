@@ -43,6 +43,9 @@
 		641E24AA2C39696200BD5424 /* Extension+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24A92C39696200BD5424 /* Extension+Notifications.swift */; };
 		641E24AC2C3976FE00BD5424 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E24AB2C3976FE00BD5424 /* ImageSaver.swift */; };
 		646588B32C459BF20016D2F5 /* CloudSyncHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646588B22C459BF20016D2F5 /* CloudSyncHistoryView.swift */; };
+		64A7AD932C4CDA25009AD021 /* CloudDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A7AD922C4CDA25009AD021 /* CloudDataManager.swift */; };
+		64A84F5E2C516EC8001DE9AF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A84F5D2C516EC8001DE9AF /* Constants.swift */; };
+		64D282242C4D014100B3A471 /* ImageEntityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D282232C4D014100B3A471 /* ImageEntityStore.swift */; };
 		64E311702C3137A200737EE7 /* ExportSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */; };
 		64E311722C31C70B00737EE7 /* UIStackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */; };
 		64E311772C31C7CB00737EE7 /* ICloudSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */; };
@@ -94,6 +97,9 @@
 		641E24A92C39696200BD5424 /* Extension+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Notifications.swift"; sourceTree = "<group>"; };
 		641E24AB2C3976FE00BD5424 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		646588B22C459BF20016D2F5 /* CloudSyncHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudSyncHistoryView.swift; sourceTree = "<group>"; };
+		64A7AD922C4CDA25009AD021 /* CloudDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDataManager.swift; sourceTree = "<group>"; };
+		64A84F5D2C516EC8001DE9AF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		64D282232C4D014100B3A471 /* ImageEntityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEntityStore.swift; sourceTree = "<group>"; };
 		64E3116F2C3137A200737EE7 /* ExportSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheetCell.swift; sourceTree = "<group>"; };
 		64E311712C31C70B00737EE7 /* UIStackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Ext.swift"; sourceTree = "<group>"; };
 		64E311762C31C7CB00737EE7 /* ICloudSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudSettingView.swift; sourceTree = "<group>"; };
@@ -137,6 +143,7 @@
 		230725472C1897CF0053774F /* Contact Sheet */ = {
 			isa = PBXGroup;
 			children = (
+				64A84F5C2C516EBF001DE9AF /* Constants */,
 				64E311732C31C7B500737EE7 /* Setting */,
 				64FC58E42C1EB06300694C24 /* Previews */,
 				230DF3052C1D7DFE00927983 /* UserDefault */,
@@ -196,10 +203,12 @@
 		23A756D02C1D7BD500F2FB10 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				64D282222C4D010500B3A471 /* CloudData-Images */,
 				23A756D12C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld */,
 				230DF3032C1D7DD600927983 /* CoreDataContainer.swift */,
 				230DF30A2C1D80BF00927983 /* NSManageObjectContext+Ext.swift */,
 				230DF3082C1D7F2E00927983 /* ProjectStore.swift */,
+				64D282232C4D014100B3A471 /* ImageEntityStore.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -260,6 +269,22 @@
 				232C98C12C1B34D00064B2C6 /* ImagePicker.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		64A84F5C2C516EBF001DE9AF /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				64A84F5D2C516EC8001DE9AF /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		64D282222C4D010500B3A471 /* CloudData-Images */ = {
+			isa = PBXGroup;
+			children = (
+				64A7AD922C4CDA25009AD021 /* CloudDataManager.swift */,
+			);
+			path = "CloudData-Images";
 			sourceTree = "<group>";
 		};
 		64E311732C31C7B500737EE7 /* Setting */ = {
@@ -411,6 +436,7 @@
 				23F50E5E2C19EA2B001A5966 /* UILabel+Ext.swift in Sources */,
 				23F50E602C19EA36001A5966 /* UIButton+Ext.swift in Sources */,
 				641E24A82C3968C600BD5424 /* View+Extensions.swift in Sources */,
+				64A7AD932C4CDA25009AD021 /* CloudDataManager.swift in Sources */,
 				23AFC8F32C26AE8A00E12C9C /* AlignedCollectionViewFlowLayout.swift in Sources */,
 				64EA49A82C2B3EDA00D81A99 /* ExportViewModel.swift in Sources */,
 				23F50E622C19EC65001A5966 /* ProjectGridCell.swift in Sources */,
@@ -419,6 +445,7 @@
 				64FC58E92C1F663600694C24 /* PhotoAssetStore.swift in Sources */,
 				23A756D32C1D7BE600F2FB10 /* ContactSheet.xcdatamodeld in Sources */,
 				64EA49A42C2B1C1100D81A99 /* ExportView.swift in Sources */,
+				64A84F5E2C516EC8001DE9AF /* Constants.swift in Sources */,
 				230DF30E2C1D880F00927983 /* LibraryCell.swift in Sources */,
 				230DF3042C1D7DD600927983 /* CoreDataContainer.swift in Sources */,
 				239E14E92C32E1B8001FB31E /* CropPresenter.swift in Sources */,
@@ -426,6 +453,7 @@
 				230DF3072C1D7E0800927983 /* AppUserDefaults.swift in Sources */,
 				2307254B2C1897CF0053774F /* SceneDelegate.swift in Sources */,
 				23F50E272C19DE87001A5966 /* State.swift in Sources */,
+				64D282242C4D014100B3A471 /* ImageEntityStore.swift in Sources */,
 				2367AB702C1D8F090003AAE8 /* UIImage+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,7 +598,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";
@@ -605,7 +633,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Contact Sheet/Contact_Sheet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = 3B883XKLK8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contact Sheet/Info.plist";

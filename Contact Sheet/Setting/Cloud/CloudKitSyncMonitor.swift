@@ -24,6 +24,7 @@ final class CloudKitSyncMonitor: ObservableObject {
 
     func setupObserver() {
         setupObserverForCloud()
+        applyCombineObservers()
         NotificationCenter.default
             .publisher(for: NSPersistentCloudKitContainer.eventChangedNotification)
             .map { $0.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey] }
@@ -35,6 +36,8 @@ final class CloudKitSyncMonitor: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
+
+        
     }
 }
 
@@ -127,10 +130,14 @@ extension CloudKitSyncMonitor {
                             event.finalSuccessString = "⚠️ ✅ And it succeeded!"
                             event.atDate = Date()
                             print("⚠️ ✅ And it succeeded!")
+                            NotificationCenter.default.post(name: .cloudSynced, object: nil)
+
                         } else {
                             event.finalSuccessString = "⚠️ 🔴 But it failed!"
                             print("⚠️ 🔴 But it failed!")
                             event.atDate = Date()
+                            NotificationCenter.default.post(name: .cloudSynced, object: nil)
+
                         }
 
                         if let error = cloudEvent.error {
@@ -145,4 +152,19 @@ extension CloudKitSyncMonitor {
             })
             .store(in: &disposables)
     }
+
+    private func applyCombineObservers() {
+        let publisher = NotificationCenter.default.publisher(for: .cloudSynced, object: nil)
+        publisher
+            .debounce(for: .milliseconds(5000), scheduler: RunLoop.main)
+            .sink { [weak self] _ in
+                Task {
+                    ImageLoader.fetchFilesFromICloud()
+                }
+            }.store(in: &disposables)
+    }
+}
+
+extension Notification.Name {
+    static let cloudSynced                  = Notification.Name("cloudSynced")
 }

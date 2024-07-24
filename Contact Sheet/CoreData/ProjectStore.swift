@@ -14,48 +14,17 @@ struct Project: Hashable {
     var photoAspectRatio: Ratio
     var totalRows: Int
     var totalColumns: Int
-    var photos: [Photo]
+    var photos: [CloudPhoto]
     var title: String
 
     struct Ratio: Hashable, Codable {
         let width: CGFloat
         let height: CGFloat
     }
-    struct Photo: Hashable, Codable {
-        enum CodingKeys: CodingKey {
-            case assetIdentifier
-            case croppedImage
-        }
-
-        let assetIdentifier: String?
-        let croppedImage: UIImage?
-
-        init(assetIdentifier: String?, croppedImage: UIImage?) {
-            self.assetIdentifier = assetIdentifier
-            self.croppedImage = croppedImage
-        }
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-
-            assetIdentifier = try? container.decodeIfPresent(String.self, forKey: .assetIdentifier)
-            let imageData = try? container.decodeIfPresent(Data.self, forKey: .croppedImage)
-
-            if let imageData {
-                self.croppedImage = UIImage(data: imageData)
-            } else {
-                self.croppedImage = nil
-            }
-        }
-
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(assetIdentifier, forKey: .assetIdentifier)
-
-            if let jpegData = croppedImage?.pngData() {
-                try container.encode(jpegData, forKey: .croppedImage)
-            }
-        }
+    
+    struct CloudPhoto: Hashable, Codable {
+        let imageURL: String?
+        let editImageURL: String?
     }
 }
 
@@ -74,8 +43,7 @@ struct ProjectStore {
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
 
         request.fetchLimit = 1
-        let result = try? context.fetch(request
-        )
+        let result = try? context.fetch(request)
         return (result?.compactMap {
             Project(
                 id: $0.id!,
@@ -143,7 +111,7 @@ struct ProjectStore {
     }
 }
 
-private extension Array where Element == Project.Photo {
+private extension Array where Element == Project.CloudPhoto {
 
     func toData() -> Data? {
         try? JSONEncoder().encode(self)
@@ -172,3 +140,42 @@ private extension Data {
         return try! decoder.decode(T.self, from: self)
     }
 }
+
+/**
+ struct Photo: Hashable, Codable {
+ enum CodingKeys: CodingKey {
+ case assetIdentifier
+ case croppedImage
+ }
+
+ let assetIdentifier: String?
+ let croppedImage: UIImage?
+
+ init(assetIdentifier: String?, croppedImage: UIImage?) {
+ self.assetIdentifier = assetIdentifier
+ self.croppedImage = croppedImage
+ }
+
+ init(from decoder: Decoder) throws {
+ let container = try decoder.container(keyedBy: CodingKeys.self)
+
+ assetIdentifier = try? container.decodeIfPresent(String.self, forKey: .assetIdentifier)
+ let imageData = try? container.decodeIfPresent(Data.self, forKey: .croppedImage)
+
+ if let imageData {
+ self.croppedImage = UIImage(data: imageData)
+ } else {
+ self.croppedImage = nil
+ }
+ }
+
+ func encode(to encoder: Encoder) throws {
+ var container = encoder.container(keyedBy: CodingKeys.self)
+ try container.encode(assetIdentifier, forKey: .assetIdentifier)
+
+ if let jpegData = croppedImage?.pngData() {
+ try container.encode(jpegData, forKey: .croppedImage)
+ }
+ }
+ }
+ */

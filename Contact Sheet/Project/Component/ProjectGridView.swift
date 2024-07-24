@@ -30,19 +30,19 @@ final class ProjectGridView: UICollectionView {
         }
     }
 
-    var photos: [ProjectPhoto] = [] {
+    var photos: [CloudPhoto] = [] {
         didSet {
             photos.indices.forEach {
-                storedPhotosForEachCell[$0] = ProjectPhoto(
-                    assetIdentifier: photos[$0].assetIdentifier,
-                    croppedImage: photos[$0].croppedImage
+                storedPhotosForEachCell[$0] = CloudPhoto(
+                    imageURL: photos[$0].imageURL,
+                    editImageURL: photos[$0].editImageURL
                 )
             }
             reloadData()
         }
     }
     
-    private var storedPhotosForEachCell: [Int: ProjectPhoto] = [:]
+    private var storedPhotosForEachCell: [Int: CloudPhoto] = [:]
 
     private let spacingEachCell: CGFloat = 0
     private let imagePicker = MultiImagePicker()
@@ -102,9 +102,9 @@ final class ProjectGridView: UICollectionView {
         if photos.count < maxItems {
             let newItemsToAppend = (photos.count..<maxItems)
                 .map {
-                    ProjectPhoto(
-                        assetIdentifier: storedPhotosForEachCell[$0]?.assetIdentifier,
-                        croppedImage: storedPhotosForEachCell[$0]?.croppedImage
+                    CloudPhoto(
+                        imageURL: storedPhotosForEachCell[$0]?.imageURL,
+                        editImageURL: storedPhotosForEachCell[$0]?.editImageURL
                     )
                 }
             photos = photos + newItemsToAppend
@@ -149,26 +149,31 @@ extension ProjectGridView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ProjectGridCell
-        if let imageAssetId = cell.imageAssetId {
-            PhotoAssetStore.shared
-                .getImageWithLocalId(identifier: imageAssetId) { [weak self] image in
-                    guard let self, let image else { return }
-                    cropPresenter.show(
-                        image: image,
-                        ratio: aspectRatio,
-                        onCropped: { [weak self] in
-                            guard let self else { return }
-                            photos = photos.updatedCroppedImage($0, at: indexPath.item)
+        if let imageURL = cell.imageURL, let imageURL = URL(string: imageURL) {
+            ImageLoader.loadImage(from: imageURL) { [weak self] image in
+                guard let self, let image else { return }
+                cropPresenter.show(
+                    image: image,
+                    ratio: aspectRatio,
+                    onCropped: { [weak self] in
+                        guard let self else { return }
+                        CloudDataManager.sharedInstance.saveImage(image: $0) { [weak self] url in
+                            guard let self = self else { return }
+                            if let url {
+                                photos = photos.updatedCroppedImage(url.absoluteString, at: indexPath.item)
+                            }
                         }
-                    )
-                }
+                    }
+                )
+            }
         } else {
             imagePicker.show(on: viewController, onPickImages: { [weak self] images in
                 guard let self else { return }
-                
-                let (addedPhotos, addedRows) = photos.addImages(images, from: indexPath.item, totalColumns: totalColumns)
-                photos = addedPhotos
-                totalRows += addedRows
+                CloudDataManager.sharedInstance.saveMultipleImages(images: images) { urls in
+                    let (addedPhotos, addedRows) = self.photos.addImages(urls.compactMap({$0?.absoluteString}), from: indexPath.item, totalColumns: self.totalColumns)
+                    self.photos = addedPhotos
+                    self.totalRows += addedRows
+                }
             })
         }
     }

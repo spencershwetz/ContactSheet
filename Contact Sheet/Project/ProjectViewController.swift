@@ -15,7 +15,7 @@ final class ProjectViewController: UIViewController {
         let id: UUID
         let pageSizeRatio: Ratio
         var photoAspectRatio: Ratio
-        let photos: [ProjectPhoto]
+        let photos: [CloudPhoto]
         let totalRows: Int
         let totalColumns: Int
         var title: String
@@ -84,8 +84,8 @@ final class ProjectViewController: UIViewController {
         
         gridView.photos = config.photos.map {
             .init(
-                assetIdentifier: $0.assetIdentifier,
-                croppedImage: $0.croppedImage
+                imageURL: $0.imageURL,
+                editImageURL: $0.editImageURL
             )
         }
         gridView.totalColumns = config.totalColumns
@@ -119,13 +119,26 @@ final class ProjectViewController: UIViewController {
             photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
             totalRows: gridView.totalRows,
             totalColumns: gridView.totalColumns,
-            photos: gridView.photos.map { .init(
-                assetIdentifier: $0.assetIdentifier,
-                croppedImage: $0.croppedImage
-            ) },
+            photos: gridView.photos.map {.init(
+                imageURL: $0.imageURL,
+                editImageURL: $0.editImageURL
+            )},
             title: config.title
         )
 
+////        let projectToBeSaved = Project(
+////            id: config.id,
+////            pageSizeRatio: .init(width: pageSizeRatio.width, height: pageSizeRatio.height),
+////            photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
+////            totalRows: gridView.totalRows,
+////            totalColumns: gridView.totalColumns,
+////            photos: gridView.photos.map { .init(
+////                assetIdentifier: $0.assetIdentifier,
+////                croppedImage: $0.croppedImage
+////            ) },
+////            title: config.title
+////        )
+////
         if store.get(id: config.id) != nil {
             store.update(project: projectToBeSaved)
         } else {
@@ -174,7 +187,7 @@ final class ProjectViewController: UIViewController {
                 photoAspectRatio: .init(
                     width: project.photoAspectRatio.width,
                     height: project.photoAspectRatio.height),
-                photos: project.photos.map { ProjectPhoto(assetIdentifier: $0.assetIdentifier, croppedImage: $0.croppedImage)},
+                photos: project.photos.map { CloudPhoto(imageURL: $0.imageURL, editImageURL: $0.editImageURL)},
                 totalRows: project.totalRows,
                 totalColumns: project.totalColumns,
                 title: project.title
@@ -292,10 +305,7 @@ final class ProjectViewController: UIViewController {
             photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
             totalRows: gridView.totalRows,
             totalColumns: gridView.totalColumns,
-            photos: gridView.photos.map { .init(
-                assetIdentifier: $0.assetIdentifier,
-                croppedImage: $0.croppedImage
-            ) },
+            photos: gridView.photos.map { .init(imageURL: $0.imageURL, editImageURL: $0.editImageURL) },
             title: config.title
         )
         let exportViewController = ExportViewController(project: project)
@@ -340,18 +350,22 @@ final class ProjectViewController: UIViewController {
     }
 
     @objc private func somethingWasTapped(_ sth: AnyObject){
-        showRenameProjectAlert(Project(
-            id: config.id,
-            pageSizeRatio: .init(width: pageSizeRatio.width, height: pageSizeRatio.height),
-            photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
-            totalRows: gridView.totalRows,
-            totalColumns: gridView.totalColumns,
-            photos: gridView.photos.map { .init(
-                assetIdentifier: $0.assetIdentifier,
-                croppedImage: $0.croppedImage
-            ) },
-            title: config.title
-        ))
+        showRenameProjectAlert(
+            Project(
+                id: config.id,
+                pageSizeRatio: .init(width: pageSizeRatio.width, height: pageSizeRatio.height),
+                photoAspectRatio: .init(width: photoAspectRatio.width, height: photoAspectRatio.height),
+                totalRows: gridView.totalRows,
+                totalColumns: gridView.totalColumns,
+                photos: gridView.photos.map {
+                    .init(
+                        imageURL: $0.imageURL,
+                        editImageURL: $0.editImageURL
+                    )
+                },
+                title: config.title
+            )
+        )
     }
 
 }
@@ -375,6 +389,6 @@ final class ProjectViewController: UIViewController {
 private extension ProjectGridView {
     
     var hasPhotos: Bool {
-        !photos.compactMap(\.assetIdentifier).isEmpty
+        !photos.compactMap(\.imageURL).isEmpty
     }
 }

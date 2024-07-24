@@ -12,7 +12,8 @@ final class ProjectGridCell: UICollectionViewCell {
     
     var onDelete: (() -> Void)?
     var aspectRatio = Ratio(width: 1, height: 1)
-    private(set) var imageAssetId: String?
+    ///private(set) var imageAssetId: String?
+    private(set) var imageURL: String?
 
     static let identifier = String(describing: ProjectGridCell.self)
     
@@ -43,7 +44,7 @@ final class ProjectGridCell: UICollectionViewCell {
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
         deleteButton.backgroundColor = .white
-        deleteButton.layer.cornerRadius = 9
+        deleteButton.layer.cornerRadius = DeviceType.xMarkSize / 2
 
 
 
@@ -103,12 +104,13 @@ final class ProjectGridCell: UICollectionViewCell {
         photoViewWidthConstraint?.constant = width - 10
         photoViewHeigthConstraint?.constant = height - 10
 
-        deleteButtonWidthConstraint?.constant = min(width * 0.5, 16)
-        deleteButtonHeigthConstraint?.constant = min(height * 0.5, 16)
+        deleteButtonWidthConstraint?.constant = min(width * 0.5, DeviceType.xMarkSize)
+        deleteButtonHeigthConstraint?.constant = min(height * 0.5, DeviceType.xMarkSize)
 
     }
     
-    func configure(_ photo: ProjectPhoto) {
+    /**
+     func configure(_ photo: ProjectPhoto) {
         imageAssetId = photo.assetIdentifier
         deleteButton.isHidden = imageAssetId == nil
         if let croppedImage = photo.croppedImage {
@@ -117,6 +119,25 @@ final class ProjectGridCell: UICollectionViewCell {
             guard let imageAssetId else { return }
             PhotoAssetStore.shared.getImageWithLocalId(identifier: imageAssetId) { [weak self] in
                 self?.photoView.image = $0
+            }
+        }
+    }
+     */
+
+    func configure(_ photo: CloudPhoto) {
+        imageURL = photo.imageURL
+        deleteButton.isHidden = imageURL == nil
+        if let croppedImageURL = photo.editImageURL, let editImageURL = URL(string: croppedImageURL) {
+            ImageLoader.loadImage(from: editImageURL) { [weak self] image in
+                guard let self = self else { return }
+                photoView.image = image
+            }
+        } else {
+            guard let imageURL, let imagePathURL = URL(string: imageURL) else { return }
+
+            ImageLoader.loadImage(from: imagePathURL) { [weak self] image in
+                guard let self = self else { return }
+                self.photoView.image = image
             }
         }
     }
@@ -133,7 +154,7 @@ extension ProjectGridCell: UIContextMenuInteractionDelegate {
         _ interaction: UIContextMenuInteraction,
         configurationForMenuAtLocation location: CGPoint
     ) -> UIContextMenuConfiguration? {
-        guard imageAssetId != nil else { return nil }
+        guard imageURL != nil else { return nil }
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let deleteAction = UIAction(
                 title: "Delete",
@@ -149,3 +170,9 @@ extension ProjectGridCell: UIContextMenuInteractionDelegate {
 #Preview(body: {
     ProjectGridCell().asPreview()
 })
+
+private extension DeviceType {
+    static var xMarkSize: CGFloat {
+        DeviceType.IsDeviceIPad ? 32 : 24
+    }
+}

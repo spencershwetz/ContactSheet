@@ -30,7 +30,7 @@ final class LibraryCell: UICollectionViewCell {
         }
     }
 
-    var images: [String?] = [] {
+    var images: [(String?, String?)] = [] {
         didSet {
             photoView.images = images
         }

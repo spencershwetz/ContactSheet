@@ -2,6 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSUbiquitousContainers</key>
+    <dict>
+        <key>iCloud.com.spencershwetz.ContactSheet</key>
+        <dict>
+            <key>NSUbiquitousContainerIsDocumentScopePublic</key>
+            <true/>
+            <key>NSUbiquitousContainerSupportedFolderLevels</key>
+            <string>Any</string>
+            <key>NSUbiquitousContainerSupportedDocumentKinds</key>
+            <array>
+                <string>*</string>
+            </array>
+            <key>NSUbiquitousContainerName</key>
+            <string>Contact_Sheet</string>
+        </dict>
+    </dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>UIApplicationSceneManifest</key>

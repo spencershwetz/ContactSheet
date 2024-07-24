@@ -11,7 +11,7 @@ final class LibraryThumbnailContentView: UIView {
     
     private let spacing: CGFloat = 4
     
-    var images: [String?] = [] {
+    var images: [(String?, String?)] = [] {
         didSet {
             mainStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
             images.grouped(by: 2).forEach { addHorizontalView(images: $0) }
@@ -32,13 +32,13 @@ final class LibraryThumbnailContentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func addHorizontalView(images: [String?]) {
+    private func addHorizontalView(images: [(String?, String?)]) {
         mainStackView.addArrangedSubview(
             HStackView(
                 spacing: spacing,
                 arrangedSubviews: images.map {
                     LibraryThumbnailImageView()
-                        .imageURL($0)
+                        .imageURL($0.0, $0.1)
                         .aspectRatio(ratio.height / ratio.width)
                 }
             )

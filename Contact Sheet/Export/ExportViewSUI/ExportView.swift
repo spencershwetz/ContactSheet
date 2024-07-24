@@ -37,10 +37,21 @@ struct ExportView: View {
                 .frame(width: 170)
             }
             StepperView()
-            SheetView()
-                .background {
-                    BackgroundRenderingView()
-                }
+            if exportVM.refreshUI {
+                SheetView()
+                    .background {
+                        BackgroundRenderingView()
+                    }
+            } else {
+                SheetView()
+                    .background {
+                        BackgroundRenderingView()
+                    }
+            }
+        }
+        .onChange(of: [exportVM.selectedImages]) { value in
+            exportVM.refreshUI.toggle()
+            self.exportVM.recalculatePages(row: self.exportVM.rowStepper, column: self.exportVM.columnStepper)
         }
         .onChange(of: [self.exportVM.rowStepper, self.exportVM.columnStepper], perform: { value in
             self.exportVM.recalculatePages(row: self.exportVM.rowStepper, column: self.exportVM.columnStepper)
