@@ -38,6 +38,13 @@ struct ExportSheetCell: View {
         let actualWidth = size.width - numberOfColumn * spacing
         let height = calculateItemHeight(size, spacing)
         return actualWidth / numberOfColumn > height ?  height : actualWidth / numberOfColumn
+
+//        if self.viewModel.selectedProject.photoAspectRatio.width > self.viewModel.selectedProject.photoAspectRatio.height {
+//            height = self.viewModel.selectedProject.photoAspectRatio.height * width / self.viewModel.selectedProject.photoAspectRatio.width
+//        } else {
+//            width = self.viewModel.selectedProject.photoAspectRatio.width * height / self.viewModel.selectedProject.photoAspectRatio.height
+//        }
+
     }
 
     private func calculateItemHeight(_ size: CGSize, _ spacing: Double) -> CGFloat {
@@ -81,13 +88,14 @@ extension ExportSheetCell {
 
     var gridImages: some View {
         GeometryReader { proxy in
-            LazyVGrid(columns: exportVM.columns, spacing: 8) {
+            LazyVGrid(columns: exportVM.columns, spacing: exportVM.spacingForSheetRows) {
                 let arrImages = exportVM.getArrayForPage(index: self.currentPage)
                 ForEach(0..<arrImages.count, id: \.self) { index in
                     ImageCell(viewModel: exportVM, image: arrImages[index])
                         .frame(
                             width: max(calculateItemSize(proxy.size, 8), 0),
-                            height: max(calculateItemSize(proxy.size, 8), 0),
+                            height: max(calculateItemSize(proxy.size, 8), 0) * self.exportVM.selectedProject.photoAspectRatio.height / self.exportVM.selectedProject.photoAspectRatio.width,
+//                            height: max(calculateItemSize(proxy.size, 8), 0),
                             alignment: .center
                         )
                         .clipped()
@@ -129,6 +137,7 @@ extension ExportSheetCell {
         
         func getHeightWidth(totalSize: CGSize) -> (width: Double,height: Double) {
             var width: Double = totalSize.width
+   
             var height: Double = totalSize.height
             if self.viewModel.selectedProject.photoAspectRatio.width > self.viewModel.selectedProject.photoAspectRatio.height {
                 height = self.viewModel.selectedProject.photoAspectRatio.height * width / self.viewModel.selectedProject.photoAspectRatio.width

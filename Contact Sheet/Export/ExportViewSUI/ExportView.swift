@@ -167,12 +167,26 @@ extension ExportView {
                     .fixedSize()
             }
             Spacer()
+
+            VStack {
+                Text("Spacing \(String(format: "%.1f", exportVM.spacingForSheetRows))")
+                    .font(.title3)
+                Stepper("", value: $exportVM.spacingForSheetRows, in: 8...100)
+                    .fixedSize()
+            }
+
+
+            Spacer()
+
+
             VStack {
                 Text("Columns \(exportVM.columnStepper)")
                     .font(.title3)
                 Stepper("", value: $exportVM.columnStepper, in: 1...20)
                     .fixedSize()
             }
+
+
         }
     }
 }
@@ -230,4 +244,3 @@ extension ExportView {
         }
     }
 }
-

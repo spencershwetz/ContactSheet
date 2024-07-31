@@ -4,6 +4,7 @@ import UIKit
 class CloudDataManager {
 
     static let sharedInstance = CloudDataManager() // Singleton
+    var cachedImages: [URL: UIImage] = [:]
 
     struct DocumentsDirectory {
         static let localDocumentsURL: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
@@ -113,14 +114,23 @@ class ImageLoader {
         let localFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(url.lastPathComponent)
         let cloudFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(url.lastPathComponent)
 
-
         DispatchQueue.global(qos: .background).async {
             fetchImageForURL(url: localFileURL) { image in
                 if let image = image {
+                    DispatchQueue.main.async {
+                        if CloudDataManager.sharedInstance.cachedImages[localFileURL] == nil {
+                            CloudDataManager.sharedInstance.cachedImages[localFileURL] = image
+                        }
+                    }
                     completion(image)
                 } else {
                     fetchImageForURL(url: cloudFileURL) { image in
                         if let image = image {
+                            DispatchQueue.main.async {
+                                if CloudDataManager.sharedInstance.cachedImages[cloudFileURL] == nil {
+                                    CloudDataManager.sharedInstance.cachedImages[cloudFileURL] = image
+                                }
+                            }
                             completion(image)
                         } else {
                             completion(nil)
@@ -132,23 +142,28 @@ class ImageLoader {
     }
 
     static func fetchImageForURL(url: URL, completion: @escaping ((UIImage?) -> ())) {
-        if FileManager.default.fileExists(atPath: url.path) {
-            do {
-                let imageData = try Data(contentsOf: url)
-                let image = UIImage(data: imageData)
-                DispatchQueue.main.async {
-                    completion(image)
+//        if CloudDataManager.sharedInstance.cachedImages[url] == nil {
+        if let image: UIImage = CloudDataManager.sharedInstance.cachedImages[url] {
+            completion(image)
+        } else {
+            if FileManager.default.fileExists(atPath: url.path) {
+                do {
+                    let imageData = try Data(contentsOf: url)
+                    let image = UIImage(data: imageData)
+                    DispatchQueue.main.async {
+                        completion(image)
+                    }
+                } catch {
+                    print("Failed to load image from Documents Directory: \(error)")
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
                 }
-            } catch {
-                print("Failed to load image from Documents Directory: \(error)")
+            } else {
+                print("File does not exist at path: \(url.path)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
-            }
-        } else {
-            print("File does not exist at path: \(url.path)")
-            DispatchQueue.main.async {
-                completion(nil)
             }
         }
     }
@@ -162,7 +177,6 @@ class ImageLoader {
 
         do {
             let fileURLs = try fileManager.contentsOfDirectory(at: iCloudURL, includingPropertiesForKeys: nil, options: [])
-
             for fileURL in fileURLs {
                 // Check if file exists locally, if not, save to local and update Core Data
                 let localFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileURL.lastPathComponent)
@@ -174,5 +188,4 @@ class ImageLoader {
             print("Failed to fetch files from iCloud: \(error)")
         }
     }
-
 }

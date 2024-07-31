@@ -196,9 +196,10 @@ final class ProjectViewController: UIViewController {
             gridView.totalRows = config.totalRows
             bind()
         }
-        
         title = config.title
     }
+
+
     private func setupGrid() {
         gridView.viewController = self
         gridView.translatesAutoresizingMaskIntoConstraints = false

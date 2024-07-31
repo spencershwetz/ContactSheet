@@ -30,15 +30,28 @@ final class ProjectGridView: UICollectionView {
         }
     }
 
+    var previousItems: [CloudPhoto] = []
     var photos: [CloudPhoto] = [] {
         didSet {
+
             photos.indices.forEach {
                 storedPhotosForEachCell[$0] = CloudPhoto(
                     imageURL: photos[$0].imageURL,
                     editImageURL: photos[$0].editImageURL
                 )
             }
-            reloadData()
+
+            let indexes = photos.findDifferencesInURLs(array1: photos, array2: previousItems)
+            if indexes.lengthDifference || previousItems.isEmpty {
+                self.reloadData()
+            } else {
+                DispatchQueue.main.async {
+                    self.reloadItems(at:
+                        indexes.differingIndices.map({IndexPath(row: $0, section: 0)})
+                    )
+                }
+            }
+            previousItems = photos
         }
     }
     
@@ -192,5 +205,50 @@ extension ProjectGridView: UICollectionViewDelegateFlowLayout {
             width: totalWidth / CGFloat(totalColumns),
             height: totalWidth / CGFloat(totalColumns)
         )
+    }
+
+}
+
+private extension Array where Element == CloudPhoto {
+
+    func getDifferenceIndexes(with another: Self) {
+        var currentArray = self
+        var anotherArray = another
+        if currentArray.count != anotherArray.count {
+            if currentArray.count > anotherArray.count {
+                anotherArray.append(contentsOf: Array(repeating: .init(id: UUID(), imageURL: nil, editImageURL: nil), count: currentArray.count - anotherArray.count))
+            } else {
+                currentArray.append(contentsOf: Array(repeating: .init(id: UUID(), imageURL: nil, editImageURL: nil), count: anotherArray.count - currentArray.count))
+            }
+        }
+    }
+
+    func findDifferencesInURLs(
+        array1: [CloudPhoto],
+        array2: [CloudPhoto]
+    ) -> (differingIndices: [Int], lengthDifference: Bool) {
+        var differingIndices: [Int] = []
+        let minCount = Swift.min(array1.count, array2.count)
+        let maxCount = Swift.max(array1.count, array2.count)
+
+        // Compare elements up to the length of the shorter array
+        for index in 0..<minCount {
+            let photo1 = array1[index]
+            let photo2 = array2[index]
+
+            if photo1.imageURL != photo2.imageURL || photo1.editImageURL != photo2.editImageURL {
+                differingIndices.append(index)
+            }
+        }
+
+        // Check if there are extra elements in the longer array
+        if array1.count != array2.count {
+            differingIndices.append(contentsOf: minCount..<maxCount)
+        }
+
+        // Return whether the arrays have different lengths
+        let lengthDifference = array1.count != array2.count
+
+        return (differingIndices, lengthDifference)
     }
 }

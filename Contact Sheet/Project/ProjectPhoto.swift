@@ -72,9 +72,29 @@ struct ProjectPhoto: Hashable {
 
  */
 
-struct CloudPhoto: Hashable {
+/**struct CloudPhoto: Hashable {
     let imageURL: String?
     let editImageURL: String?
+}*/
+
+struct CloudPhoto: Hashable {
+    let id: UUID
+    let imageURL: String?
+    let editImageURL: String?
+
+    init(id: UUID = UUID(), imageURL: String?, editImageURL: String?) {
+        self.id = id
+        self.imageURL = imageURL
+        self.editImageURL = editImageURL
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: CloudPhoto, rhs: CloudPhoto) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 

@@ -35,6 +35,8 @@ final class ExportViewModel: ObservableObject {
     @Published var showSuccessAlert: Bool = false
 
     @Published var pageSnapshot: [Int: UIImage] = [:]
+    
+    @Published var spacingForSheetRows: Double = 8.0
 
     @Published var columns: [GridItem] = [
         GridItem(.flexible(), spacing: 8)
@@ -76,7 +78,6 @@ final class ExportViewModel: ObservableObject {
                 ImageLoader.loadImage(from: editImageURL) { [weak self] image in
                     guard let self = self else { return }
                     self.selectedImages.append(image)
-                    print("Append images")
                 }
             } else {
                 guard let imageURL, let imagePathURL = URL(string: imageURL) else { return }
@@ -84,7 +85,6 @@ final class ExportViewModel: ObservableObject {
                 ImageLoader.loadImage(from: imagePathURL) { [weak self] image in
                     guard let self = self else { return }
                     self.selectedImages.append(image)
-                    print("Append images")
                 }
             }
         }

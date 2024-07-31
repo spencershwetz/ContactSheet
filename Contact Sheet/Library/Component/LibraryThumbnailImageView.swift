@@ -45,12 +45,16 @@ final class LibraryThumbnailImageView: UIView {
         if let editedImageURL = editedImageURL, let editedImagePathURL = URL(string: editedImageURL) {
             ImageLoader.loadImage(from: editedImagePathURL) { [weak self] image in
                 guard let self = self else { return }
-                self.imageView.image = image
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
             }
         } else {
             ImageLoader.loadImage(from: imagePathURL) { [weak self] image in
                 guard let self = self else { return }
-                self.imageView.image = image
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
             }
         }
 //        PhotoAssetStore.shared.getImageWithLocalId(identifier: imageURL) { [weak self] in

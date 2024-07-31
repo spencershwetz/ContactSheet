@@ -157,7 +157,7 @@ extension CloudKitSyncMonitor {
         let publisher = NotificationCenter.default.publisher(for: .cloudSynced, object: nil)
         publisher
             .debounce(for: .milliseconds(5000), scheduler: RunLoop.main)
-            .sink { [weak self] _ in
+            .sink { _ in
                 Task {
                     ImageLoader.fetchFilesFromICloud()
                 }
