@@ -180,7 +180,7 @@ extension ProjectGridView: UICollectionViewDelegate {
                     image: image,
                     ratio: aspectRatio,
                     onCropped: { [weak self] in
-                        guard let self   { return }
+                        guard let self else { return }
                         CloudDataManager.sharedInstance.saveImage(image: $0) { [weak self] url in
                             guard let self = self else { return }
                             if let url {
