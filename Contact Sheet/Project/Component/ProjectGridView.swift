@@ -42,8 +42,19 @@ final class ProjectGridView: UICollectionView {
             }
 
             let indexes = photos.findDifferencesInURLs(array1: photos, array2: previousItems)
+
             if indexes.lengthDifference || previousItems.isEmpty {
-                self.reloadData()
+                if !previousItems.isEmpty {
+                    if indexes.addedNewItems {
+                        self.insertItems(at: indexes.differingIndices.map({IndexPath(row:$0, section: 0)}))
+                    } else {
+                        self.deleteItems(at: indexes.differingIndices.map({IndexPath(row:$0, section: 0)}))
+                    }
+                }
+//                self.reloadData()
+                self.reloadItems(at:
+                                    indexes.differingIndices.map({IndexPath(row:$0, section: 0)})
+                )
             } else {
                 DispatchQueue.main.async {
                     self.reloadItems(at:
@@ -169,7 +180,7 @@ extension ProjectGridView: UICollectionViewDelegate {
                     image: image,
                     ratio: aspectRatio,
                     onCropped: { [weak self] in
-                        guard let self else { return }
+                        guard let self   { return }
                         CloudDataManager.sharedInstance.saveImage(image: $0) { [weak self] url in
                             guard let self = self else { return }
                             if let url {
@@ -226,7 +237,7 @@ private extension Array where Element == CloudPhoto {
     func findDifferencesInURLs(
         array1: [CloudPhoto],
         array2: [CloudPhoto]
-    ) -> (differingIndices: [Int], lengthDifference: Bool) {
+    ) -> (differingIndices: [Int], lengthDifference: Bool, addedNewItems: Bool) {
         var differingIndices: [Int] = []
         let minCount = Swift.min(array1.count, array2.count)
         let maxCount = Swift.max(array1.count, array2.count)
@@ -249,6 +260,6 @@ private extension Array where Element == CloudPhoto {
         // Return whether the arrays have different lengths
         let lengthDifference = array1.count != array2.count
 
-        return (differingIndices, lengthDifference)
+        return (differingIndices, lengthDifference, array1.count > array2.count)
     }
 }

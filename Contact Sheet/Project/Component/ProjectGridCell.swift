@@ -126,10 +126,11 @@ final class ProjectGridCell: UICollectionViewCell {
 
     func configure(_ photo: CloudPhoto) {
         imageURL = photo.imageURL
-        if let imageURL = URL(string: photo.imageURL ?? "") {
-            self.photoView.image = CloudDataManager.sharedInstance.cachedImages[imageURL]
-        }
         deleteButton.isHidden = imageURL == nil
+        if let imageURL = URL(string: photo.imageURL ?? ""), let image = CloudDataManager.sharedInstance.cachedImages[imageURL] {
+            self.photoView.image = image
+            return
+        }
         if let croppedImageURL = photo.editImageURL, let editImageURL = URL(string: croppedImageURL) {
             ImageLoader.loadImage(from: editImageURL) { [weak self] image in
                 guard let self = self else { return }
